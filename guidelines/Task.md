@@ -11,6 +11,8 @@ Main activity:
 - Secure web implementation.
 
 
+Alternative:
+- Using CMS: Strapi, Ghost
 
 
 
