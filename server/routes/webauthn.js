@@ -1,5 +1,6 @@
 import express from "express";
 import bodyParser from "body-parser";
+
 const router = express.Router();
 
 router.post('/register/start', (req, res) => {
