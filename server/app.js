@@ -1,7 +1,10 @@
-import express from 'express';
+import express from "express";
+import cors from 'cors'
+
 const app = express();
 const port = 61255;
 
+app.use(cors())
 app.set('view engine', 'pug');
 
 import indexRouter from './routes/index.js';
