@@ -1,12 +1,12 @@
-import express from "express";
+import express from 'express';
 const app = express();
 const port = 61255;
 
 app.set('view engine', 'pug');
 
-import indexRouter from './routes/index';
-import userRouter from './routes/user';
-import webauthnRouter from './routes/webauthn';
+import indexRouter from './routes/index.js';
+import userRouter from './routes/user.js';
+import webauthnRouter from './routes/webauthn.js';
 
 app.use('/', indexRouter);
 app.use('/user', userRouter);

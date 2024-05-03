@@ -5,7 +5,7 @@ import path from "path";
 const router = express.Router();
 //EASTER EGG
 
-Feelthesauce = (req, res, next) => {
+const Feelthesauce = (req, res, next) => {
     if ((Math.floor(Math.random() * 100) + 1) === 69) {
         next();
     } else {
@@ -76,10 +76,6 @@ router.get('/post', (req,res) => {
 });
 
 // WEB-AUTHN endpoint
-
-router.post('/register/webauthn', (req,res) => {
-    res.send('Credential registered successfully');
-});
 
 router.get('/abcd', (req, res) => {
     res.json({ "name" : "TrungNQ",
