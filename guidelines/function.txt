@@ -4,9 +4,14 @@ User:
 - post
 - comment
 
+Admin:
+
+- accept/reject posts
+- edit privilege
+
 General:
 
 - Login
 - Game
 - Database hook
-- 
+- Dashboard
