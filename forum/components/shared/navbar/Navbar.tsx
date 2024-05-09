@@ -12,9 +12,8 @@ const Navbar = () => {
           height={23}
           alt="BuFFerOverflow Logo"
         ></Image>
-        <p className="h2-bold dark:text-;ight-900 max font-spaceGrotesk text-dark-100 max-sm:hidden">
-          {" "}
-          BuFFer <span className="text-primary-500"> Overflow</span>
+        <p className="h2-bold font-spaceGrotesk text-dark-100 dark:text-light-900">
+          BuFFer<span className="text-primary-500">Overflow</span>
         </p>
       </Link>
       Global search
