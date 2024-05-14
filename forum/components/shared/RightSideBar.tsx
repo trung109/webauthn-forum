@@ -5,50 +5,50 @@ import RenderTag from "./RenderTag";
 const RightSideBar = () => {
   const hostPosts = [
     {
-      _id: 1,
+      _id: "1",
       title: "How to build a website",
     },
     {
-      _id: 2,
+      _id: "2",
       title: "How to make a cake",
     },
     {
-      _id: 3,
+      _id: "3",
       title: "How to create an account on Github",
     },
     {
-      _id: 4,
+      _id: "4",
       title: "Get started with NextJS",
     },
     {
-      _id: 5,
+      _id: "5",
       title: "Make use of free hosting Vercel",
     },
   ];
 
   const popularTags = [
     {
-      _id: 1,
+      _id: "1",
       name: "javascript",
       totalPosts: 5,
     },
     {
-      _id: 2,
+      _id: "2",
       name: "react",
       totalPosts: 5,
     },
     {
-      _id: 3,
+      _id: "3",
       name: "next",
       totalPosts: 5,
     },
     {
-      _id: 4,
+      _id: "4",
       name: "vuejs",
       totalPosts: 2,
     },
     {
-      _id: 5,
+      _id: "5s",
       name: "redux",
       totalPosts: 10,
     },
