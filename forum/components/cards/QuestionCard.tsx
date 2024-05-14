@@ -20,7 +20,7 @@ interface Props {
   comments: Array<object>;
   createdAt: Date;
 }
-const QuestionCard = ({
+const PostCard = ({
   _id,
   title,
   tags,
@@ -86,4 +86,4 @@ const QuestionCard = ({
   );
 };
 
-export default QuestionCard;
+export default PostCard;

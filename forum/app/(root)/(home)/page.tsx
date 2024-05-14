@@ -1,49 +1,17 @@
-import QuestionCard from "@/components/cards/QuestionCard";
+import PostCard from "@/components/cards/QuestionCard";
 import HomeFilter from "@/components/home/HomeFilter";
 import Filter from "@/components/shared/Filter";
 import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
+import { getPosts } from "@/lib/actions/post.action";
 import Link from "next/link";
 
-const questions = [
-  {
-    _id: "1",
-    title: "How to create a new post?",
-    tags: [
-      { _id: "1", name: "react" },
-      { _id: "2", name: "next.js" },
-    ],
-    author: {
-      _id: "1",
-      name: "Jane Doe",
-      picture: "/assets/images/logo.png",
-    },
-    upvotes: 10,
-    views: 10031231,
-    comments: [],
-    createdAt: new Date("2021-09-01T12:00:00.000z"),
-  },
-  {
-    _id: "2",
-    title: "Get Started with Python Database",
-    tags: [
-      { _id: "3", name: "python" },
-      { _id: "4", name: "sql" },
-    ],
-    author: {
-      _id: "2",
-      name: "John Doe",
-      picture: "/assets/images/logo.png",
-    },
-    upvotes: 1221312,
-    views: 1123131,
-    comments: [],
-    createdAt: new Date("2021-09-01T12:00:00.000z"),
-  },
-];
-export default function Home() {
+export default async function Home() {
+  const result = await getPosts({});
+  console.log(result.posts);
+
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
@@ -71,9 +39,9 @@ export default function Home() {
       </div>
       <HomeFilter />
       <div className="mt-10 flex w-full flex-col gap-6">
-        {questions.length > 0 ? (
-          questions.map((post) => (
-            <QuestionCard
+        {result.posts.length > 0 ? (
+          result.posts.map((post) => (
+            <PostCard
               key={post._id}
               _id={post._id}
               title={post.title}

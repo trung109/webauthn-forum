@@ -10,22 +10,27 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { createPost } from "@/lib/actions/question.action";
+import { createPost } from "@/lib/actions/post.action";
 import { postSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
 import Image from "next/image";
+import { usePathname, useRouter } from "next/navigation";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-
 const type: any = "create";
 
-const Post = () => {
+interface Props {
+  mongoUserId: string;
+}
+const Post = ({ mongoUserId }: Props) => {
   const editorRef = useRef(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof postSchema>>({
@@ -40,8 +45,17 @@ const Post = () => {
   async function onSubmit(values: z.infer<typeof postSchema>) {
     setIsSubmitting(true);
     try {
-      await createPost({});
+      await createPost({
+        title: values.title,
+        content: values.explanation,
+        tags: values.tags,
+        author: JSON.parse(mongoUserId),
+        path: pathname,
+      });
+
+      router.push("/");
     } catch (error) {
+      console.error(error);
     } finally {
       setIsSubmitting(false);
     }
