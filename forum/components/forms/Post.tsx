@@ -10,6 +10,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { createPost } from "@/lib/actions/question.action";
 import { postSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from "@tinymce/tinymce-react";
@@ -36,12 +37,10 @@ const Post = () => {
     },
   });
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof postSchema>) {
+  async function onSubmit(values: z.infer<typeof postSchema>) {
     setIsSubmitting(true);
     try {
-      // make an async call to db -> create a post
-      // contain all form data
-      // navigate to homepage
+      await createPost({});
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -126,6 +125,8 @@ const Post = () => {
                     // @ts-ignore
                     (editorRef.current = editor)
                   }
+                  onBlur={field.onBlur}
+                  onEditorChange={(content) => field.onChange(content)}
                   initialValue=""
                   init={{
                     height: 350,
