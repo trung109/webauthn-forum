@@ -50,18 +50,18 @@ router.post('/login', rate_limiter, async (req, res) => {
 
 
 router.post('/register', async (req, res) => {
-    const { username, password} = req.body;
+    const { username, password, email } = req.body;
     const collection = db.collection("user");
     const password_hash = generateHash(password);
     try {
         var result = await collection.insertOne({
             username: username,
             password_hash: password_hash,
-            // email: email, - will be implement later
+            email: email,
             role: "user",
             verified: true
         });
-        res.status(200).redirect('/login');
+        res.status(200);
     } catch {
         res.status(302).render('somethingwentwrong');
     }
