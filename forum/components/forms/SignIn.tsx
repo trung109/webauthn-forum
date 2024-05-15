@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import Cookies from "js-cookie";
 import { Button } from "../ui/button";
 import {
   Card,
@@ -56,8 +57,10 @@ const SignInForm = () => {
       });
     
     if(response.ok){
-      // TODO - got JWT, do something with it
-      console.log(response);
+      // TODO - got JWT, now need to set it as a cookie
+      const { token } = await response.json();
+      console.log(token);
+      Cookies.set('jwt', token);
     } else {
       //TODO - Render an error message
     }
