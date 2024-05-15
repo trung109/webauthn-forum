@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 import GlobalSearch from "../search/GlobalSearch";
@@ -21,6 +22,12 @@ const Navbar = () => {
       <GlobalSearch />
       <div className="flex-between gap-5">
         <Theme></Theme>
+        {/* If not signed in */}
+        <Link href="/sign-in">
+          <Button className="primary-gradient bg-[#ff7000] text-light-900">
+            Sign In
+          </Button>
+        </Link>
 
         <MobileNav></MobileNav>
       </div>

@@ -45,7 +45,7 @@ const SignUpForm = () => {
   }
 
   return (
-    <Card className="w-[500px]">
+    <Card className="dark:background-light700_dark300 w-[500px] dark:text-light-900">
       <CardHeader>
         <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription>
@@ -66,7 +66,7 @@ const SignUpForm = () => {
                   <FormLabel className="paragraph-semibold">Username</FormLabel>
                   <FormControl className="mt-5">
                     <Input
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white"
                       placeholder="username"
                       {...field}
                     />
@@ -84,7 +84,7 @@ const SignUpForm = () => {
                   <FormControl className="mt-5">
                     <Input
                       type="email"
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white"
                       placeholder="email@example.com"
                       {...field}
                     />
@@ -102,7 +102,7 @@ const SignUpForm = () => {
                   <FormControl className="mt-5">
                     <Input
                       type={isShowPassword ? "text" : "password"}
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border pr-10"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white"
                       placeholder=""
                       {...field}
                     />
@@ -122,7 +122,7 @@ const SignUpForm = () => {
               type="submit"
               className="primary-gradient w-fit !text-light-900"
             >
-              Submit
+              Sign Up
             </Button>
           </form>
         </Form>

@@ -43,7 +43,7 @@ const SignInForm = () => {
   }
 
   return (
-    <Card className="w-[500px]">
+    <Card className="dark:background-light700_dark300 w-[500px] dark:text-light-900">
       <CardHeader>
         <CardTitle className="text-xl">Sign In</CardTitle>
         <CardDescription>
@@ -65,7 +65,7 @@ const SignInForm = () => {
                   <FormControl className="mt-5">
                     <Input
                       type="email"
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white"
                       placeholder="email@example.com"
                       {...field}
                     />
@@ -83,7 +83,7 @@ const SignInForm = () => {
                   <FormControl className="mt-5">
                     <Input
                       type={isShowPassword ? "text" : "password"}
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border pr-10"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white"
                       placeholder=""
                       {...field}
                     />
@@ -103,12 +103,12 @@ const SignInForm = () => {
               type="submit"
               className="primary-gradient w-fit !text-light-900"
             >
-              Submit
+              Sign In
             </Button>
           </form>
         </Form>
         <Button variant="outline" className="mt-5 w-full text-[16px]">
-          Signin with WebAuthn
+          Sign In with WebAuthn
         </Button>
         <div className="paragraph-semibold mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
