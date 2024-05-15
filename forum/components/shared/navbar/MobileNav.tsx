@@ -7,7 +7,6 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { sidebarLinks } from "@/constants";
-import { SignedOut } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -72,24 +71,22 @@ const MobileNav = () => {
             <NavContent></NavContent>
           </SheetClose>
 
-          <SignedOut>
-            <div className="flex flex-col gap-3">
-              <SheetClose asChild>
-                <Link href="/sign-in">
-                  <Button className="btn-secondary light-border-2 btn-tertiary small-medium text-dark400_light900 min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
-                    {" "}
-                    <span className="primary-text-gradient">Log in</span>
-                  </Button>
-                </Link>
-                <Link href="/sign-up">
-                  <Button className="btn-secondary small-medium min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
-                    {" "}
-                    <span className="primary-text-gradient">Sign up </span>
-                  </Button>
-                </Link>
-              </SheetClose>
-            </div>
-          </SignedOut>
+          <div className="flex flex-col gap-3">
+            <SheetClose asChild>
+              <Link href="/sign-in">
+                <Button className="btn-secondary light-border-2 btn-tertiary small-medium text-dark400_light900 min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
+                  {" "}
+                  <span className="primary-text-gradient">Log in</span>
+                </Button>
+              </Link>
+              <Link href="/sign-up">
+                <Button className="btn-secondary small-medium min-h-[41px] w-full rounded-lg px-4 py-3 shadow-none">
+                  {" "}
+                  <span className="primary-text-gradient">Sign up </span>
+                </Button>
+              </Link>
+            </SheetClose>
+          </div>
         </div>
       </SheetContent>
     </Sheet>

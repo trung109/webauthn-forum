@@ -1,6 +1,5 @@
 import "@/app/globals.css";
 import { ThemeProvider } from "@/context/ThemeProvider";
-import { ClerkProvider } from "@clerk/nextjs";
 import type { Metadata } from "next";
 // eslint-disable-next-line camelcase
 import { Inter, Space_Grotesk } from "next/font/google";
@@ -33,18 +32,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
-        <ClerkProvider
-          appearance={{
-            elements: {
-              formButtonPrimary: "primary-gradient",
-              footerActionLink: "primary-text-gradient hover:text-primary-500",
-            },
-          }}
-        >
-          <ThemeProvider>{children}</ThemeProvider>
+        <ThemeProvider>{children}</ThemeProvider>
 
-          <h1 className="h1-bold">THis is a piece of text</h1>
-        </ClerkProvider>
+        <h1 className="h1-bold">This is a piece of text</h1>
       </body>
     </html>
   );

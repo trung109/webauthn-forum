@@ -5,12 +5,52 @@ import NoResult from "@/components/shared/NoResult";
 import LocalSearchBar from "@/components/shared/search/LocalSearchBar";
 import { Button } from "@/components/ui/button";
 import { HomePageFilters } from "@/constants/filters";
-import { getPosts } from "@/lib/actions/post.action";
 import Link from "next/link";
 
 export default async function Home() {
-  const result = await getPosts({});
-  console.log(result.posts);
+  // const result = await getPosts({});
+  // console.log(result.posts);
+
+  const result = {
+    posts: [
+      {
+        _id: "1",
+        title:
+          "GitHub repository tips and tricks for beginners and senior developers",
+        tags: [
+          { _id: "1", name: "github" },
+          { _id: "2", name: "git" },
+        ],
+        author: {
+          _id: "1",
+          name: "John Doe",
+          picture: "/assets/icons/avatar.svg",
+        },
+        upvotes: 10,
+        comments: [],
+        views: 100,
+        createdAt: new Date("2021-09-01T12:00:00.000Z"),
+      },
+      {
+        _id: "2",
+        title: "How to center a div?",
+        tags: [
+          { _id: "1", name: "html" },
+          { _id: "2", name: "css" },
+          { _id: "3", name: "flexbox" },
+        ],
+        author: {
+          _id: "2",
+          name: "Jane Smith",
+          picture: "/assets/icons/avatar.svg",
+        },
+        upvotes: 5,
+        comments: [],
+        views: 50,
+        createdAt: new Date("2021-09-02T14:30:00.000Z"),
+      },
+    ],
+  };
 
   return (
     <>
