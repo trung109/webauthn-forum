@@ -1,5 +1,49 @@
-html
+doctype html
+html(lang="en")
   head
-    title= title
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Home Page
+    style.
+      body {
+          font-family: Arial, sans-serif;
+          background-color: #f4f4f4;
+      }
+      .container {
+          width: 300px;
+          margin: 0 auto;
+          margin-top: 100px;
+          background-color: #fff;
+          padding: 20px;
+          border-radius: 5px;
+          box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+      }
+      h2 {
+          text-align: center;
+      }
+      .button-container {
+          display: flex;
+          justify-content: space-between;
+          margin-top: 20px;
+      }
+      .redirect-button {
+          width: 45%;
+          background-color: #2196F3;
+          color: white;
+          padding: 10px 0;
+          border: none;
+          border-radius: 3px;
+          cursor: pointer;
+          text-decoration: none;
+          text-align: center;
+          display: block;
+      }
+      .redirect-button:hover {
+          background-color: #0b7dda;
+      }
   body
-    h1= message
+    div.container
+      h2 The All-for-one login gate
+      div.button-container
+        a(href="/login", class="redirect-button") Login
+        a(href="/register", class="redirect-button") Register
