@@ -1,5 +1,5 @@
 "use client";
-import { signupFormSchema } from "@/lib/validations";
+import { signinFormSchema } from "@/lib/validations";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
@@ -23,23 +23,21 @@ import {
 } from "../ui/form";
 import { Input } from "../ui/input";
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
   // 1. Define your form.
-  const form = useForm<z.infer<typeof signupFormSchema>>({
-    resolver: zodResolver(signupFormSchema),
+  const form = useForm<z.infer<typeof signinFormSchema>>({
+    resolver: zodResolver(signinFormSchema),
     defaultValues: {
-      username: "",
       email: "",
       password: "",
     },
   });
 
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof signupFormSchema>) {
+  function onSubmit(values: z.infer<typeof signinFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values.username);
     console.log(values.email);
     console.log(values.password);
   }
@@ -47,9 +45,9 @@ const SignUpForm = () => {
   return (
     <Card className="w-[500px]">
       <CardHeader>
-        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardTitle className="text-xl">Sign In</CardTitle>
         <CardDescription>
-          Enter your information to create an account
+          Enter your email and password below to login to your account.
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -58,23 +56,6 @@ const SignUpForm = () => {
             onSubmit={form.handleSubmit(onSubmit)}
             className="flex w-full flex-col items-center gap-2"
           >
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem className="flex w-full flex-col">
-                  <FormLabel className="paragraph-semibold">Username</FormLabel>
-                  <FormControl className="mt-5">
-                    <Input
-                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border"
-                      placeholder="username"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage className="text-red-500" />
-                </FormItem>
-              )}
-            />
             <FormField
               control={form.control}
               name="email"
@@ -126,10 +107,13 @@ const SignUpForm = () => {
             </Button>
           </form>
         </Form>
+        <Button variant="outline" className="mt-5 w-full text-[16px]">
+          Signin with WebAuthn
+        </Button>
         <div className="paragraph-semibold mt-4 text-center text-sm">
-          Already have an account?{" "}
-          <Link href="/sign-in" className="underline">
-            Sign in
+          Don&apos;t have an account?{" "}
+          <Link href="/sign-up" className="underline">
+            Sign up
           </Link>
         </div>
       </CardContent>
@@ -137,4 +121,4 @@ const SignUpForm = () => {
   );
 };
 
-export default SignUpForm;
+export default SignInForm;
