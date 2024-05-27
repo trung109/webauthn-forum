@@ -43,8 +43,11 @@ export default function RootLayout({
         >
           <ThemeProvider>{children}</ThemeProvider>
 
+<<<<<<< Updated upstream
           <h1 className="h1-bold">THis is a piece of text</h1>
         </ClerkProvider>
+=======
+>>>>>>> Stashed changes
       </body>
     </html>
   );

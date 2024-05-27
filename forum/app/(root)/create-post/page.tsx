@@ -1,4 +1,17 @@
 import Post from "@/components/forms/Post";
+<<<<<<< Updated upstream
+=======
+import { getUserById } from "@/lib/actions/user.action";
+import { redirect } from "next/navigation";
+
+const CreatePost = async () => {
+  // const { userId } = auth();
+  const userId = "123456";
+  if (!userId) redirect("/auth/login");
+
+  const mongoUser = await getUserById({ userId });
+  console.log(mongoUser);
+>>>>>>> Stashed changes
 
 const CreatePost = () => {
   return (
