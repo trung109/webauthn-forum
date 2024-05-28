@@ -4,32 +4,37 @@ import NoResult from "@/helper/components/shared/NoResult";
 export default async function Home() {
   const getPost = async () => {
     try {
-      const res = await fetch('http://localhost:8080/post/1')
-      const { posts } = await res.json()
+      const res = await fetch('http://localhost:8080/post/0',
+        {
+
+        }
+      )
+      const posts = await res.json()
       return posts
     } catch (err) {
       return {}
     }
   }
-  const posts = await getPost()
+  const { posts } = await getPost()
+
   return (
     <div className="mt-10 flex w-full flex-col gap-6">
       {posts.length > 0 ? (
-        posts.map((post) => (
+        posts.map((post: any) => (
           <QuestionCard
             key={post._id}
             _id={post.id}
             title={post.title}
-            tags={post.tags}
+            tags={post.tags.map((tag: any) => ({ name: tag, _id: tag }))}
             author={post.author}
             upvotes={post.upvotes}
-            comments={post.commentsCount}
+            commentsCount={post.commentsCount}
             views={post.views}
             createdAt={new Date(post.createdAt)}
           />
         ))
       ) : (
-        <NoResult 
+        <NoResult
           title="There's no post to show"
           description="Be the first to break the silence! Create a Post and kickstart the
           discussion. Our query could be the next big thing others learn from. Get

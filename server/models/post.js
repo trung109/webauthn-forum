@@ -15,7 +15,7 @@ const postSchema = new Schema({
         require: true,
     },
     author: {
-        type: userSchema,
+        type: Object,
         trim: true,
         require: true,
     },

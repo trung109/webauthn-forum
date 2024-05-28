@@ -5,7 +5,8 @@ import User from '../models/user.js'
 export const createPost = async (req, res) => {
     // const {cookies} = req.headers
     const {username, title, content, tags } = req.body
-    const author = User.findOne({username})
+    let author = await User.findOne({username})
+    author = (({id, username, photoUrl}) => ({id, username, photoUrl}))(author)
     const post = new Post({
         author,
         title,

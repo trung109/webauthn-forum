@@ -11,9 +11,9 @@ interface Props {
     name: string;
   }[];
   author: {
-    _id: string;
-    name: string;
-    picture: string;
+    id: string;
+    username: string;
+    photoUrl: string;
   };
   upvotes: number;
   views: number;
@@ -52,11 +52,11 @@ const QuestionCard = ({
       <div>
         <div className="flex-between mt-6 w-full flex-wrap gap-3">
           <Metric
-            imgUrl={author.picture}
+            imgUrl={author.photoUrl}
             alt="User"
-            value={author.name}
+            value={author.username}
             title={` - asked ${getTimestamp(createdAt)}`}
-            href={`/profile/${author._id}`}
+            href={`/profile/${author.id}`}
             textStyles="body-medium text-dark400_light700"
           ></Metric>
           <Metric

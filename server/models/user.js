@@ -4,10 +4,6 @@ import { type } from "os";
 const {Schema} = mongoose;
 
 export const userSchema = new Schema( {
-    name: {
-        type: String,
-        trim: true,
-    }, 
     id: {
         type: String,
         require: true,
