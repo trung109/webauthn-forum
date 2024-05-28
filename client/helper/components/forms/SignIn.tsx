@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Button } from "@/helper/components/ui/button";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import {
   Card,
   CardContent,
