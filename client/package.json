@@ -15,11 +15,6 @@
     "@tailwindcss/typography": "^0.5.13",
     "axios": "^1.7.1",
     "class-variance-authority": "^0.7.0",
-<<<<<<< HEAD
-    "cookies-next": "^4.2.1",
-=======
-    "js-cookie": "^3.0.5",
->>>>>>> 77414a4e9618aafb06f304ef3c85c73b479ee229
     "next": "14.2.3",
     "react": "^18",
     "react-dom": "^18",

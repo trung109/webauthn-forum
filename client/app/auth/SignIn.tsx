@@ -5,7 +5,6 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { setCookie, getCookies } from "cookies-next";
 import { Button } from "@/helper/ui/button";
 import {
   Card,
@@ -24,6 +23,12 @@ import {
 } from "@/helper/ui/form";
 import { Input } from "@/helper/ui/input";
 import { useRouter } from "next/navigation";
+
+const cookieOptions = {
+  httpOnly: true,
+  secure: true,
+  sameSite: 'lax'
+}
 
 const SignInForm = () => {
 
@@ -47,7 +52,7 @@ const SignInForm = () => {
       password: values.password
     }
 
-    const response = await fetch('http://localhost:8080/auth/login',
+    const response = await fetch('/api/login',
       {
         method: 'POST',
         headers: {
@@ -59,26 +64,9 @@ const SignInForm = () => {
     if (response.ok) {
       // TODO - got JWT, now need to set it as a cookie
       const data = await response.json();
-      console.log(data);
-      setCookie('testCookie', 'valueIsTestingCookies-nextLibrary');
-      console.log(getCookies());
       // Cookies.set('jwt', token);
+      alert('cookies recieved');
       const { jwtToken, user } = data;
-
-      Cookies.set('jwt', jwtToken,
-        {
-          sameSite: 'Lax',
-          httpOnly: true,
-          secure: true,
-          path: '/'
-        });
-
-      Cookies.set('user', user, {
-        sameSite: 'Lax',
-        httpOnly: true,
-        secure: true,
-        path: '/'
-      });
 
       // router.push('/home');
     } else {
