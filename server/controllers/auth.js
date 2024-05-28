@@ -1,6 +1,5 @@
 import * as h from "../helpers/helper.js"
 import * as s from "../helpers/secure.js"
-import user from "../models/user.js"
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 export const register = async (req, res) => {
