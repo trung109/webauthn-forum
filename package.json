@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "@hookform/resolvers": "^3.4.0"
+  },
+  "devDependencies": {
+    "@types/js-cookie": "^3.0.6"
   }
 }
