@@ -22,6 +22,9 @@ export const signUpFormSchema = z.object({
       message: "Contain at least one special character.",
     })
     .trim(),
+  repassword: z
+    .string()
+    .trim()
 });
 
 export const signInFormSchema = z.object({
@@ -37,21 +40,21 @@ export const signInFormSchema = z.object({
 
 export type SignInFormState =
   | {
-      errors?: {
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
+    errors?: {
+      email?: string[];
+      password?: string[];
+    };
+    message?: string;
+  }
   | undefined;
 
 export type SignUpFormState =
   | {
-      errors?: {
-        name?: string[];
-        email?: string[];
-        password?: string[];
-      };
-      message?: string;
-    }
+    errors?: {
+      name?: string[];
+      email?: string[];
+      password?: string[];
+    };
+    message?: string;
+  }
   | undefined;

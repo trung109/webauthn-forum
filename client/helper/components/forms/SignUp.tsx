@@ -35,6 +35,7 @@ const SignUpForm = () => {
       username: "",
       email: "",
       password: "",
+      repassword: ""
     },
   });
 
@@ -44,23 +45,27 @@ const SignUpForm = () => {
     const requestBody = {
       username: values.username,
       password: values.password,
+      repassword: values.repassword,
       email: values.email
     }
-
-    const response = await fetch('http://localhost:8080/auth/register', {
-      method: "POST",
-      headers: {
-        'Content-Type': "application/json"
-      },
-      body: JSON.stringify(requestBody)
-    });
-
-    if (response.ok) {
-      // TODO - post successful sign up logic
-      router.push('/auth/login')
+    if (requestBody.password !== requestBody.repassword) {
+      alert('Password does not match');
     } else {
-      // TODO - render an error message
+      const response = await fetch('http://localhost:8080/auth/register', {
+        method: "POST",
+        headers: {
+          'Content-Type': "application/json"
+        },
+        body: JSON.stringify(requestBody)
+      });
+
+      if (response.ok) {
+        router.push('/auth/login')
+      } else {
+        alert('Something went wrong');
+      }
     }
+
   }
 
   return (
@@ -130,7 +135,25 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-            <div style={{position: 'relative',top: '-65px',left: '180px',height: '0'}}>
+            <FormField
+              control={form.control}
+              name="repassword"
+              render={({ field }) => (
+                <FormItem className="flex w-full flex-col">
+                  <FormLabel className="paragraph-semibold">Re-enter Password</FormLabel>
+                  <FormControl className="mt-2 mb-3">
+                    <Input
+                      type={isShowPassword ? "text" : "password"}
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white p-2"
+                      placeholder=""
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+            <div style={{ position: 'relative', top: '-65px', left: '180px', height: '0' }}>
               <Button
                 type="button"
                 onClick={() => setIsShowPassword(!isShowPassword)}
