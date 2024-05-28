@@ -59,10 +59,9 @@ const SignInForm = () => {
       // TODO - got JWT, now need to set it as a cookie
       const data = await response.json();
       // Cookies.set('jwt', token);
-      alert('cookies recieved');
-      const { jwtToken, user } = data;
-
-      // router.push('/home');
+      // alert('cookies recieved');
+      // const { jwtToken, user } = data;
+      router.push('/home');
     } else {
       alert('Something went wrong');
     }
