@@ -1,6 +1,5 @@
 import * as h from "../helpers/helper.js"
 import * as s from "../helpers/secure.js"
-import user from "../models/user.js"
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 export const register = async (req, res) => {
@@ -54,18 +53,22 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) return res.status(400).send('Incorrect password.')
 
         const token = jwt.sign(
-            { _id: user._id },
+            { _id: user._id , username: user.username, role: user.role },
             process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
                 expiresIn: '1h'
             })
 
-        user.password = undefined
+        // user.password = undefined
 
         res.json({
             token,
-            user
+            user: {
+                username : user.username,
+                email: user.email,
+                role: user.role         
+            }
         })
 
     } catch (err) {

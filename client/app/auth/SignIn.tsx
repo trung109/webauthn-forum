@@ -23,9 +23,12 @@ import {
   FormMessage,
 } from "@/helper/ui/form";
 import { Input } from "@/helper/ui/input";
-import { redirect } from "next/dist/server/api-utils";
+import { useRouter } from "next/navigation";
 
 const SignInForm = () => {
+
+  const router = useRouter();
+
   const [isShowPassword, setIsShowPassword] = useState(false);
   // 1. Define your form.
   const form = useForm<z.infer<typeof signInFormSchema>>({
@@ -48,20 +51,38 @@ const SignInForm = () => {
       {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json', 
+          'Content-Type': 'application/json',
         },
-        body: JSON.stringify(requestBody), 
+        body: JSON.stringify(requestBody),
       });
 
-    if(response.ok){
+    if (response.ok) {
       // TODO - got JWT, now need to set it as a cookie
       const data = await response.json();
       console.log(data);
       setCookie('testCookie', 'valueIsTestingCookies-nextLibrary');
       console.log(getCookies());
       // Cookies.set('jwt', token);
+      const { jwtToken, user } = data;
+
+      Cookies.set('jwt', jwtToken,
+        {
+          sameSite: 'Lax',
+          httpOnly: true,
+          secure: true,
+          path: '/'
+        });
+
+      Cookies.set('user', user, {
+        sameSite: 'Lax',
+        httpOnly: true,
+        secure: true,
+        path: '/'
+      });
+
+      // router.push('/home');
     } else {
-      // TODO - Render an error message
+      alert('Something went wrong');
     }
   }
 
@@ -115,7 +136,7 @@ const SignInForm = () => {
                 </FormItem>
               )}
             />
-            <div style={{position: 'relative',top: '-65px',left: '180px', height: '0'}}>
+            <div style={{ position: 'relative', top: '-65px', left: '180px', height: '0' }}>
               <Button
                 type="button"
                 onClick={() => setIsShowPassword(!isShowPassword)}
