@@ -1,19 +1,19 @@
 "use client";
-import { signInFormSchema } from "@/helper/lib/validations";
+import { signUpFormSchema } from "@/helper/lib/validations";
+import { useRouter } from 'next/navigation'
 import { zodResolver } from "@hookform/resolvers/zod";
 import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import Cookies from "js-cookie";
-import { Button } from "@/helper/ui/button";
+import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/helper/ui/card";
+} from "../ui/card";
 import {
   Form,
   FormControl,
@@ -21,53 +21,54 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/helper/ui/form";
-import { Input } from "@/helper/ui/input";
+} from "@/helper/components/ui/form";
+import { Input } from "../ui/input";
 
-const SignInForm = () => {
+
+const SignUpForm = () => {
+  const router = useRouter();
   const [isShowPassword, setIsShowPassword] = useState(false);
   // 1. Define your form.
-  const form = useForm<z.infer<typeof signInFormSchema>>({
-    resolver: zodResolver(signInFormSchema),
+  const form = useForm<z.infer<typeof signUpFormSchema>>({
+    resolver: zodResolver(signUpFormSchema),
     defaultValues: {
       username: "",
+      email: "",
       password: "",
     },
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof signInFormSchema>) {
+  async function onSubmit(values: z.infer<typeof signUpFormSchema>) {
 
     const requestBody = {
       username: values.username,
-      password: values.password
+      password: values.password,
+      email: values.email
     }
 
-    const response = await fetch('http://localhost:8080/auth/login',
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', 
-        },
-        body: JSON.stringify(requestBody), 
-      });
+    const response = await fetch('http://localhost:8080/auth/register', {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
 
-    if(response.ok){
-      // TODO - got JWT, now need to set it as a cookie
-      const data = await response.json();
-      console.log(data);
-      // Cookies.set('jwt', token);
+    if (response.ok) {
+      // TODO - post successful sign up logic
+      router.push('/auth/login')
     } else {
-      // TODO - Render an error message
+      // TODO - render an error message
     }
   }
 
   return (
     <Card className="dark:background-light700_dark300 w-[500px] dark:text-light-900">
       <CardHeader>
-        <CardTitle className="text-xl">Sign In</CardTitle>
+        <CardTitle className="text-xl">Sign Up</CardTitle>
         <CardDescription className="pt-5">
-          Enter your username and password below to login to your account.
+          Enter your information to create an account.
         </CardDescription>
       </CardHeader>
       <CardContent className="mt-[-1.5rem]">
@@ -84,9 +85,26 @@ const SignInForm = () => {
                   <FormLabel className="paragraph-semibold">Username</FormLabel>
                   <FormControl className="mt-2 mb-3">
                     <Input
-                      type="username"
                       className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white p-2"
-                      placeholder="Enter your username"
+                      placeholder=" Username"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage className="text-red-500" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem className="flex w-full flex-col">
+                  <FormLabel className="paragraph-semibold">Email</FormLabel>
+                  <FormControl className="mt-2 mb-3">
+                    <Input
+                      type="email"
+                      className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white p-2"
+                      placeholder=" Email@example.com"
                       {...field}
                     />
                   </FormControl>
@@ -104,7 +122,7 @@ const SignInForm = () => {
                     <Input
                       type={isShowPassword ? "text" : "password"}
                       className="no-focus paragraph-regular background-light700_dark300 light-border-2 text-dark300_light700 min-h-[56px] border dark:border-4 dark:border-white p-2"
-                      placeholder="Enter your password"
+                      placeholder=""
                       {...field}
                     />
                   </FormControl>
@@ -112,7 +130,7 @@ const SignInForm = () => {
                 </FormItem>
               )}
             />
-            <div style={{position: 'relative',top: '-65px',left: '180px', height: '0'}}>
+            <div style={{position: 'relative',top: '-65px',left: '180px',height: '0'}}>
               <Button
                 type="button"
                 onClick={() => setIsShowPassword(!isShowPassword)}
@@ -125,17 +143,14 @@ const SignInForm = () => {
               type="submit"
               className="primary-gradient w-fit !text-light-900"
             >
-              Sign In
+              Sign Up
             </Button>
           </form>
         </Form>
-        <Button variant="outline" className="mt-2 mb-3 w-full text-[16px]">
-          Sign In with WebAuthn
-        </Button>
         <div className="paragraph-semibold mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/auth/register" className="underline">
-            Sign up
+          Already have an account?{" "}
+          <Link href="/auth/login" className="underline">
+            Sign in
           </Link>
         </div>
       </CardContent>
@@ -143,4 +158,4 @@ const SignInForm = () => {
   );
 };
 
-export default SignInForm;
+export default SignUpForm;

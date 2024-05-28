@@ -31,8 +31,9 @@
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
-, "helper/context/context.js"  ],
+    ".next/types/**/*.ts",
+    "helper/context/context.js"
+  ],
   "exclude": [
     "node_modules"
   ]

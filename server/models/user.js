@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
+import { type } from "os";
 
 const {Schema} = mongoose;
 
-const userSchema = new Schema( {
+export const userSchema = new Schema( {
     name: {
         type: String,
         trim: true,
@@ -33,8 +34,9 @@ const userSchema = new Schema( {
         type: String,
         max: 256
     }, 
-    photo: {
-        url: String
+    photoUrl: {
+        type: String, 
+        default:'/assets/images/default-avatar.jpg'
     },
     role: {
         type: String,

@@ -7,7 +7,7 @@ import React from "react";
 import Navbar from "@/app/shared/Navbar";
 import LeftSideBar from "./LeftSideBar";
 import Link from "next/link";
-import { Button } from "@/helper/ui/button";
+import { Button } from "@/helper/components/ui/button";
 import RightSideBar from "./RightSideBar";
 
 

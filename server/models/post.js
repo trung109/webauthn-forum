@@ -1,34 +1,81 @@
 import mongoose from "mongoose";
-import User from '../models/user.js'
-const {Schema} = mongoose;
+import { PostCounter } from '../models/counter.js'
+import { userSchema } from '../models/user.js'
+const { Schema } = mongoose;
 
-const postSchema = new Schema( {
+const postSchema = new Schema({
     id: {
-        type: int,
+        type: Number,
         require: true,
         unique: true
-    }, 
+    },
     title: {
         type: String,
         trim: true,
         require: true,
-    }, 
-    username: {
-        type: String,
+    },
+    author: {
+        type: userSchema,
         trim: true,
         require: true,
-        unique: true
-    }, 
+    },
     content: {
         type: String,
         require: true
-
     },
-    tag: {
+    tags: {
         type: [String],
         require: true
+    },
+    upvotes: {
+        type: Number,
+        default: 0
+    },
+    commentsCount: {
+        type: Number,
+        default: 0
+    },
+    views: {
+        type: Number,
+        default: 0
+    },
+    state: {
+        type: String,
+        default: 'pending'
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    },
+    updatedAt: {
+        type: Date,
+        default: Date.now
     }
-}, {timestamp: true})
+
+}, { timestamp: true })
+
+postSchema.pre('save', async function (next) {
+    const post = this;
+
+    post.updatedAt = new Date();
+    if (post.isNew) {
+        try {
+            let counter = await PostCounter.findByIdAndUpdate(
+                { _id: 'postId' },
+                { $inc: { seq: 1 } },
+                { new: true, upsert: true }
+            );
+            post.id = counter.seq;
+            next();
+        } catch (error) {
+            next(error);
+        }
+    } else {
+        next();
+    }
+
+});
+
 
 export default mongoose.model('Post', postSchema)
 

@@ -1,6 +1,43 @@
+import QuestionCard from "@/helper/components/cards/QuestionCard";
+import NoResult from "@/helper/components/shared/NoResult";
+
 export default async function Home() {
-    return (
-        <>
-        </>
-    );
+  const getPost = async () => {
+    try {
+      const res = await fetch('http://localhost:8080/post/1')
+      const { posts } = await res.json()
+      return posts
+    } catch (err) {
+      return {}
+    }
+  }
+  const posts = await getPost()
+  return (
+    <div className="mt-10 flex w-full flex-col gap-6">
+      {posts.length > 0 ? (
+        posts.map((post) => (
+          <QuestionCard
+            key={post._id}
+            _id={post.id}
+            title={post.title}
+            tags={post.tags}
+            author={post.author}
+            upvotes={post.upvotes}
+            comments={post.commentsCount}
+            views={post.views}
+            createdAt={new Date(post.createdAt)}
+          />
+        ))
+      ) : (
+        <NoResult 
+          title="There's no post to show"
+          description="Be the first to break the silence! Create a Post and kickstart the
+          discussion. Our query could be the next big thing others learn from. Get
+          involved!"
+          link="/create-post"
+          linkTitle="Create a post"
+        />
+      )}
+    </div>
+  );
 }

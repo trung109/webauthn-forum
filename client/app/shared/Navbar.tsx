@@ -1,4 +1,4 @@
-import { Button } from "@/helper/ui/button";
+import { Button } from "@/helper/components/ui/button";
 import Image from "next/image";
 import Link from "next/link";
 

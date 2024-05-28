@@ -3,6 +3,7 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import dotenv from 'dotenv'
 import authRouter from './routes/auth.js'
+import postRouter from './routes/post.js'
 
 dotenv.config()
 
@@ -19,7 +20,7 @@ mongoose.connect(process.env.DATABASE)
 
 // dynamically assign routes
 app.use('/', authRouter)
-
+app.use('/', postRouter)
 
 
 

@@ -7,7 +7,7 @@ import React from "react";
 import Navbar from "./shared/Navbar";
 import LeftSideBar from "./home/LeftSideBar";
 import Link from "next/link";
-import { Button } from "@/helper/ui/button";
+import { Button } from "@/helper/components/ui/button";
 import RightSideBar from "./home/RightSideBar";
 
 const inter = Inter({
