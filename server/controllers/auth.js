@@ -53,18 +53,22 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) return res.status(400).send('Incorrect password.')
 
         const token = jwt.sign(
-            { _id: user._id },
+            { _id: user._id , username: user.username, role: user.role },
             process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
                 expiresIn: '1h'
             })
 
-        user.password = undefined
+        // user.password = undefined
 
         res.json({
             token,
-            user
+            user: {
+                username : user.username,
+                email: user.email,
+                role: user.role         
+            }
         })
 
     } catch (err) {
