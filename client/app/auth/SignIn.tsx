@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-// import Cookies from "js-cookie";
+import { setCookie, getCookies } from "cookies-next";
 import { Button } from "@/helper/ui/button";
 import {
   Card,
@@ -23,6 +23,7 @@ import {
   FormMessage,
 } from "@/helper/ui/form";
 import { Input } from "@/helper/ui/input";
+import { redirect } from "next/dist/server/api-utils";
 
 const SignInForm = () => {
   const [isShowPassword, setIsShowPassword] = useState(false);
@@ -56,6 +57,8 @@ const SignInForm = () => {
       // TODO - got JWT, now need to set it as a cookie
       const data = await response.json();
       console.log(data);
+      setCookie('testCookie', 'valueIsTestingCookies-nextLibrary');
+      console.log(getCookies());
       // Cookies.set('jwt', token);
     } else {
       // TODO - Render an error message
