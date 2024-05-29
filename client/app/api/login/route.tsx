@@ -26,6 +26,13 @@ export async function POST(request: Request) {
             secure: true,
             sameSite: 'lax'
         });
+        
+        cookies().set('token', token,{
+            httpOnly: true,
+            secure: true,
+            sameSite: 'lax'
+        });
+
         return new NextResponse(JSON.stringify({
             token: token
         }), {status: 200});
