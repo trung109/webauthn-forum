@@ -5,6 +5,7 @@ import dotenv from 'dotenv'
 import authRouter from './routes/auth.js'
 import postRouter from './routes/post.js'
 import email from './routes/resend.js'
+import userRouter from './routes/user.js'
 
 dotenv.config()
 
@@ -23,7 +24,7 @@ mongoose.connect(process.env.DATABASE)
 app.use('/', authRouter)
 app.use('/', postRouter)
 app.use('/', email)
-
+app.use('/', userRouter)
 
 
 

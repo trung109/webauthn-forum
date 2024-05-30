@@ -3,6 +3,8 @@ import * as s from "../helpers/secure.js"
 import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 
+
+
 export const register = async (req, res) => {
     // const {username, email, password, confirmPassword} = req.body
     const { username, email, password } = req.body
@@ -55,7 +57,7 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) return res.status(404).send('Something went wrong')
 
         const token = jwt.sign(
-            { _id: user._id, username: user.username, role: user.role },
+            { _id: user._id , username: user.username, role: user.role },
             process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
