@@ -84,6 +84,7 @@ const Page = () => {
             <TabsTrigger value="top-posts" className='tab'>Top Posts</TabsTrigger>
             <TabsTrigger value="comments" className='tab'>Comments</TabsTrigger>
         </TabsList>
+        // TODO: Add apis for fetching posts and comments of the user
         <TabsContent value="top-posts">POSTS</TabsContent>
         <TabsContent value="comments">COMMENTS</TabsContent>
         </Tabs>

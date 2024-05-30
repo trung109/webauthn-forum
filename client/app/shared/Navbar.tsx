@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import GlobalSearch from "@/helper/components/shared/search/GlobalSearch";
 
 const Navbar = () => {
   const [user, setUser] = useState(UserModel);
@@ -55,6 +56,7 @@ const Navbar = () => {
           BuFFer<span className="text-primary-500">Overflow</span>
         </p>
       </Link>
+      <GlobalSearch/>
       <div className="flex-between gap-5">
         {user.username ? (
           <div className="relative flex items-center gap-4">
