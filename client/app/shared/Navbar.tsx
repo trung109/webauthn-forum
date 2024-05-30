@@ -10,10 +10,12 @@ const Navbar = () => {
     username: "abcxyz",
   };
   const [user, setUser] = useState(SAMPLE_USER);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
     const token = getCookie("token");
     if (token) {
+      // Fetch user details using the token
       fetch("/api/user", {
         method: "GET",
         headers: {
@@ -28,6 +30,19 @@ const Navbar = () => {
         });
     }
   }, []);
+
+  const handleProfileClick = () => {
+    setDropdownVisible(!dropdownVisible);
+  };
+
+  const handleLogout = () => {
+    deleteCookie("token");
+    setUser({
+      username: "",
+    });
+    setDropdownVisible(false);
+  };
+
   return (
     <nav className="flex-between background-light900_dark200 fixed z-50 w-full gap-5 p-6 shadow-light-300 dark:shadow-none sm:px-12">
       <Link href="/" className="flex items-center gap-1">
@@ -42,23 +57,33 @@ const Navbar = () => {
         </p>
       </Link>
       <div className="flex-between gap-5">
-        {/* If signed in */}
         {user ? (
-          <div className="flex items-center gap-4">
-            <p className="text-dark-100 dark:text-light-900">
-              {user?.username}
-            </p>
-            <Button
-              className="primary-gradient bg-[#ff7000] text-light-900"
-              onClick={() => {
-                deleteCookie("token");
-                setUser({
-                  username: "",
-                });
-              }}
-            >
-              Log Out
-            </Button>
+          <div className="relative flex items-center gap-4">
+            <Image
+              src="/assets/icons/user.svg"
+              width={40}
+              height={40}
+              alt="Profile"
+              className="rounded-full shadow-xl border-[2px] cursor-pointer"
+              onClick={handleProfileClick}
+            ></Image>
+            <p className="text-dark-100 dark:text-light-900">{user.username}</p>
+            {dropdownVisible && (
+              <div className="absolute top-[35px] right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
+                <button
+                  className="block w-full px-4 py-2 text-left text-dark-100 dark:text-light-900 hover:bg-gray-200"
+                  onClick={() => console.log("Show Profile")}
+                >
+                  Profile
+                </button>
+                <button
+                  className="block w-full px-4 py-2 text-left text-dark-100 dark:text-light-900 hover:bg-gray-200"
+                  onClick={handleLogout}
+                >
+                  Log Out
+                </button>
+              </div>
+            )}
           </div>
         ) : (
           <Link href="/auth/login">
