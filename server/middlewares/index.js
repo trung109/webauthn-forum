@@ -14,9 +14,9 @@ export const requireSignIn = async (req, res, next) => {
             algorithms: "HS256",
             // issuer: "All-for-one-gate",
         })
-        req.body = decodedToken
+        req.body = JSON.stringify(decodedToken)
     }   catch {
-        req.body = {}
+        req.body = JSON.stringify({})
     }
     next()
     
