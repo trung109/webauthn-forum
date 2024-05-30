@@ -5,10 +5,10 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import Navbar from "./shared/Navbar";
-import LeftSideBar from "./home/LeftSideBar";
+import LeftSideBar from "./(root)/home/LeftSideBar";
 import Link from "next/link";
 import { Button } from "@/helper/components/ui/button";
-import RightSideBar from "./home/RightSideBar";
+import RightSideBar from "./(root)/home/RightSideBar";
 
 const inter = Inter({
   subsets: ["latin"],

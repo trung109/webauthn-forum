@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import RenderTag from "../shared/RenderTag";
+import RenderTag from "../../shared/RenderTag";
 
 const RightSideBar = () => {
   const hostPosts = [

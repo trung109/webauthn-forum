@@ -5,12 +5,20 @@ import { useSearchParams } from 'next/navigation';
 const Page = () => {
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
-  
+  const sample_user = {
+    username: "",
+    id: "",
+    email: "",
+    photoUrl: "",
+    role: "",
+    status: ""
+  };
+
+
   return (
-    <div>
-      // TODO: Fetch and display userid
-      {userId}
-    </div>
+    <>
+      <div className='flex flex-col'></div>
+    </>
   );
 };
 
