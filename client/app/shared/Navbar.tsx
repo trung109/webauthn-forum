@@ -7,40 +7,20 @@ import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const SAMPLE_USER = {
-    username: "",
+    username: "abc",
   };
   const [user, setUser] = useState(SAMPLE_USER);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const token = getCookie('token');
-  console.log(token)
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const token = getCookie('token');
-      console.log(token)
-      if (token) {
-        try {
-          const response = await fetch('http://localhost:8080/user', {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-
-          if (!response.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const data = await response.json();
-          setUser(data.user);
-          
-        } catch (error) {
-          console.error('Error fetching user:', error);
-          deleteCookie('token');
-        }
+      const response = await fetch('/api/user')
+      if(response.ok) {
+        const data = await response.json()
+        setUser(data)
+        alert(123)
       }
-      console.log(1)
-    };
-
-    fetchUserDetails();
+    }
+    fetchUserDetails()
   }, []);
 
   const handleProfileClick = () => {
