@@ -4,6 +4,7 @@ import cors from 'cors'
 import dotenv from 'dotenv'
 import authRouter from './routes/auth.js'
 import postRouter from './routes/post.js'
+import email from './routes/resend.js'
 
 dotenv.config()
 
@@ -21,6 +22,7 @@ mongoose.connect(process.env.DATABASE)
 // dynamically assign routes
 app.use('/', authRouter)
 app.use('/', postRouter)
+app.use('/', email)
 
 
 
