@@ -1,43 +1,42 @@
 "use client";
 import { Button } from "@/helper/components/ui/button";
-// import { deleteCookie, getCookie } from "cookies-next";
+import { UserModel } from "@/helper/models/models";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
-  const SAMPLE_USER = {
-    username: "",
-    id: "",
-    email:"",
-    photoUrl:"",
-    role:"",
-    status:""
-  };
-  const [user, setUser] = useState(SAMPLE_USER);
+  const [user, setUser] = useState(UserModel);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+  const router = useRouter();
+
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch('/api/user')
+      const response = await fetch('/api/user');
       if(response.ok) {
-        const data = await response.json()
-        setUser(data)
-        // alert(123)
+        const data = await response.json();
+        setUser(data);
       }
     }
-    fetchUserDetails()
+    fetchUserDetails();
   }, []);
 
   const handleProfileClick = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
+  const handleProfileRedirect = () => {
+    router.push(`/profile/user?userId=${user.id}`);
+    setDropdownVisible(false);
+  };
+
   const handleLogout = async () => {
-    const response = await fetch('/api/logout')
+    const response = await fetch('/api/logout');
     if (response.status === 302) {
-      setUser(SAMPLE_USER);
+      setUser(UserModel);
     } else {
-        alert('Something went wrong')
+        alert('Something went wrong');
     }
 
     setDropdownVisible(false);
@@ -60,7 +59,7 @@ const Navbar = () => {
         {user.username ? (
           <div className="relative flex items-center gap-4">
             <Image
-              src= {user.photoUrl}
+              src={user.photoUrl}
               width={40}
               height={40}
               alt="Profile"
@@ -72,7 +71,7 @@ const Navbar = () => {
               <div className="absolute top-[35px] right-0 mt-2 w-48 bg-white rounded-md shadow-lg">
                 <button
                   className="block w-full px-4 py-2 text-left text-dark-100 dark:text-light-900 hover:bg-gray-200"
-                  onClick={() => console.log("Show Profile")}
+                  onClick={handleProfileRedirect}
                 >
                   Profile
                 </button>
