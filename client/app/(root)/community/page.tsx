@@ -23,7 +23,15 @@ const Page = async () => {
 
   const result = [
     {
-      username: 'Duy Anh',
+      username: 'dumbled00r',
+      id: '4c7fd306f0698de645335e5346fb9805',
+      email: 'kazuu.promotion@gmail.com',
+      photoUrl: '/assets/images/default-avatar.jpg',
+      role: 'user',
+      status: 'active',
+    },
+    {
+      username: 'DuyAnh',
       id: '1',
       email: 'abc@vl.com',
       photoUrl: '/assets/images/default-avatar.jpg',
@@ -31,7 +39,7 @@ const Page = async () => {
       status: 'active',
     },
     {
-      username: 'Gia Huy',
+      username: 'GiaHuy',
       id: '2',
       email: 'giahuy@vl1.com',
       photoUrl: '/assets/images/default-avatar.jpg',
@@ -39,7 +47,7 @@ const Page = async () => {
       status: 'active',
     },
     {
-      username: 'Quoc Trung',
+      username: 'QuocTrung',
       id: '3',
       email: 'quoctrung@vl.com',
       photoUrl: '/assets/images/default-avatar.jpg',
