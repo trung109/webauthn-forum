@@ -1,13 +1,84 @@
 import Link from 'next/link'
 import React from 'react'
+import { Button } from '@/helper/components/ui/button'
+import LocalSearchBar from '@/helper/components/shared/search/LocalSearchBar'
+import Filter from '@/helper/components/shared/Filter'
+import { UserFilters } from '@/helper/constants/filters'
+import { UserModel } from '@/helper/models/models'
+import UserCard from '@/helper/components/cards/UserCard'
 
-const Page = () => {
+const Page = async () => {
+
+  // const result = await getAllUsers({})
+
+  // sample result
+  interface UserModel {
+    username: string;
+    id: string;
+    email: string;
+    photoUrl: string;
+    role: string;
+    status: string;
+  }
+
+  const result = [
+    {
+      username: 'Duy Anh',
+      id: '1',
+      email: 'abc@vl.com',
+      photoUrl: '/assets/images/default-avatar.jpg',
+      role: 'user',
+      status: 'active',
+    },
+    {
+      username: 'Gia Huy',
+      id: '2',
+      email: 'giahuy@vl1.com',
+      photoUrl: '/assets/images/default-avatar.jpg',
+      role: 'user',
+      status: 'active',
+    },
+    {
+      username: 'Quoc Trung',
+      id: '3',
+      email: 'quoctrung@vl.com',
+      photoUrl: '/assets/images/default-avatar.jpg',
+      role: 'user',
+      status: 'active',
+    },
+  ]
+
   return (
     <>
-    <div className='flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center'>
-      <h1 className='h1-bold text-dark100_light900'>All Posts</h1>
+      <h1 className="h1-bold text-dark100_light900">All Users</h1>
+     
 
-    </div>
+    <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
+        <LocalSearchBar
+          route="/community"
+          iconPosition="left"
+          imgSrc="/assets/icons/search.svg"
+          placeholder="Search for a person"
+          otherClasses="flex-1"
+        />
+
+        <Filter
+          filters={UserFilters}
+          otherClasses="min-h-[56px] sm:min-w-[170px]"
+        />
+      </div>
+
+      <section className='mt-12 flex flex-wrap gap-4'>
+        {/* TODO: get all users */}
+        {result.length > 0 ? (
+          result.map((user: UserModel) => (
+            <UserCard key={user.id} user={user}>
+              </UserCard>
+          ))
+        ) : (
+          <div className='paragraph-regular text-dark200_light800 mx-auto max-w-4xl text-center'><p>No users found</p></div>
+        )}
+      </section>
     </>
   )
 }
