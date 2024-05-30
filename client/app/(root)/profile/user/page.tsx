@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { Button } from '@/helper/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/helper/components/ui/tabs"
 import ProfileLink from '@/helper/components/shared/ProfileLink';
+import Stats from '@/helper/components/shared/Stats';
 
 const Page = () => {
   const [user, setUser] = useState(UserModel);
@@ -74,7 +75,9 @@ const Page = () => {
         </div>
       </div>
 
-      Stats 
+      <Stats
+      totalPosts={10}
+      totalComments={10} />
       <div className="mt-10 flex gap-10">
       <Tabs defaultValue="account" className="flex-1">
         <TabsList className='background-light800_dark400 min-h-[42px] p-1'>
