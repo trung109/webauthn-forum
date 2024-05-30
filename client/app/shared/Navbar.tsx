@@ -1,13 +1,18 @@
 "use client";
 import { Button } from "@/helper/components/ui/button";
-import { deleteCookie, getCookie } from "cookies-next";
+// import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
 const Navbar = () => {
   const SAMPLE_USER = {
-    username: "abc",
+    username: "",
+    id: "",
+    email:"",
+    photoUrl:"",
+    role:"",
+    status:""
   };
   const [user, setUser] = useState(SAMPLE_USER);
   const [dropdownVisible, setDropdownVisible] = useState(false);
@@ -17,7 +22,7 @@ const Navbar = () => {
       if(response.ok) {
         const data = await response.json()
         setUser(data)
-        alert(123)
+        // alert(123)
       }
     }
     fetchUserDetails()
@@ -30,9 +35,7 @@ const Navbar = () => {
   const handleLogout = async () => {
     const response = await fetch('/api/logout')
     if (response.status === 302) {
-      setUser({
-        username: "",
-      });
+      setUser(SAMPLE_USER);
     } else {
         alert('Something went wrong')
     }
@@ -57,7 +60,7 @@ const Navbar = () => {
         {user.username ? (
           <div className="relative flex items-center gap-4">
             <Image
-              src="/assets/icons/user.svg"
+              src= {user.photoUrl}
               width={40}
               height={40}
               alt="Profile"
