@@ -1,6 +1,6 @@
 "use client";
 import { Button } from "@/helper/components/ui/button";
-import { deleteCookie, getCookie } from "cookies-next";
+// import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -13,33 +13,23 @@ const Navbar = () => {
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
   useEffect(() => {
-    const token = getCookie("token");
-    if (token) {
-      // Fetch user details using the token
-      fetch("/api/user", {
-        method: "GET",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-        .then((response) => response.json())
-        .then((data) => setUser(data.user))
-        .catch((error) => {
-          console.error("Error fetching user:", error);
-          deleteCookie("token");
-        });
-    }
+
   }, []);
 
   const handleProfileClick = () => {
     setDropdownVisible(!dropdownVisible);
   };
 
-  const handleLogout = () => {
-    deleteCookie("token");
-    setUser({
-      username: "",
-    });
+  const handleLogout = async () => {
+    const response = await fetch('/api/logout')
+    if (response.status === 302) {
+      setUser({
+        username: "",
+      });
+    } else {
+        alert('Something went wrong')
+    }
+
     setDropdownVisible(false);
   };
 
@@ -57,7 +47,7 @@ const Navbar = () => {
         </p>
       </Link>
       <div className="flex-between gap-5">
-        {user ? (
+        {user.username ? (
           <div className="relative flex items-center gap-4">
             <Image
               src="/assets/icons/user.svg"
