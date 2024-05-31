@@ -15,3 +15,15 @@ export interface User {
   role: string;
   status: string;
 }
+
+export interface Post {
+  id: string;
+  title: string;
+  tags: string[];
+  author: User;
+  upvotes: number;
+  views: number;
+  commentsCount: number;
+  comments: string[];
+  createdAt: Date;
+}
