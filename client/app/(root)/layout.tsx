@@ -36,8 +36,8 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className={`${inter.variable} ${spaceGrotesk.variable}`}>
+    <main className="background-light850_dark100 relative">
+
         <Navbar />
         <div className="flex">
           <LeftSideBar />
@@ -46,7 +46,6 @@ export default function HomeLayout({
           </section>
           <RightSideBar />
         </div>
-      </body>
-    </html>
+    </main>
   );
 }
