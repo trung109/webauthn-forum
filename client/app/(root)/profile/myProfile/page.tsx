@@ -66,16 +66,16 @@ const Page = () => {
           </div>
         </div>
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
-          {user &&
-            (user.id === sample_user.id ? (
-              <Link href="/profile/user/edit">
-                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
-                  Edit Profile
-                </Button>
-              </Link>
-            ) : (
+          {/* {user &&
+            (user.id === sample_user.id ? ( */}
+          <Link href="/profile/user/edit">
+            <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
+              Edit Profile
+            </Button>
+          </Link>
+          {/* ) : (
               <></>
-            ))}
+            ))} */}
         </div>
       </div>
 
