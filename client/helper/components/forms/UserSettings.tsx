@@ -30,6 +30,7 @@ const UserSettings = ({ userId, user }: Params) => {
     const form = useForm<z.infer<typeof settingsSchema>>({
         resolver: zodResolver(settingsSchema),
         defaultValues: {
+          currentPassword: "",
           password: "",
           confirmPassword: "", 
         },
@@ -51,6 +52,23 @@ const UserSettings = ({ userId, user }: Params) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-2 flex w-full gap-2 flex-col"
       >
+        <FormField
+          control={form.control}
+          name="currentPassword"
+          render={({ field }) => (
+            <FormItem>
+              <FormControl>
+                <Input
+                  type={isShowPassword ? "text" : "password"}
+                  placeholder="Enter your current password"
+                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
+                  {...field}
+                />
+              </FormControl>
+              <FormMessage className='text-red-500'/>
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="password"
