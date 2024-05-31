@@ -20,6 +20,7 @@ mongoose.connect(process.env.DATABASE)
 .catch(err => console.log("MongoDB error."))
 
 
+
 // dynamically assign routes
 app.use('/', authRouter)
 app.use('/', postRouter)
