@@ -12,15 +12,10 @@ import {
 import { User } from "@/helper/models/models";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
   const [user, setUser] = useState<User | null>(null);
-
-  const searchParams = useSearchParams();
-  const userId = searchParams.get("userId");
-  console.log("Current user id: ", userId);
 
   useEffect(() => {
     const fetchUserDetails = async () => {
@@ -63,7 +58,7 @@ const Page = () => {
               </div>
             </div>
             <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
-              <Link href="/profile/user/edit">
+              <Link href="/profile/edit">
                 <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
                   Edit Profile
                 </Button>
