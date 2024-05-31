@@ -46,7 +46,7 @@ const SignInForm = () => {
       password: values.password
     }
 
-    const response = await fetch('/api/login',
+    const response = await fetch('/api/auth/login',
       {
         method: 'POST',
         headers: {

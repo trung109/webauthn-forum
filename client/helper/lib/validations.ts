@@ -46,6 +46,14 @@ export const signInFormSchema = z.object({
     .trim(),
 });
 
+export const webAuthnSignInFormSchema = z.object({
+  username: z
+    .string()
+    .regex(/^(?!.*@).*/, { message: "Username cannot contain the @ symbol." })
+    .min(2, { message: "Username must be at least 2 characters long." })
+    .trim(),
+});
+
 export type SignInFormState =
   | {
     errors?: {
@@ -66,3 +74,13 @@ export type SignUpFormState =
     message?: string;
   }
   | undefined;
+
+  export type WebAuthnSignInFormState =
+  | {
+    errors?: {
+      email?: string[];
+    };
+    message?: string;
+  }
+  | undefined;
+

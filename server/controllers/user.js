@@ -10,3 +10,14 @@ export const getSelfProfile = async (req, res) => {
         res.status(404).send('Something went wrong.')
     }
 }
+
+export const getFullUserInfoByUserId = async (req, res) => {
+    const id = req.query.userId
+    try {
+
+        const info = await User.findOne({ id }).select('-password -_id -__v')
+        res.status(302).json(info)
+    } catch (err) {
+        res.status(404).send('Something went wrong.')
+    }
+}

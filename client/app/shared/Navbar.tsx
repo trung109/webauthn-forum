@@ -46,7 +46,7 @@ const Navbar = () => {
   };
 
   const handleLogout = async () => {
-    const response = await fetch("/api/logout");
+    const response = await fetch("/api/auth/logout");
     if (response.status === 302) {
       setUser(SAMPLE_USER);
     } else {
