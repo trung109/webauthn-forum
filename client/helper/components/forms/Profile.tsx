@@ -74,7 +74,7 @@ const Profile = ({ userId, user }: Params) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-red-500'/>
             </FormItem>
           )}
         />
@@ -93,7 +93,7 @@ const Profile = ({ userId, user }: Params) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage />
+              <FormMessage className='text-red-500' />
             </FormItem>
           )}
         />

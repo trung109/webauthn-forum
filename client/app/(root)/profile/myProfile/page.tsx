@@ -57,10 +57,15 @@ const Page = () => {
                 </div>
               </div>
             </div>
-            <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
+            <div className="flex flex-col justify-end max-sm:mb-5 max-sm:w-full sm:mt-3 gap-3">
               <Link href="/profile/edit">
                 <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
                   Edit Profile
+                </Button>
+              </Link>
+              <Link href="/profile/settings">
+                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
+                  Change my password
                 </Button>
               </Link>
             </div>
