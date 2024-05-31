@@ -19,11 +19,16 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
+import { Textarea } from "../ui/textarea";
+import { MdEditor } from 'md-editor-rt';
+import 'md-editor-rt/lib/style.css';
+
 
 const type: any = "create";
 
 const Post = () => {
-  const editorRef = useRef(null);
+  const [content, setContent] = useState("");
+
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   // 1. Define your form.
@@ -31,7 +36,7 @@ const Post = () => {
     resolver: zodResolver(postSchema),
     defaultValues: {
       title: "",
-      explanation: "",
+      content: "",
       tags: [],
     },
   });
@@ -39,6 +44,7 @@ const Post = () => {
   function onSubmit(values: z.infer<typeof postSchema>) {
     setIsSubmitting(true);
     try {
+      console.log(values.content)
       // make an async call to db -> create a post
       // contain all form data
       // navigate to homepage
@@ -48,6 +54,9 @@ const Post = () => {
     }
   }
 
+  const handleOnChange = (e: any) => {
+    setContent(e.target.value)
+  }
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
@@ -103,6 +112,7 @@ const Post = () => {
                   placeholder="Title"
                   {...field}
                 />
+
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Be specific and imagine you’re asking a question to another
@@ -111,57 +121,35 @@ const Post = () => {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="explanation"
-          render={({ field }) => (
-            <FormItem className="flex w-full flex-col gap-3">
-              <FormLabel className="paragraph-semibold text-dark400_light800">
-                Detail of your post<span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl className="mt-3.5">
-                <Editor
-                  apiKey={process.env.NEXT_PUBLIC_TINY_EDITOR_API_KEY}
-                  onInit={(_evt, editor) =>
-                    // @ts-ignore
-                    (editorRef.current = editor)
-                  }
-                  initialValue=""
-                  init={{
-                    height: 350,
-                    menubar: false,
-                    plugins: [
-                      "advlist",
-                      "autolink",
-                      "lists",
-                      "link",
-                      "image",
-                      "charmap",
-                      "preview",
-                      "anchor",
-                      "searchreplace",
-                      "visualblocks",
-                      "codesample",
-                      "fullscreen",
-                      "insertdatetime",
-                      "media",
-                      "table",
-                    ],
-                    toolbar:
-                      "undo redo | " +
-                      "codesample | bold italic forecolor | alignleft aligncenter |" +
-                      "alignright alignjustify | bullist numlist",
-                    content_style: "body { font-family:Inter; font-size:16px }",
-                  }}
-                />
-              </FormControl>
-              <FormDescription className="body-regular mt-2.5 text-light-500">
-                Introduce your post in detail
-              </FormDescription>
-              <FormMessage className="text-red-500" />
-            </FormItem>
-          )}
-        />
+          <FormField
+                control={form.control}
+                name="content"
+                render={({ field }) => (
+                  <FormItem className="flex w-full flex-col gap-3">
+                    <FormLabel className="paragraph-semibold text-dark400_light800">
+                      Detail of your post<span className="text-primary-500">*</span>
+                    </FormLabel>
+                    <FormControl className="mt-3.5">
+                      <>
+
+                      <MdEditor
+                        modelValue={content}
+                        onChange={(value) => {
+                          setContent(value);
+                          field.onChange(value);
+                        }}
+                        toolbarsExclude={["image", "task", "pageFullscreen", "fullscreen", "catalog", "htmlPreview", "github", "mermaid"]}
+                        language="en-US"
+                      />
+                      </>
+                    </FormControl>
+                    <FormDescription className="body-regular mt-2.5 text-light-500">
+                      Introduce your post in detail
+                    </FormDescription>
+                    <FormMessage className="text-red-500" />
+                  </FormItem>
+                )}
+              />
         <FormField
           control={form.control}
           name="tags"
