@@ -70,12 +70,12 @@ const SignInForm = () => {
   return (
     <Card className="dark:background-light700_dark300 w-[500px] dark:text-light-900">
       <CardHeader>
-        <CardTitle className="text-xl">Sign In</CardTitle>
+        <CardTitle className="text-2xl">Sign In</CardTitle>
         <CardDescription className="pt-5">
           Enter your username and password below to login to your account.
         </CardDescription>
       </CardHeader>
-      <CardContent className="mt-[-1.5rem]">
+      <CardContent className="mt-[0.5rem]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -117,15 +117,15 @@ const SignInForm = () => {
                 </FormItem>
               )}
             />
-            <div style={{ position: 'relative', top: '-65px', left: '180px', height: '0' }}>
+
               <Button
                 type="button"
                 onClick={() => setIsShowPassword(!isShowPassword)}
                 className="text-dark300_light700 w-full justify-end text-sm underline"
               >
-                {isShowPassword ? "Hide" : "Show"}
+                {isShowPassword ? "Hide Password" : "Show Password"}
               </Button>
-            </div>
+       
             <Button
               type="submit"
               className="primary-gradient w-fit !text-light-900"
@@ -143,6 +143,12 @@ const SignInForm = () => {
           Don&apos;t have an account?{" "}
           <Link href="/auth/register" className="underline">
             Sign up
+          </Link>
+        </div>
+        <div className="paragraph-semibold mt-4 text-center text-sm">
+          Forgot your password?{" "}
+          <Link href="/auth/register" className="underline">
+            Reset password
           </Link>
         </div>
       </CardContent>

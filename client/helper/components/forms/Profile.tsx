@@ -28,18 +28,16 @@ const Profile = ({ userId, user }: Params) => {
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
-      name: "Full Name", // Need to parse from user
       username: user?.username || undefined,
-      bio: "Bio", // Need to parse from user
+      bio: "", 
     },
   });
 
   useEffect(() => {
     if (user) {
       form.reset({
-        name: "Full Name",
         username: user.username || "",
-        bio: "Bio",
+        bio: "",
       });
     }
   }, [form, user]);
@@ -61,25 +59,6 @@ const Profile = ({ userId, user }: Params) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-9 flex w-full gap-9 flex-col"
       >
-        <FormField
-          control={form.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel className="space-y-3.5">
-                Name <span className="text-primary-500">*</span>
-              </FormLabel>
-              <FormControl>
-                <Input
-                  placeholder="Your name"
-                  className="no-focus paragraph-regular light-border-2 background-light700_dark300 text-dark300_light700 min-h-[56px] border"
-                  {...field}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
         <FormField
           control={form.control}
           name="username"

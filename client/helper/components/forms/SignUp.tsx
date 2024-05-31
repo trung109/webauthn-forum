@@ -76,7 +76,7 @@ const SignUpForm = () => {
           Enter your information to create an account.
         </CardDescription>
       </CardHeader>
-      <CardContent className="mt-[-1.5rem]">
+      <CardContent className="mt-[0.5rem]">
         <Form {...form}>
           <form
             onSubmit={form.handleSubmit(onSubmit)}
@@ -153,15 +153,14 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-            <div style={{ position: 'relative', top: '-65px', left: '180px', height: '0' }}>
               <Button
                 type="button"
                 onClick={() => setIsShowPassword(!isShowPassword)}
-                className="text-dark300_light700 w-full justify-end text-sm underline"
+                className="text-dark300_light700 w-full justify-end text-sm underline "
               >
-                {isShowPassword ? "Hide" : "Show"}
+                {isShowPassword ? "Hide Password" : "Show Password"}
               </Button>
-            </div>
+
             <Button
               type="submit"
               className="primary-gradient w-fit !text-light-900"

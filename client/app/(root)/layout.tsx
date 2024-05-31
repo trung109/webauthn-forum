@@ -37,7 +37,6 @@ export default function HomeLayout({
 }) {
   return (
     <main className="background-light850_dark100 relative">
-
         <Navbar />
         <div className="flex">
           <LeftSideBar />
