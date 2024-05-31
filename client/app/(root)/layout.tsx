@@ -5,10 +5,10 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk } from "next/font/google";
 import React from "react";
 import Navbar from "@/app/shared/Navbar";
-import LeftSideBar from "./LeftSideBar";
+import LeftSideBar from "./home/LeftSideBar";
 import Link from "next/link";
 import { Button } from "@/helper/components/ui/button";
-import RightSideBar from "./RightSideBar";
+import RightSideBar from "./home/RightSideBar";
 
 
 const inter = Inter({

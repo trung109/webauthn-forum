@@ -10,7 +10,7 @@ export async function GET(request: Request) {
         },
         body: JSON.stringify({token})
     })
-    // console.log("express response:", response.status)
+    
 
     if (response.status === 302) {
         const data = await response.json()

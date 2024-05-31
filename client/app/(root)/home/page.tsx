@@ -1,6 +1,7 @@
 import QuestionCard from "@/helper/components/cards/QuestionCard";
 import NoResult from "@/helper/components/shared/NoResult";
-
+import Link from "next/link";
+import { Button } from "@/helper/components/ui/button";
 export default async function Home() {
   const getPost = async () => {
     try {
@@ -18,6 +19,16 @@ export default async function Home() {
   const { posts } = await getPost()
 
   return (
+    <>
+    <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
+      <h1 className="h1-bold text-dark100_light900">All Posts</h1>
+      <Link href="/create-post" className="flex justify-end max-sm:w-full">
+        <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900">
+          Create a post
+        </Button>
+      </Link>
+    </div>
+    
     <div className="mt-10 flex w-full flex-col gap-6">
       {posts.length > 0 ? (
         posts.map((post: any) => (
@@ -44,5 +55,6 @@ export default async function Home() {
         />
       )}
     </div>
+    </>
   );
 }
