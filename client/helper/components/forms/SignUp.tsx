@@ -35,7 +35,7 @@ const SignUpForm = () => {
       username: "",
       email: "",
       password: "",
-      repassword: ""
+      confirmPassword: ""
     },
   });
 
@@ -45,10 +45,10 @@ const SignUpForm = () => {
     const requestBody = {
       username: values.username,
       password: values.password,
-      repassword: values.repassword,
+      confirmPassword: values.confirmPassword,
       email: values.email
     }
-    if (requestBody.password !== requestBody.repassword) {
+    if (requestBody.password !== requestBody.confirmPassword) {
       alert('Password does not match');
     } else {
       const response = await fetch('http://localhost:8080/auth/register', {
@@ -137,7 +137,7 @@ const SignUpForm = () => {
             />
             <FormField
               control={form.control}
-              name="repassword"
+              name="confirmPassword"
               render={({ field }) => (
                 <FormItem className="flex w-full flex-col">
                   <FormLabel className="paragraph-semibold">Re-enter Password</FormLabel>

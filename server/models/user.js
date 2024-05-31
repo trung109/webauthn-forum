@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import { type } from "os";
+
 
 const {Schema} = mongoose;
 
@@ -36,11 +36,13 @@ export const userSchema = new Schema( {
     },
     role: {
         type: String,
-        require: true
+        require: true,
+        default: 'user'
     },
     status: {
         type: String,
-        require: true
+        require: true,
+        default: 'inactive'
     }
 }, {timestamp: true})
 

@@ -1,6 +1,5 @@
 import mongoose from "mongoose";
 import { PostCounter } from '../models/counter.js'
-import { userSchema } from '../models/user.js'
 const { Schema } = mongoose;
 
 const postSchema = new Schema({

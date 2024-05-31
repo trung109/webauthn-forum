@@ -34,7 +34,7 @@ const SignInForm = () => {
     resolver: zodResolver(signInFormSchema),
     defaultValues: {
       username: "",
-      password: "",
+      password: ""
     },
   });
 
@@ -134,9 +134,11 @@ const SignInForm = () => {
             </Button>
           </form>
         </Form>
-        <Button variant="outline" className="mt-2 mb-3 w-full text-[16px]">
-          Sign In with WebAuthn
-        </Button>
+        <Link href="/webauthn">
+          <Button variant="outline" className="mt-2 mb-3 w-full text-[16px]">
+            Sign In with WebAuthn
+          </Button>
+        </Link>
         <div className="paragraph-semibold mt-4 text-center text-sm">
           Don&apos;t have an account?{" "}
           <Link href="/auth/register" className="underline">

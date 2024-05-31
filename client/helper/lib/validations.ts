@@ -22,9 +22,17 @@ export const signUpFormSchema = z.object({
       message: "Contain at least one special character.",
     })
     .trim(),
-  repassword: z
+  confirmPassword: z
     .string()
     .trim()
+}).superRefine(({ confirmPassword, password }, ctx) => {
+  if (confirmPassword !== password) {
+    ctx.addIssue({
+      code: "custom",
+      message: "The passwords did not match",
+      path: ['confirmPassword']
+    });
+  }
 });
 
 export const signInFormSchema = z.object({
