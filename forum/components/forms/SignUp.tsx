@@ -39,9 +39,6 @@ const SignUpForm = () => {
   async function onSubmit(values: z.infer<typeof signupFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values.username);
-    console.log(values.email);
-    console.log(values.password);
 
     const requestBody = {
       username: values.username,

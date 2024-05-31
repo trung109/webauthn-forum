@@ -15,7 +15,6 @@ export async function POST(request: Request) {
   if (response.ok) {
     // TODO - got JWT, now need to set it as a cookie
     const data = await response.json();
-    // console.log(data);
 
     const { token, user } = data;
 

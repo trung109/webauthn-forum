@@ -39,8 +39,6 @@ const SignInForm = () => {
   async function onSubmit(values: z.infer<typeof signinFormSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
-    console.log(values.username);
-    console.log(values.password);
 
     const requestBody = {
       username: values.username,
@@ -59,7 +57,6 @@ const SignInForm = () => {
     if(response.ok){
       // TODO - got JWT, now need to set it as a cookie
       const { token } = await response.json();
-      console.log(token);
       Cookies.set('jwt', token);
     } else {
       // TODO - Render an error message

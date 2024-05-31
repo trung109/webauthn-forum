@@ -3,34 +3,35 @@ import { Button } from "@/helper/components/ui/button";
 // import { deleteCookie, getCookie } from "cookies-next";
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import GlobalSearch from "@/helper/components/shared/search/GlobalSearch";
 
 const Navbar = () => {
+  const router = useRouter()
   const SAMPLE_USER = {
     username: "",
     id: "",
-    email:"",
-    photoUrl:"",
-    role:"",
-    status:""
+    email: "",
+    photoUrl: "",
+    role: "",
+    status: ""
   };
   const [user, setUser] = useState(SAMPLE_USER);
   const [dropdownVisible, setDropdownVisible] = useState(false);
+
+
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch('/api/user')
-      if(response.ok) {
-        const data = await response.json()
-        setUser(data)
-        // alert(123)
+      const response = await fetch('/api/user/me');
+      if (response.ok) {
+        const data = await response.json();
+        setUser(data);
       }
     }
     fetchUserDetails();
   }, []);
-
+  
   const handleProfileClick = () => {
     setDropdownVisible(!dropdownVisible);
   };
@@ -45,9 +46,8 @@ const Navbar = () => {
     if (response.status === 302) {
       setUser(SAMPLE_USER);
     } else {
-        alert('Something went wrong')
+      alert('Something went wrong')
     }
-
     setDropdownVisible(false);
   };
 
@@ -64,7 +64,7 @@ const Navbar = () => {
           BuFFer<span className="text-primary-500">Overflow</span>
         </p>
       </Link>
-      <GlobalSearch/>
+      <GlobalSearch />
       <div className="flex-between gap-5">
         {user.username ? (
           <div className="relative flex items-center gap-4">

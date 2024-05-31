@@ -36,7 +36,6 @@ export const register = async (req, res) => {
         console.log('User registered: ', user)
         return res.json({ ok: true })
     } catch (err) {
-        console.log(err)
         return res.status(400).send("Error, try again.")
     }
 }
