@@ -1,3 +1,4 @@
+'use client'
 import SignInForm from "@/helper/components/forms/SignIn";
 import Navbar from "../shared/Navbar";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/helper/components/ui/card";
