@@ -9,13 +9,14 @@ import {
   TabsList,
   TabsTrigger,
 } from "@/helper/components/ui/tabs";
+import { User } from "@/helper/models/models";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const Page = () => {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const searchParams = useSearchParams();
   const userId = searchParams.get("userId");
