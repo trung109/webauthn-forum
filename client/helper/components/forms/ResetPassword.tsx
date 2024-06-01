@@ -37,7 +37,14 @@ const ResetPassword = () => {
   });
 
   // 2. Define a submit handler.
-  async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {}
+  async function onSubmit(values: z.infer<typeof resetPasswordFormSchema>) {
+    // display html card to show if email is sent
+    // submit email
+    // form reset after submit
+    // check email in db
+    // send email with new password
+    // redirect to login page
+  }
 
   return (
     <Card className="dark:background-light700_dark300 w-[500px] dark:text-light-900">
