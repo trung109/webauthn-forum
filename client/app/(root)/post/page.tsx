@@ -9,6 +9,8 @@ import { Post } from '@/helper/models/models';
 import MarkDown from 'markdown-to-jsx';
 import 'md-editor-rt/lib/preview.css';
 import { MdPreview } from 'md-editor-rt';
+import RenderTag from '@/app/shared/RenderTag';
+import Comment from '@/helper/components/forms/Comment';
 
 const Page = () => {
   const Div = ({ children }: any) => <div>{children}</div>;
@@ -76,7 +78,17 @@ const Page = () => {
               textStyles="small-medium text-dark400_light800"
             ></Metric>
           </div>
-          <MdPreview editorId={id} modelValue={post.content} />
+          <MdPreview
+            editorId={id}
+            modelValue={post.content}
+            className="bg-inherit"
+          />
+          {/* TO Do: display all comments */}
+          <Comment
+            post={post.content}
+            postId={post.id}
+            authorId={post.author.id}
+          ></Comment>
         </>
       ) : (
         <div>Post not found</div>

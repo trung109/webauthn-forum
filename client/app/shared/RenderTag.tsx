@@ -1,8 +1,8 @@
-import Link from "next/link";
-import { Badge } from "../../helper/components/ui/badge";
+import Link from 'next/link';
+import { Badge } from '../../helper/components/ui/badge';
 
 interface Props {
-  _id: string;
+  _id?: string;
   name: string;
   totalPosts?: number;
   showCount?: boolean;

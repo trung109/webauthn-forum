@@ -23,11 +23,13 @@ import { Textarea } from '../ui/textarea';
 import { MdEditor } from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
 import { revalidatePath } from 'next/cache';
+import { useRouter } from 'next/navigation';
 
 const type: any = 'create';
 
 const Post = () => {
   const [content, setContent] = useState('');
+  const router = useRouter();
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -56,12 +58,11 @@ const Post = () => {
         },
         body: JSON.stringify(requestBody)
       });
-      if (response.ok) {
-        revalidatePath('/home');
-      }
     } catch (error) {
     } finally {
       setIsSubmitting(false);
+      revalidatePath('/home');
+      router.push('/home');
     }
   }
 
