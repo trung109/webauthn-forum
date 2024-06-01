@@ -81,17 +81,16 @@ const ResetPassword = () => {
             </Button>
           </form>
         </Form>
-
         <div className="paragraph-semibold mt-4 text-center text-sm mt-[50px]">
-          Don&apos;t have an account?{' '}
-          <Link href="/auth/register" className="underline">
-            Sign up
-          </Link>
-        </div>
-        <div className="paragraph-semibold mt-4 text-center text-sm">
           Already have an account?{' '}
           <Link href="/auth/login" className="underline">
             Sign in
+          </Link>
+        </div>
+        <div className="paragraph-semibold mt-4 text-center text-sm">
+          Don&apos;t have an account?{' '}
+          <Link href="/auth/register" className="underline">
+            Sign up
           </Link>
         </div>
       </CardContent>
