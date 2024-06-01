@@ -90,6 +90,9 @@ export const settingsSchema = z
   }
 });
 
+export const resetPasswordFormSchema = z.object({
+  email: z.string().email({ message: "Please enter a valid email." }).trim(),
+});
 export type SignInFormState =
   | {
       errors?: {
