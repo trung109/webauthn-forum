@@ -2,6 +2,7 @@ import QuestionCard from "@/helper/components/cards/QuestionCard";
 import NoResult from "@/helper/components/shared/NoResult";
 import { Button } from "@/helper/components/ui/button";
 import Link from "next/link";
+
 export default async function Home() {
   const getPost = async () => {
     try {

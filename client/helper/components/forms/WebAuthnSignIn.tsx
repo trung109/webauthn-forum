@@ -24,7 +24,7 @@ import {
 } from "@/helper/components/ui/form";
 import { Input } from "@/helper/components/ui/input";
 
-const WebAuthnSignInForm = () => {
+export const WebAuthnSignInForm = () => {
 
   const router = useRouter();
 

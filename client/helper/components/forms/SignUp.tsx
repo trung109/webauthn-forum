@@ -48,23 +48,21 @@ const SignUpForm = () => {
       confirmPassword: values.confirmPassword,
       email: values.email
     }
-    if (requestBody.password !== requestBody.confirmPassword) {
-      alert('Password does not match');
-    } else {
-      const response = await fetch('http://localhost:8080/auth/register', {
-        method: "POST",
-        headers: {
-          'Content-Type': "application/json"
-        },
-        body: JSON.stringify(requestBody)
-      });
 
-      if (response.ok) {
-        router.push('/auth/login')
-      } else {
-        alert('Something went wrong');
-      }
+    const response = await fetch('/api/auth/register', {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+
+    if (response.ok) {
+      router.push('/auth/login')
+    } else {
+      alert(await response.text());
     }
+
 
   }
 
@@ -153,13 +151,13 @@ const SignUpForm = () => {
                 </FormItem>
               )}
             />
-              <Button
-                type="button"
-                onClick={() => setIsShowPassword(!isShowPassword)}
-                className="text-dark300_light700 w-full justify-end text-sm underline "
-              >
-                {isShowPassword ? "Hide Password" : "Show Password"}
-              </Button>
+            <Button
+              type="button"
+              onClick={() => setIsShowPassword(!isShowPassword)}
+              className="text-dark300_light700 w-full justify-end text-sm underline "
+            >
+              {isShowPassword ? "Hide Password" : "Show Password"}
+            </Button>
 
             <Button
               type="submit"

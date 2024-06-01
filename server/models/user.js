@@ -26,11 +26,6 @@ export const userSchema = new Schema({
         require: true,
         min: 8
     },
-    name: {
-        type: String,
-        trim: true,
-        default: () => this.username
-    },
     bio: {
         type: String,
         max: 256

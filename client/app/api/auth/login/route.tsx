@@ -37,6 +37,6 @@ export async function POST(request: Request) {
       { status: 200 }
     );
   } else {
-    return new NextResponse("Something went wrong", { status: 404 });
+    return new NextResponse(await response.text(), { status: 404 });
   }
 }

@@ -9,6 +9,7 @@ interface Props {
         photoUrl: string;
         role: string;
         status: string;
+        joinedAt: Date;
     }
 }
 const UserCard = ({user}: Props) => {

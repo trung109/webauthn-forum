@@ -1,12 +1,29 @@
+'use client'
 import UserCard from "@/helper/components/cards/UserCard";
 import Filter from "@/helper/components/shared/Filter";
 import LocalSearchBar from "@/helper/components/shared/search/LocalSearchBar";
 import { UserFilters } from "@/helper/constants/filters";
+import { useState, useEffect } from "react";
 
-const Page = async () => {
-  // const result = await getAllUsers({})
+const Page = () => {
 
-  // sample result
+  const [users, setUsers] = useState([])
+
+  useEffect(() => {
+    const getUsers = async () => {
+      try {
+        const res = await fetch("/api/user/allUsers");
+        const { users } = await res.json();
+        console.log(users)
+        setUsers(users)
+      } catch (err) {
+
+      }
+    }
+    getUsers()
+  }, [])
+
+
   interface UserModel {
     username: string;
     id: string;
@@ -14,34 +31,8 @@ const Page = async () => {
     photoUrl: string;
     role: string;
     status: string;
+    joinedAt: Date;
   }
-
-  const result = [
-    {
-      username: "DuyAnh",
-      id: "1",
-      email: "abc@vl.com",
-      photoUrl: "/assets/images/default-avatar.jpg",
-      role: "user",
-      status: "active",
-    },
-    {
-      username: "GiaHuy",
-      id: "2",
-      email: "giahuy@vl1.com",
-      photoUrl: "/assets/images/default-avatar.jpg",
-      role: "user",
-      status: "active",
-    },
-    {
-      username: "QuocTrung",
-      id: "3",
-      email: "quoctrung@vl.com",
-      photoUrl: "/assets/images/default-avatar.jpg",
-      role: "user",
-      status: "active",
-    },
-  ];
 
   return (
     <>
@@ -64,8 +55,8 @@ const Page = async () => {
 
       <section className="mt-12 flex flex-wrap gap-4">
         {/* TODO: get all users */}
-        {result.length > 0 ? (
-          result.map((user: UserModel) => (
+        {users.length > 0 ? (
+          users.map((user: UserModel) => (
             <UserCard key={user.id} user={user}></UserCard>
           ))
         ) : (

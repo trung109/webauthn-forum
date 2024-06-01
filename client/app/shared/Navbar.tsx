@@ -1,6 +1,5 @@
 "use client";
 import { Button } from "@/helper/components/ui/button";
-// import { deleteCookie, getCookie } from "cookies-next";
 import GlobalSearch from "@/helper/components/shared/search/GlobalSearch";
 import Image from "next/image";
 import Link from "next/link";
