@@ -7,12 +7,12 @@ import jwt from 'jsonwebtoken'
 
 export const register = async (req, res) => {
     // const {username, email, password, confirmPassword} = req.body
-    const { username, email, password, confirmPassword } = req.body
+    const { username, email, password } = req.body
     
     if (!username || !h.isValidUsername(username)) return res.status(400).send('Username must have at least length of 2 and does not contain @.')
     if (!email) return res.status(400).send('Email required.')
     if (!h.isValidPassword(password)) return res.status(400).send('Password must have at least length of 8, 1 number, 1 alphabetic character, 1 special character.')
-    if(password !== confirmPassword) return res.status(400).send('Confirm password does not match.')
+    // if(password !== confirmPassword) return res.status(400).send('Confirm password does not match.')
     // TODO: Sanitize the input
     const existEmail = await User.findOne({ email })
     const existUsername = await User.findOne({ username })

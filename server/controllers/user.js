@@ -65,9 +65,9 @@ export const changeUserInfo = async (req, res) => {
 }
 
 export const updatePassword = async (req, res) => {
-    const {token, email , newpassword} = JSON.parse(req.body);
+    const { currentpassword , newpassword } = JSON.parse(req.body);
     const user = await User.findOne({username});
-    if(user.username === username){
+    if(hashPassword(currentpassword) === user.password){
         await User.updateOne({username},{password: hashPassword(newpassword)});
     }
 }

@@ -45,7 +45,6 @@ const SignUpForm = () => {
     const requestBody = {
       username: values.username,
       password: values.password,
-      confirmPassword: values.confirmPassword,
       email: values.email
     }
 
