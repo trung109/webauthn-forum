@@ -21,9 +21,11 @@ export interface Post {
   title: string;
   tags: string[];
   author: User;
+  content: string;
   upvotes: number;
   views: number;
   commentsCount: number;
+  state: string;
   comments: string[];
   createdAt: Date;
 }

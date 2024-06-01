@@ -1,36 +1,36 @@
-"use client";
-import ProfileLink from "@/helper/components/shared/ProfileLink";
-import Stats from "@/helper/components/shared/Stats";
-import { Button } from "@/helper/components/ui/button";
+'use client';
+import ProfileLink from '@/helper/components/shared/ProfileLink';
+import Stats from '@/helper/components/shared/Stats';
+import { Button } from '@/helper/components/ui/button';
 import {
   Tabs,
   TabsContent,
   TabsList,
-  TabsTrigger,
-} from "@/helper/components/ui/tabs";
-import { UserModel } from "@/helper/models/models";
-import Image from "next/image";
-import Link from "next/link";
-import { useSearchParams } from "next/navigation";
-import { useEffect, useState } from "react";
+  TabsTrigger
+} from '@/helper/components/ui/tabs';
+import { UserModel } from '@/helper/models/models';
+import Image from 'next/image';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 
 const Page = () => {
   const [user, setUser] = useState(UserModel);
 
   const searchParams = useSearchParams();
-  const userId = searchParams.get("userId");
+  const userId = searchParams.get('userId');
   const sample_user = {
-    username: "dumbled00r",
-    id: userId || "",
-    email: "",
-    photoUrl: "/assets/images/default-avatar.jpg",
-    role: "",
-    status: "",
+    username: 'dumbled00r',
+    id: userId || '',
+    email: '',
+    photoUrl: '/assets/images/default-avatar.jpg',
+    role: '',
+    status: ''
   };
 
   useEffect(() => {
     const fetchUserDetails = async () => {
-      const response = await fetch("/api/user/me");
+      const response = await fetch('/api/user/me');
       if (response.ok) {
         const data = await response.json();
         setUser(data);
@@ -52,9 +52,11 @@ const Page = () => {
           />
 
           <div className="mt-3">
-            <h2 className="h2-bold text-dark100_light900">Full name</h2>
-            <p className="paragraph-regular text-dark200_light800">
+            <h2 className="h2-bold text-dark100_light900">
               @{sample_user.username}
+            </h2>
+            <p className="paragraph-regular text-dark200_light800">
+              This is user bio
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">

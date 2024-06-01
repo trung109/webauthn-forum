@@ -1,13 +1,16 @@
-import QuestionCard from "@/helper/components/cards/QuestionCard";
-import NoResult from "@/helper/components/shared/NoResult";
-import { Button } from "@/helper/components/ui/button";
-import Link from "next/link";
+import QuestionCard from '@/helper/components/cards/QuestionCard';
+import NoResult from '@/helper/components/shared/NoResult';
+import { Button } from '@/helper/components/ui/button';
+import { revalidatePath } from 'next/cache';
+import Link from 'next/link';
 
 export default async function Home() {
   const getPost = async () => {
     try {
-      const res = await fetch("http://localhost:8080/post/10",{});
+      const res = await fetch('http://localhost:8080/post/10', {});
       const posts = await res.json();
+      console.log(posts);
+      revalidatePath('/home');
       return posts;
     } catch (err) {
       return {};

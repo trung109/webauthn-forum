@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import {
   Form,
@@ -7,27 +7,27 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "@/helper/components/ui/form";
-import { Input } from "@/helper/components/ui/input";
-import { postSchema } from "@/helper/lib/validations";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Editor } from "@tinymce/tinymce-react";
-import Image from "next/image";
-import React, { useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Badge } from "../ui/badge";
-import { Button } from "../ui/button";
-import { Textarea } from "../ui/textarea";
+  FormMessage
+} from '@/helper/components/ui/form';
+import { Input } from '@/helper/components/ui/input';
+import { postSchema } from '@/helper/lib/validations';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Editor } from '@tinymce/tinymce-react';
+import Image from 'next/image';
+import React, { useRef, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Badge } from '../ui/badge';
+import { Button } from '../ui/button';
+import { Textarea } from '../ui/textarea';
 import { MdEditor } from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
+import { revalidatePath } from 'next/cache';
 
-
-const type: any = "create";
+const type: any = 'create';
 
 const Post = () => {
-  const [content, setContent] = useState("");
+  const [content, setContent] = useState('');
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -35,28 +35,30 @@ const Post = () => {
   const form = useForm<z.infer<typeof postSchema>>({
     resolver: zodResolver(postSchema),
     defaultValues: {
-      title: "",
-      content: "",
-      tags: [],
-    },
+      title: '',
+      content: '',
+      tags: []
+    }
   });
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof postSchema>) {
+  async function onSubmit(values: z.infer<typeof postSchema>) {
     setIsSubmitting(true);
     try {
       const requestBody = {
         title: values.title,
         content: values.content,
         tags: values.tags
-      }
-      const response = fetch("/api/post/createPost", {
-        method: "POST",
+      };
+      const response = await fetch('/api/post/createPost', {
+        method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
-        body: JSON.stringify(requestBody),
+        body: JSON.stringify(requestBody)
       });
-      
+      if (response.ok) {
+        revalidatePath('/home');
+      }
     } catch (error) {
     } finally {
       setIsSubmitting(false);
@@ -64,32 +66,32 @@ const Post = () => {
   }
 
   const handleOnChange = (e: any) => {
-    setContent(e.target.value)
-  }
+    setContent(e.target.value);
+  };
   const handleInputKeyDown = (
     e: React.KeyboardEvent<HTMLInputElement>,
     field: any
   ) => {
-    if (e.key === "Enter" && field.name === "tags") {
+    if (e.key === 'Enter' && field.name === 'tags') {
       e.preventDefault();
 
       const tagInput = e.target as HTMLInputElement;
       const tagValue = tagInput.value.trim(); // Remove the leading and trailing white space
 
-      if (tagValue !== "") {
+      if (tagValue !== '') {
         // Error in tag input when the value is > 15 characters
         if (tagValue.length > 15) {
-          return form.setError("tags", {
-            type: "required",
-            message: "Tag must be less than 15 characters",
+          return form.setError('tags', {
+            type: 'required',
+            message: 'Tag must be less than 15 characters'
           });
         }
 
         // Check if the tag exist already within the fields
         if (!field.value.includes(tagValue as never)) {
-          form.setValue("tags", [...field.value, tagValue]);
-          tagInput.value = "";
-          form.clearErrors("tags");
+          form.setValue('tags', [...field.value, tagValue]);
+          tagInput.value = '';
+          form.clearErrors('tags');
         }
       } else {
         form.trigger();
@@ -99,7 +101,7 @@ const Post = () => {
 
   const handleTagRemove = (tag: string, field: any) => {
     const newTags = field.value.filter((t: string) => t !== tag);
-    form.setValue("tags", newTags);
+    form.setValue('tags', newTags);
   };
   return (
     <Form {...form}>
@@ -121,7 +123,6 @@ const Post = () => {
                   placeholder="Title"
                   {...field}
                 />
-
               </FormControl>
               <FormDescription className="body-regular mt-2.5 text-light-500">
                 Be specific and imagine you’re asking a question to another
@@ -130,35 +131,43 @@ const Post = () => {
             </FormItem>
           )}
         />
-          <FormField
-                control={form.control}
-                name="content"
-                render={({ field }) => (
-                  <FormItem className="flex w-full flex-col gap-3">
-                    <FormLabel className="paragraph-semibold text-dark400_light800">
-                      Detail of your post<span className="text-primary-500">*</span>
-                    </FormLabel>
-                    <FormControl className="mt-3.5">
-                      <>
-
-                      <MdEditor
-                        modelValue={content}
-                        onChange={(value) => {
-                          setContent(value);
-                          field.onChange(value);
-                        }}
-                        toolbarsExclude={["image", "task", "pageFullscreen", "fullscreen", "catalog", "htmlPreview", "github", "mermaid"]}
-                        language="en-US"
-                      />
-                      </>
-                    </FormControl>
-                    <FormDescription className="body-regular mt-2.5 text-light-500">
-                      Introduce your post in detail
-                    </FormDescription>
-                    <FormMessage className="text-red-500" />
-                  </FormItem>
-                )}
-              />
+        <FormField
+          control={form.control}
+          name="content"
+          render={({ field }) => (
+            <FormItem className="flex w-full flex-col gap-3">
+              <FormLabel className="paragraph-semibold text-dark400_light800">
+                Detail of your post<span className="text-primary-500">*</span>
+              </FormLabel>
+              <FormControl className="mt-3.5">
+                <>
+                  <MdEditor
+                    modelValue={content}
+                    onChange={(value) => {
+                      setContent(value);
+                      field.onChange(value);
+                    }}
+                    toolbarsExclude={[
+                      'image',
+                      'task',
+                      'pageFullscreen',
+                      'fullscreen',
+                      'catalog',
+                      'htmlPreview',
+                      'github',
+                      'mermaid'
+                    ]}
+                    language="en-US"
+                  />
+                </>
+              </FormControl>
+              <FormDescription className="body-regular mt-2.5 text-light-500">
+                Introduce your post in detail
+              </FormDescription>
+              <FormMessage className="text-red-500" />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="tags"
@@ -212,9 +221,9 @@ const Post = () => {
           disabled={isSubmitting}
         >
           {isSubmitting ? (
-            <>{type === "edit" ? "Editing..." : "Posting..."}</>
+            <>{type === 'edit' ? 'Editing...' : 'Posting...'}</>
           ) : (
-            <>{type === "edit" ? "Edit post" : "Create a post"}</>
+            <>{type === 'edit' ? 'Edit post' : 'Create a post'}</>
           )}
         </Button>
       </form>
