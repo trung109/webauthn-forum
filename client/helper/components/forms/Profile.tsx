@@ -29,7 +29,7 @@ const Profile = ({ userId, user }: Params) => {
     resolver: zodResolver(profileSchema),
     defaultValues: {
       username: user?.username || undefined,
-      bio: "", 
+      bio: "",
     },
   });
 
@@ -42,15 +42,27 @@ const Profile = ({ userId, user }: Params) => {
     }
   }, [form, user]);
 
-  function onSubmit(values: z.infer<typeof profileSchema>) {
+
+  async function onSubmit(values: z.infer<typeof profileSchema>) {
     setIsSubmitting(true);
+    const requestBody = {
+      username: values.username,
+      bio: values.bio,
+    };
     try {
       // update user
-
-      router.back();
+      const response = await fetch('/api/updateBio', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody)
+      });
+      if (response.ok) {
+        router.back();
+      }
     } catch (error) {
       console.log(error);
-    } finally {
     }
   }
   return (
@@ -74,7 +86,7 @@ const Profile = ({ userId, user }: Params) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='text-red-500'/>
+              <FormMessage className='text-red-500' />
             </FormItem>
           )}
         />

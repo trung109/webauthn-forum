@@ -60,7 +60,7 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) res.status(404).send('Something went wrong')
 
         const token = jwt.sign(
-            { _id: user.id, username: user.username, role: user.role },
+            { id: user.id, username: user.username, role: user.role },
             process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
@@ -84,7 +84,7 @@ export const login = async (req, res) => {
 
     } catch (err) {
         console.log('Error login user')
-        res.status(404).send("Something went wrong");
+        // res.status(404).send("Something went wrong");
     }
 }
 

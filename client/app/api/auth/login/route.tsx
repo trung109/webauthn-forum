@@ -45,6 +45,6 @@ export async function POST(request: Request) {
     );
 
   } else {
-    return new NextResponse(await response.text(), { status: 404 });
+    return new NextResponse('Cannot login, please check your username and password and try again', { status: 404 });
   }
 }

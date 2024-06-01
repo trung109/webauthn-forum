@@ -4,7 +4,8 @@ import { hashPassword } from "../helpers/helper.js";
 
 export const getSelfProfile = async (req, res) => {
     try {
-        const { username } = JSON.parse(req.body)
+        const { decodedToken, ...rest } = JSON.parse(req.body);
+        const username = decodedToken.username;
         const { id, email, photoUrl, role, status } = await User.findOne({ username })
         res.status(302).json({ username, id, email, photoUrl, role, status })
     } catch (err) {
@@ -47,27 +48,23 @@ export const verifyActivation = async (req, res) => {
 }
 
 export const changeUserInfo = async (req, res) => {
-    const { username, bio, password } = JSON(req.body);
-    const hashed = await h.hashPassword(password);
+    const { decodedToken, username, bio } = JSON(req.body);
     try {
-        const user = await User.findOne({ username });
-        if (hashed === user.password) {
-            await User.updateOne({ username }, { username: username, bio: bio });
-        } else {
-            res.status(400).send("");
-        }
-
+        await User.updateOne({ username: decodedToken.username }, { username: username, bio: bio });
         res.status(302).send("User updated");
-    } catch {
+    }
+    catch {
         res.status(404).send("Something went wrong");
     }
 
-}
+} 
 
 export const updatePassword = async (req, res) => {
-    const { currentpassword , newpassword } = JSON.parse(req.body);
-    const user = await User.findOne({username});
-    if(hashPassword(currentpassword) === user.password){
-        await User.updateOne({username},{password: hashPassword(newpassword)});
+    const { decodedToken, currentpassword, newpassword, ...rest } = JSON.parse(req.body);
+
+    const user = await User.findOne({ username: decodedToken.username });
+
+    if (hashPassword(currentpassword) === user.password) {
+        await User.updateOne({ username }, { password: hashPassword(newpassword) });
     }
 }

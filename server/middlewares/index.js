@@ -15,7 +15,7 @@ export const requireSignIn = async (req, res, next) => {
             maxAge: '3h'
         })
         req.body = JSON.stringify({...rest, decodedToken})
-        console.log(req.body)
+        // console.log(req.body)
         next()
     } catch {
         req.body = JSON.stringify({})

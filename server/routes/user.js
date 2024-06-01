@@ -6,7 +6,7 @@ const router = express.Router()
 router.post('/user', requireSignIn, getSelfProfile);
 router.post('/user/activate', verifyActivation);
 router.get('/user', getFullUserInfoByUserId);
-router.post('/changeInfo', requireSignIn, changeUserInfo);
+router.post('/user/changeInfo', requireSignIn, changeUserInfo);
 router.get('/user/allUsers', getAllUsers );
 router.post('/user/updatePassword', requireSignIn, updatePassword);
 

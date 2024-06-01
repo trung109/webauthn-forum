@@ -9,7 +9,7 @@ const commentSchema = new Schema({
         unique: true
     },
     author: {
-        type: username,
+        type: String,
         trim: true,
         require: true,
     },
