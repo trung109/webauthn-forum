@@ -1,52 +1,33 @@
-"use client"
+'use client'
 import { useSearchParams } from "next/navigation";
 import Link from 'next/link';
 import Image from 'next/image';
 import Metric from '@/helper/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from "react";
 
 const Page = () => {
-  // const sample_post = {
-  //   id: "2",
-  //   title: "Sample Post",
-  //   tags: ["sample", "post"],
-  //   author: {
-  //     username: "dumbled00r",
-  //     id: "4c7fd306f0698de645335e5346fb9805",
-  //     photoUrl: "/assets/images/default-avatar.jpg",
-  //   },
-  //   upvotes: 10,
-  //   views: 100,
-  //   commentsCount: 10,
-  //   comments: ["comment1", "comment2"],
-  //   createdAt: new Date(),
-  // }
-
-  const [post, setPost] = useState({})
+  const sample_post = {
+    id: ""
+  }
+  const [post, setPost] = useState(sample_post)
   const searchParams = useSearchParams();
   const postId = searchParams.get("postId");
 
   useEffect(() => {
     const fetchPost = async () => {
-      // const response = await fetch(`/api/post/getPost?postId=${postId}`)
+      console.log(123)
+      const response = await fetch(`/api/post/getPost?postId=${postId}`, {})
       if (response.ok) {
         const data = await response.json()
         setPost(data);
-        console.log(data)
       }
-
     }
     fetchPost();
   }, [postId])
-
-  console.log(post)
   return (
     <div>
-      {post != (() => {
-        console.log(post)
-        
-      })() ? (
+      {post.id ? (
         <>
           <div className='flex-start w-full flex-col'>
             <div className='flex w-full flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2'>
@@ -59,9 +40,9 @@ const Page = () => {
                   alt="profile-pic"></Image>
                 <p className='paragraph-semibold text-dark300_light700'>@{post.author.username}</p>
               </Link>
-              <div className='flex justify-end'>
+              {/* <div className='flex justify-end'>
                 VOTING
-              </div>
+              </div> */}
             </div>
             <h2 className='h2-semibold text-dark200_light900 mt-3.5 w-full text-left'>
               {post.title}
@@ -71,8 +52,8 @@ const Page = () => {
             <Metric
               imgUrl="/assets/icons/clock.svg"
               alt="clock icon"
-              value={` posted ${getTimestamp(post.createdAt)}`}
-              title=" Posted"
+              value={` Posted ${getTimestamp(new Date(post.createdAt))}`}
+              title=""
               textStyles="small-medium text-dark400_light800"
             ></Metric>
             <Metric
@@ -96,6 +77,7 @@ const Page = () => {
           <div>
             Post not found
           </div>)}
+
     </div>
   )
 }
