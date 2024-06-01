@@ -14,7 +14,6 @@ const Page = () => {
       try {
         const res = await fetch("/api/user/allUsers");
         const { users } = await res.json();
-        console.log(users)
         setUsers(users)
       } catch (err) {
 

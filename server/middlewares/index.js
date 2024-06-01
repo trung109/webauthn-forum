@@ -7,7 +7,7 @@ import jwt, { decode } from 'jsonwebtoken'
 // });
 
 export const requireSignIn = async (req, res, next) => {
-    const { token } = req.body
+    const { token, ...rest} = req.body
     try {
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
@@ -15,11 +15,14 @@ export const requireSignIn = async (req, res, next) => {
             issuer: 'All-for-one-gate',
             maxAge: '3h'
         })
-        req.body = JSON.stringify(decodedToken)
+        req.body = JSON.stringify({...rest, decodedToken})
+        console.log(req.body)
+        next()
     } catch {
         req.body = JSON.stringify({})
+        res.status(404).send('Auth failed')
     }
-    next()
+    
 
 };
 

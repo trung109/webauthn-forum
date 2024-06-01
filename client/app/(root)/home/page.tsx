@@ -6,7 +6,7 @@ import Link from "next/link";
 export default async function Home() {
   const getPost = async () => {
     try {
-      const res = await fetch("http://localhost:8080/post/0", {});
+      const res = await fetch("http://localhost:8080/post/10",{});
       const posts = await res.json();
       return posts;
     } catch (err) {

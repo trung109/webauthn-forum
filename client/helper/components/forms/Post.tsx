@@ -44,10 +44,19 @@ const Post = () => {
   function onSubmit(values: z.infer<typeof postSchema>) {
     setIsSubmitting(true);
     try {
-      console.log(values.content)
-      // make an async call to db -> create a post
-      // contain all form data
-      // navigate to homepage
+      const requestBody = {
+        title: values.title,
+        content: values.content,
+        tags: values.tags
+      }
+      const response = fetch("/api/post/createPost", {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(requestBody),
+      });
+      
     } catch (error) {
     } finally {
       setIsSubmitting(false);
