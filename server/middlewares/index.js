@@ -11,8 +11,9 @@ export const requireSignIn = async (req, res, next) => {
     try {
 
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
-            algorithms: "HS256",
-            // issuer: "All-for-one-gate",
+            algorithms: 'HS256',
+            issuer: 'All-for-one-gate',
+            maxAge: '3h'
         })
         req.body = JSON.stringify(decodedToken)
     } catch {

@@ -60,11 +60,12 @@ export const login = async (req, res) => {
         if (!isPasswordMatch) return res.status(404).send('Something went wrong')
 
         const token = jwt.sign(
-            { _id: user._id , username: user.username, role: user.role },
+            { _id: user.id, username: user.username, role: user.role },
             process.env.JWT_SECRET,
             {
                 algorithm: 'HS256',
-                expiresIn: '1h'
+                expiresIn: '3h',
+                issuer:'All-for-one-gate'
             })
 
         // user.password = undefined
@@ -73,8 +74,11 @@ export const login = async (req, res) => {
             token,
             user: {
                 username: user.username,
-                email: user.email,
-                role: user.role
+                email: "",
+                id: user.id,
+                photoUrl: user.photoUrl,
+                role: user.role,
+                status: ""
             }
         })
 
@@ -90,23 +94,27 @@ export const verifyAccount = async (req, res) => {
     if (user.verified) {
         res.status(400).send("Bad request");
     } else {
-        if (user.resetToken === verifyToken) User.updateOne({ verified: true });
-        else {
-            res.status(404).send("Something went wrong");
+        if (user.resetToken === verifyToken) {
+            try {
+                await User.updateOne({ username: user.username }, { verified: true });
+            } catch {
+                res.status(404).send("Something went wrong");
+            }
+
         }
     }
+    res.status(200).send("verified");
 }
-
 export const resetPassword = async (req, res) => {
     const username = req.query.user;
     const resetToken = req.query.token;
-    
+
     try {
         const user = await User.findOne({ username });
         await s.sleepRandomTime();
-        if(resetToken === user.resetToken){
+        if (resetToken === user.resetToken) {
             user.updateOne({ password: s.genRandomPassword(), resetToken: '' });
-        }      
+        }
     } catch {
         res.status(404).send("Something went wrong");
     }

@@ -1,3 +1,4 @@
+'use server';
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -18,8 +19,14 @@ export async function POST(request: Request) {
 
     const { token, user } = data;
 
-    cookies().set("name", "lee", {
-      httpOnly: true,
+    // cookies().set("name", "lee", {
+    //   httpOnly: true,
+    //   secure: true,
+    //   sameSite: "lax",
+    // });
+
+    // set user-info as a cookie to read -> display
+    cookies().set("bi", user , {
       secure: true,
       sameSite: "lax",
     });
@@ -36,6 +43,7 @@ export async function POST(request: Request) {
       }),
       { status: 200 }
     );
+
   } else {
     return new NextResponse(await response.text(), { status: 404 });
   }

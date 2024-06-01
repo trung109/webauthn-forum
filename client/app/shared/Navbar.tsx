@@ -25,6 +25,8 @@ const Navbar = () => {
       if (response.ok) {
         const data = await response.json();
         setUser(data);
+      } else {
+        router.push('/home')
       }
     };
     fetchUserDetails();
@@ -48,6 +50,7 @@ const Navbar = () => {
     const response = await fetch("/api/auth/logout");
     if (response.status === 302) {
       setUser(SAMPLE_USER);
+      router.push('/home');
     } else {
       alert("Something went wrong");
     }

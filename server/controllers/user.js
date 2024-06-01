@@ -1,5 +1,6 @@
 import User from "../models/user.js";
 import ActivateToken from "../models/activate.js";
+import { hashPassword } from "../helpers/helper.js";
 
 export const getSelfProfile = async (req, res) => {
     try {
@@ -64,5 +65,9 @@ export const changeUserInfo = async (req, res) => {
 }
 
 export const updatePassword = async (req, res) => {
-
+    const {token, email , newpassword} = JSON.parse(req.body);
+    const user = await User.findOne({username});
+    if(user.username === username){
+        await User.updateOne({username},{password: hashPassword(newpassword)});
+    }
 }
