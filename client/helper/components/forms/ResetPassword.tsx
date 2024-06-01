@@ -89,9 +89,9 @@ const ResetPassword = () => {
           </Link>
         </div>
         <div className="paragraph-semibold mt-4 text-center text-sm">
-          Forgot your password?{' '}
-          <Link href="/auth/register" className="underline">
-            Reset password
+          Already have an account?{' '}
+          <Link href="/auth/login" className="underline">
+            Sign in
           </Link>
         </div>
       </CardContent>
