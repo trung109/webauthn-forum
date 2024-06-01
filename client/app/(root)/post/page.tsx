@@ -6,13 +6,16 @@ import Metric from '@/helper/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
 import { useEffect, useState } from 'react';
 import { Post } from '@/helper/models/models';
-import ReactMarkDown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+import MarkDown from 'markdown-to-jsx';
+import 'md-editor-rt/lib/preview.css';
+import { MdPreview } from 'md-editor-rt';
+
 const Page = () => {
+  const Div = ({ children }: any) => <div>{children}</div>;
   const [post, setPost] = useState<Post | null>(null);
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
-
+  const [id] = useState('preview-only');
   useEffect(() => {
     const fetchPost = async () => {
       console.log(123);
@@ -73,9 +76,7 @@ const Page = () => {
               textStyles="small-medium text-dark400_light800"
             ></Metric>
           </div>
-          <div className="markdown-content">
-            <ReactMarkDown>{post.content}</ReactMarkDown>
-          </div>
+          <MdPreview editorId={id} modelValue={post.content} />
         </>
       ) : (
         <div>Post not found</div>
