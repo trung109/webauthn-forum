@@ -9,7 +9,6 @@ import jwt, { decode } from 'jsonwebtoken'
 export const requireSignIn = async (req, res, next) => {
     const { token, ...rest} = req.body
     try {
-
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
             algorithms: 'HS256',
             issuer: 'All-for-one-gate',

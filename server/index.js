@@ -6,7 +6,7 @@ import authRouter from './routes/auth.js'
 import postRouter from './routes/post.js'
 import email from './routes/resend.js'
 import userRouter from './routes/user.js'
-
+import commentRouter from './routes/comment.js'
 dotenv.config()
 
 const app = express()
@@ -26,7 +26,7 @@ app.use('/', authRouter)
 app.use('/', postRouter)
 app.use('/', email)
 app.use('/', userRouter)
-
+app.use('/',commentRouter)
 
 
 const port = process.env.PORT || 8000

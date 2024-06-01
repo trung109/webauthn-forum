@@ -3,8 +3,13 @@ import mongoose from "mongoose";
 const { Schema } = mongoose;
 
 const commentSchema = new Schema({
+    id: {
+        type: String,
+        require: true,
+        unique: true
+    },
     author: {
-        type: Object,
+        type: username,
         trim: true,
         require: true,
     },

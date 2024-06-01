@@ -9,17 +9,17 @@ export const register = async (req, res) => {
     // const {username, email, password, confirmPassword} = req.body
     const { username, email, password } = req.body
     
-    if (!username || !h.isValidUsername(username)) return res.status(400).send('Username must have at least length of 2 and does not contain @.')
-    if (!email) return res.status(400).send('Email required.')
+    if (!username || !h.isValidUsername(username)) res.status(400).send('Username must have at least length of 2 and does not contain @.')
+    if (!email) res.status(400).send('Email required.')
     if (!h.isValidPassword(password)) return res.status(400).send('Password must have at least length of 8, 1 number, 1 alphabetic character, 1 special character.')
     // if(password !== confirmPassword) return res.status(400).send('Confirm password does not match.')
     // TODO: Sanitize the input
     const existEmail = await User.findOne({ email })
     const existUsername = await User.findOne({ username })
     if (existEmail) {
-        return res.status(400).send('Email existed.')
+        res.status(400).send('Email existed.')
     } else if (existUsername) {
-        return res.status(400).send('Username existed.')
+        res.status(400).send('Username existed.')
     }
 
     
@@ -37,10 +37,10 @@ export const register = async (req, res) => {
         console.log(user)
         await user.save()
         console.log('User registered: ', user)
-        return res.json({ ok: true })
+        res.json({ ok: true })
     } catch (err) {
         console.log(err)
-        return res.status(400).send("Error, try again.")
+        res.status(400).send("Error, try again.")
     }
 }
 
@@ -57,7 +57,7 @@ export const login = async (req, res) => {
         // TODO - IMPLEMENT RANDOM DELAY TO PREVENT TIME BASED BRUTE-FORCE ATTEMPT
         const isPasswordMatch = await h.comparePassword(password, user.password)
 
-        if (!isPasswordMatch) return res.status(404).send('Something went wrong')
+        if (!isPasswordMatch) res.status(404).send('Something went wrong')
 
         const token = jwt.sign(
             { _id: user.id, username: user.username, role: user.role },
@@ -84,6 +84,7 @@ export const login = async (req, res) => {
 
     } catch (err) {
         console.log('Error login user')
+        res.status(404).send("Something went wrong");
     }
 }
 
@@ -96,7 +97,7 @@ export const verifyAccount = async (req, res) => {
     } else {
         if (user.resetToken === verifyToken) {
             try {
-                await User.updateOne({ username: user.username }, { verified: true });
+                await User.updateOne({ username: user.username }, { verified: 'verified' });
             } catch {
                 res.status(404).send("Something went wrong");
             }
