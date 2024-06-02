@@ -16,11 +16,6 @@ const sidebarLinks = [
     label: 'Community'
   },
   {
-    imgURL: '/assets/icons/tag.svg',
-    route: '/tags',
-    label: 'Tags'
-  },
-  {
     imgURL: '/assets/icons/question.svg',
     route: '/create-post',
     label: 'Create Post'
