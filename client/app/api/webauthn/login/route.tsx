@@ -17,7 +17,12 @@ export async function POST(request: Request) {
 
     if (response.ok) {
         const data = await response.json();
-        const { token, user } = data;
+        const { token, user , csrf} = data;
+
+        cookies().set('csrf', csrf, {
+            secure: true
+        })
+
         cookies().set("token", token, {
             httpOnly: true,
             secure: true,
