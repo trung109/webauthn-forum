@@ -74,8 +74,6 @@ export const WebAuthnSignInForm = () => {
       "timeout": 60000
     })
 
-    console.log(123, authentication, challenge_id)
-
     const loginBody = { authentication, username: values.username, challenge_id }
     const response = await fetch('/api/webauthn/login', {
       method: "POST",
