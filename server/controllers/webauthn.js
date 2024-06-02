@@ -70,7 +70,7 @@ export const registerWebAuthn = async (req, res) => {
     const { value: challenge } = await WebauthnChallenge.findOne(queryParams)
     const expected = {
         challenge,
-        origin: "http://localhost:3000",
+        origin: "https://labs-niagara-assembled-venice.trycloudflare.com",
     }
 
 
@@ -113,7 +113,7 @@ export const loginWebAuthn = async (req, res) => {
     }
     const expected = {
         challenge,
-        origin: "http://localhost:3000",
+        origin: "https://labs-niagara-assembled-venice.trycloudflare.com",
         userVerified: true,
     }
     try {

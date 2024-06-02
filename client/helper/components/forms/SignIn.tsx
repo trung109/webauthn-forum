@@ -56,7 +56,8 @@ const SignInForm = () => {
       const data = await response.json();
       router.push('/home');
     } else {
-      alert('Login service error, please try again');
+      const notice = await response.text();
+      alert(notice)
     }
   }
 

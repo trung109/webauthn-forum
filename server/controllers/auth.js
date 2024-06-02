@@ -64,8 +64,10 @@ export const login = async (req, res) => {
         // console.log('db password:', user.password)
         const isPasswordMatch = await h.comparePassword(password, user.password)
 
-        if (!isPasswordMatch) res.status(404).send('Something went wrong')
-
+        if (!isPasswordMatch) {
+            res.status(404).send('Wrong username/password')
+            return
+        }
         // if (user.status === 'unverified') res.status(400).send('Unverified');
 
         const token = jwt.sign(
@@ -98,7 +100,7 @@ export const login = async (req, res) => {
 
     } catch (err) {
         console.log(err)
-        // res.status(404).send("Something went wrong");
+        res.status(404).send("Something went wrong");
     }
 }
 
