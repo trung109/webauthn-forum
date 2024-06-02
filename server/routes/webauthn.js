@@ -1,7 +1,12 @@
-import express from 'express'
-import { getLoginChallenge, getRegisterChallenge, registerWebAuthn, loginWebAuthn } from '../controllers/webauthn.js';
-import { requireSignIn } from '../middlewares/index.js';
-import { rateLimit } from 'express-rate-limit'
+import express from "express";
+import {
+  getLoginChallenge,
+  getRegisterChallenge,
+  registerWebAuthn,
+  loginWebAuthn,
+} from "../controllers/webauthn.js";
+import { requireSignIn } from "../middlewares/index.js";
+import { rateLimit } from "express-rate-limit";
 
 
 const router = express.Router()
@@ -14,8 +19,12 @@ const router = express.Router()
 // })
 // router.use(webAuthnLimiter)
 
-router.post('/webauthn/getChallenge/register', requireSignIn, getRegisterChallenge);
-router.post('/webauthn/getChallenge/login', getLoginChallenge);
-router.post('/webauthn/register', requireSignIn, registerWebAuthn)
-router.post('/webauthn/login', loginWebAuthn)
+router.post(
+  "/webauthn/getChallenge/register",
+  requireSignIn,
+  getRegisterChallenge
+);
+router.post("/webauthn/getChallenge/login", getLoginChallenge);
+router.post("/webauthn/register", requireSignIn, registerWebAuthn);
+router.post("/webauthn/login", loginWebAuthn);
 export default router;

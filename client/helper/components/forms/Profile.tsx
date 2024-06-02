@@ -2,7 +2,7 @@
 import React from 'react';
 import { User } from '@/helper/models/models';
 import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -24,6 +24,7 @@ interface Params {
   user: User | null;
 }
 const Profile = ({ userId, user }: Params) => {
+  const path = usePathname();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isShowPassword, setIsShowPassword] = useState(false);
 
@@ -63,10 +64,9 @@ const Profile = ({ userId, user }: Params) => {
         cache: 'no-store'
       });
 
-      router.back();
+      router.push(`/profile/myProfile`);
     } catch (error) {
       console.log(error);
-    } finally {
     }
   }
   return (

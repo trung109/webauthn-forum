@@ -1,11 +1,11 @@
-import express from 'express'
-import { addComment, editComment } from '../controllers/comment.js';
-import { requireSignIn } from '../middlewares/index.js';
+import express from "express";
+import { addComment, editComment } from "../controllers/comment.js";
+import { requireSignIn } from "../middlewares/index.js";
 
-import { rateLimit } from 'express-rate-limit'
+import { rateLimit } from "express-rate-limit";
 
 
-const router = express.Router()
+const router = express.Router();
 
 // const authLimiter = rateLimit({
 // 	windowMs: 5 * 60 * 1000, 

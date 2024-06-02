@@ -1,10 +1,9 @@
-import express from 'express';
-import { activateAccount , resetPassword } from "../controllers/resend.js";
-import { requireSignIn } from '../middlewares/index.js';
-import { rateLimit } from 'express-rate-limit'
+import express from "express";
+import { activateAccount, resetPassword } from "../controllers/resend.js";
+import { requireSignIn } from "../middlewares/index.js";
+import { rateLimit } from "express-rate-limit";
 
-
-const router = express.Router()
+const router = express.Router();
 
 // const limiter = rateLimit({
 // 	windowMs: 2 * 60 * 1000, 
@@ -16,8 +15,7 @@ const router = express.Router()
 
 // router.use(limiter)
 
-router.post('/user/get-activate-link', requireSignIn, activateAccount)
+router.post("/user/get-activate-link", requireSignIn, activateAccount);
 // router.get('/reset-password', resetPassword)
-
 
 export default router;
