@@ -50,7 +50,7 @@ const Page = () => {
                   @{user.username}
                 </h2>
                 <p className="paragraph-regular text-dark200_light800">
-                  This is a user bio
+                  {user.bio ? user.bio : 'This user has no bio'}
                 </p>
 
                 <div className="mt-5 flex flex-wrap items-center justify-start gap-5">

@@ -14,6 +14,7 @@ export interface User {
   photoUrl: string;
   role: string;
   status: string;
+  bio: string;
 }
 
 export interface Post {
