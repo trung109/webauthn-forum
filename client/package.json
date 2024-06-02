@@ -26,6 +26,7 @@
     "axios": "^1.7.1",
     "class-variance-authority": "^0.7.0",
     "cookies-next": "^4.2.1",
+    "dotenv": "^16.4.5",
     "lucide-react": "^0.381.0",
     "markdown-to-jsx": "^7.4.7",
     "md-editor-rt": "^4.15.5",
