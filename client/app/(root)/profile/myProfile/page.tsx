@@ -54,7 +54,8 @@ const Page = () => {
       headers: {
         'Content-Type': "application/json"
       },
-      body: JSON.stringify(requestBody)
+      body: JSON.stringify(requestBody),
+      cache: "no-store"
     });
     if(response.ok) {
       alert("Register successfully!")

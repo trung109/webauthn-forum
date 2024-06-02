@@ -18,7 +18,6 @@ export async function POST(request: Request) {
     if (response.ok) {
         const data = await response.json();
         const { token, user } = data;
-        console.log(data)
         cookies().set("token", token, {
             httpOnly: true,
             secure: true,

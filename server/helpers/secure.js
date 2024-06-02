@@ -11,7 +11,13 @@ export const genRandomPassword = (nbytes) => {
 export const genRandomBase64 = (nbytes) => {
   return crypto.randomBytes(nbytes).toString('base64url')
 }
+
 export const genChallenge = () => {
+  return crypto.randomUUID().toString('base64url')
+  // return crypto.randomUUID()
+}
+
+export const genUUID = () => {
   return crypto.randomUUID().toString('base64url')
   // return crypto.randomUUID()
 }

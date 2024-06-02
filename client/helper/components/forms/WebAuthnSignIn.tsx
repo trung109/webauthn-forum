@@ -82,7 +82,8 @@ export const WebAuthnSignInForm = () => {
       headers: {
         'Content-Type': "application/json"
       },
-      body: JSON.stringify(loginBody)
+      body: JSON.stringify(loginBody),
+      cache: "no-store"
     });
 
     if (response.ok) {
