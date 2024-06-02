@@ -20,7 +20,7 @@ export default function Home() {
         });
         const { posts } = await res.json();
         setPosts(posts);
-      } catch (err) {}
+      } catch (err) { }
     };
     getPost();
   }, []);
@@ -30,6 +30,7 @@ export default function Home() {
   return (
     <>
       <Verified status={user.status} />
+
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Posts</h1>
         <Link href={canCreatePost} className="flex justify-end max-sm:w-full">
