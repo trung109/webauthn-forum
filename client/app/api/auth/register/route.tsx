@@ -12,6 +12,7 @@ export const POST = async (request: Request) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(requestBody),
+            cache: 'no-store'
         });
 
     if (response.ok) {

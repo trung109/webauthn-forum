@@ -13,7 +13,8 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ token, requestBody })
+    body: JSON.stringify({ token, requestBody }),
+    cache: 'no-store'
   });
 
   console.log({ token, requestBody });
