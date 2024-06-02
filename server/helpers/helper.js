@@ -1,5 +1,7 @@
 import bcrypt from 'bcrypt'
 import { genRandHex } from './secure.js';
+import ActivateToken from '../models/activate.js';
+import User from '../models/user.js';
 
 export const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
@@ -65,7 +67,7 @@ export const getActivationLink = async (username) => {
         if (!oldToken) {
             await token.save()
         } else {
-            ActivateToken.updateOne({ username }, token);
+            await ActivateToken.updateOne({ username }, {token: tokenVal, issueat: token.issueat, expire: token.expire});
         }
     }
     catch {
