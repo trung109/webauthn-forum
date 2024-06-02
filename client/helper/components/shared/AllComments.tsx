@@ -9,13 +9,26 @@ interface Props {
   author: User;
   totalComments: number;
 }
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MdPreview } from 'md-editor-rt';
 
 const AllComments = ({ postId, author, totalComments }: Props) => {
   const [id] = useState('preview-only');
+  const [comments, setComments] = useState([]);
 
-  // TODO: get all comments
+  useEffect(() => {
+    const fetchComments = async () => {
+      const response = await fetch(
+        `/api/post/getPostComments?postId=${postId}`,
+        {}
+      );
+      if (response.ok) {
+        const { comments } = await response.json();
+        console.log(comments);
+      }
+    };
+    fetchComments();
+  }, [postId]);
   const sample_comments = [
     {
       id: '1',
