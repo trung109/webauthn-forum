@@ -9,11 +9,14 @@ import { Post } from '@/helper/models/models';
 import MarkDown from 'markdown-to-jsx';
 import 'md-editor-rt/lib/preview.css';
 import { MdPreview } from 'md-editor-rt';
-import RenderTag from '@/app/shared/RenderTag';
 import Comment from '@/helper/components/forms/Comment';
+import { useUser } from '@/app/context/UserContext';
+import NoResult from '@/helper/components/shared/NoResult';
+import LoggedOut from '@/helper/components/shared/LoggedOut';
 
 const Page = () => {
-  const Div = ({ children }: any) => <div>{children}</div>;
+  const { user } = useUser();
+
   const [post, setPost] = useState<Post | null>(null);
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
@@ -82,13 +85,23 @@ const Page = () => {
             editorId={id}
             modelValue={post.content}
             className="bg-inherit"
+            language="en-US"
           />
           {/* TO Do: display all comments */}
-          <Comment
-            post={post.content}
-            postId={post.id}
-            authorId={post.author.id}
-          ></Comment>
+          {user.username ? (
+            <Comment
+              post={post.content}
+              postId={post.id}
+              author={user}
+            ></Comment>
+          ) : (
+            <LoggedOut
+              title="You are not signed in"
+              description="Please sign in to comment"
+              link="/auth/login"
+              linkTitle="Sign in"
+            />
+          )}
         </>
       ) : (
         <div>Post not found</div>

@@ -26,10 +26,10 @@ import {
 interface Props {
   post: string;
   postId: string;
-  authorId: string;
+  author: User;
 }
 
-const Comment = ({ post, postId, authorId }: Props) => {
+const Comment = ({ post, postId, author }: Props) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [content, setContent] = useState('');
   const form = useForm<z.infer<typeof commentSchema>>({

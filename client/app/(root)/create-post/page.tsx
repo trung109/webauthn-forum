@@ -1,9 +1,6 @@
-import Post from "@/helper/components/forms/Post";
+import Post from '@/helper/components/forms/Post';
 
 const CreatePost = () => {
-  
-
-
   return (
     <div>
       <h1 className="h1-bold text-dark100_light900">Create a post</h1>
