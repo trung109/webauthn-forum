@@ -57,6 +57,7 @@ const Comment = ({ post, postId, author }: Props) => {
       });
       console.log(response);
       form.reset();
+      setContent('');
     } catch (error) {
       console.log(error);
     } finally {
