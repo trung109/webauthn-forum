@@ -1,8 +1,9 @@
-import { formatAndDivideNumber, getTimestamp } from "@/helper/lib/utils";
-import Link from "next/link";
-import Metric from "../shared/Metric";
-import RenderTag from "../shared/RenderTag";
-
+'use client';
+import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
+import Link from 'next/link';
+import Metric from '../shared/Metric';
+import RenderTag from '../shared/RenderTag';
+import { Button } from '../ui/button';
 interface Props {
   _id: string;
   title: string;
@@ -19,8 +20,9 @@ interface Props {
   views: number;
   commentsCount: number;
   createdAt: Date;
+  state?: string;
 }
-const QuestionCard = ({
+const PostCard = ({
   _id,
   title,
   tags,
@@ -29,7 +31,32 @@ const QuestionCard = ({
   views,
   commentsCount,
   createdAt,
+  state
 }: Props) => {
+  const handleApproval = async () => {
+    // try {
+    //   const res = await fetch(`/api/admin/post/${_id}/approve`, {
+    //     method: 'PUT'
+    //   });
+    //   if (res.ok) {
+    //     alert('Post approved successfully');
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+  const handleDecline = async () => {
+    // try {
+    //   const res = await fetch(`/api/admin/post/${_id}/decline`, {
+    //     method: 'PUT'
+    //   });
+    //   if (res.ok) {
+    //     alert('Post declined successfully');
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -59,6 +86,7 @@ const QuestionCard = ({
             href={`/profile/${author.id}`}
             textStyles="body-medium text-dark400_light700"
           ></Metric>
+
           <Metric
             imgUrl="/assets/icons/like.svg"
             alt="Upvotes"
@@ -80,10 +108,23 @@ const QuestionCard = ({
             title=" Views"
             textStyles="small-medium text-dark400_light800"
           ></Metric>
+          {state === 'pending' && (
+            <div className="flex flex-row">
+              <Button
+                onClick={handleApproval}
+                className="primary-gradient w-fit !text-light-900 flex mr-2"
+              >
+                Approve
+              </Button>
+              <Button onClick={handleDecline} className="btn-secondary">
+                Decline
+              </Button>
+            </div>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default QuestionCard;
+export default PostCard;

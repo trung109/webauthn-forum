@@ -14,39 +14,35 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
+import { User } from '@/helper/models/models';
+
 import Verified from '@/helper/components/shared/Verified';
 const Page = () => {
   const { user, setUser } = useUser();
-
+  const [requestedUser, setRequestedUser] = useState<User | null>(null);
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
-  const sample_user = {
-    username: 'dumbled00r',
-    id: userId || '',
-    email: '',
-    photoUrl: '/assets/images/default-avatar.jpg',
-    role: '',
-    status: ''
-  };
+  useEffect(() => {
+    const getRequestedUser = async () => {
+      if (!userId) return;
 
-  // useEffect(() => {
-  //   const fetchUserDetails = async () => {
-  //     const response = await fetch('/api/user/me');
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       setUser(data);
-  //     }
-  //   };
-  //   fetchUserDetails();
-  // }, []);
-
+      try {
+        const res = await fetch(`/api/user?userId=${userId}`);
+        const requestedUser = await res.json();
+        setRequestedUser(requestedUser);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    getRequestedUser();
+  }, [userId]);
   return (
     <>
       <Verified status={user.status} />;
       <div className="flex w-full flex-col-reverse items-start justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           <Image
-            src={sample_user.photoUrl}
+            src={requestedUser?.photoUrl ?? ''}
             alt="Profile picture"
             width={140}
             height={140}
@@ -55,10 +51,10 @@ const Page = () => {
 
           <div className="mt-3">
             <h2 className="h2-bold text-dark100_light900">
-              @{sample_user.username}
+              @{requestedUser?.username}
             </h2>
             <p className="paragraph-regular text-dark200_light800">
-              This is user bio
+              {requestedUser?.bio ? requestedUser?.bio : 'This user has no bio'}
             </p>
 
             <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
@@ -71,18 +67,25 @@ const Page = () => {
         </div>
         <div className="flex justify-end max-sm:mb-5 max-sm:w-full sm:mt-3">
           {user &&
-            (user.id === sample_user.id ? (
-              <Link href="/profile/edit">
-                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
-                  Edit Profile
-                </Button>
-              </Link>
+            (user.id === userId ? (
+              <div className="flex flex-col justify-end max-sm:mb-5 max-sm:w-full sm:mt-3 gap-3">
+                <Link href="/profile/edit">
+                  <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
+                    Edit Profile
+                  </Button>
+                </Link>
+                <Link href="/profile/settings">
+                  <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
+                    Change my password
+                  </Button>
+                </Link>
+              </div>
             ) : (
               <></>
             ))}
         </div>
       </div>
-      <Stats totalPosts={10} totalComments={10} />
+      <Stats totalPosts={0} totalComments={0} />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="account" className="flex-1">
           <TabsList className="background-light800_dark400 min-h-[42px] p-1">
@@ -91,7 +94,7 @@ const Page = () => {
               className="tab"
               value="top-posts"
             >
-              Top Posts
+              Posts
             </TabsTrigger>
             <TabsTrigger
               defaultValue="comments"

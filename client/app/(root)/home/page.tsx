@@ -1,5 +1,5 @@
 'use client';
-import QuestionCard from '@/helper/components/cards/QuestionCard';
+import PostCard from '@/helper/components/cards/PostCard';
 import NoResult from '@/helper/components/shared/NoResult';
 import { Button } from '@/helper/components/ui/button';
 import { revalidatePath } from 'next/cache';
@@ -42,7 +42,7 @@ export default function Home() {
       <div className="mt-10 flex w-full flex-col gap-6">
         {posts.length > 0 ? (
           posts.map((post: any) => (
-            <QuestionCard
+            <PostCard
               key={post._id}
               _id={post.id}
               title={post.title}
@@ -52,6 +52,7 @@ export default function Home() {
               commentsCount={post.commentsCount}
               views={post.views}
               createdAt={new Date(post.createdAt)}
+              state={post.state}
             />
           ))
         ) : (
