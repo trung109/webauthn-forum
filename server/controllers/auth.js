@@ -37,13 +37,13 @@ export const register = async (req, res) => {
     });
 
     try {
-        console.log(user)
+        // console.log(user)
         await user.save()
         await h.getActivationLink(username);
         res.send('User registered');
     } catch (err) {
         console.log(err)
-        res.status(400).send("Error, try again.")
+        // res.status(400).send("Error, try again.")
     }
 
 }

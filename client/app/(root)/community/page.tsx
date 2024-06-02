@@ -5,7 +5,7 @@ import Filter from '@/helper/components/shared/Filter';
 import LocalSearchBar from '@/helper/components/shared/search/LocalSearchBar';
 import { UserFilters } from '@/helper/constants/filters';
 import { useState, useEffect } from 'react';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
 const Page = () => {
   const [users, setUsers] = useState([]);
   const { user } = useUser();
@@ -32,7 +32,7 @@ const Page = () => {
 
   return (
     <>
-      <Verfied status={user.status} />;
+      <Verified status={user.status} />;
       <h1 className="h1-bold text-dark100_light900">All Users</h1>
       <div className="mt-11 flex justify-between gap-5 max-sm:flex-col sm:items-center">
         <LocalSearchBar

@@ -8,6 +8,7 @@
     "start": "next start",
     "lint": "next lint"
   },
+  "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^3.4.0",
     "@passwordless-id/webauthn": "^1.6.1",

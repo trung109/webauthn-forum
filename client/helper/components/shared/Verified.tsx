@@ -5,7 +5,7 @@ import Link from 'next/link';
 interface Props {
   status: string;
 }
-const Verfied = ({ status }: Props) => {
+const Verified = ({ status }: Props) => {
   return (
     <>
       {/* {user.status === 'unverified' ? ( */}
@@ -22,4 +22,4 @@ const Verfied = ({ status }: Props) => {
   );
 };
 
-export default Verfied;
+export default Verified;
