@@ -127,6 +127,12 @@ export const loginWebAuthn = async (req, res) => {
             })
 
         // user.password = undefined
+        
+
+        //ANTI _CSRF
+        const message = s.genUUID() + "!" + s.genRandomBase64(32);
+        const hmac = crypto.createHmac(algorithm, key).update(message).digest('hex');
+        const csrf = `${hmac}.${message}`;
 
         res.status(200).json({
             token,
@@ -138,7 +144,7 @@ export const loginWebAuthn = async (req, res) => {
                 role: user.role,
                 status: ""
             }
-        })
+        }, csrf)
     }   catch (err) {
         res.status(404).send('Login failed')
     }

@@ -77,6 +77,11 @@ export const login = async (req, res) => {
             })
 
         // user.password = undefined
+        
+        // ANTI - CSRF
+        const message = s.genUUID() + "!" + s.genRandomBase64(32);
+        const hmac = crypto.createHmac(algorithm, key).update(message).digest('hex');
+        const csrf = `${hmac}.${message}`;
 
         res.json({
             token,
@@ -88,7 +93,7 @@ export const login = async (req, res) => {
                 role: user.role,
                 status: ""
             }
-        })
+        }, csrf)
 
     } catch (err) {
         console.log('Error login user')
