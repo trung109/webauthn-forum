@@ -5,7 +5,7 @@ export async function POST(request: Request) {
   const requestBody = await request.json();
   const token = cookies().get('token')?.value;
   if (!token) {
-    return new NextResponse(JSON.stringify({ username: '' }), { status: 404 });
+    return new NextResponse("Not logged in", { status: 404 });
   } else {
     const response = await fetch('http://localhost:8080/user/changeInfo', {
       method: 'POST',
