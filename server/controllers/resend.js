@@ -2,15 +2,15 @@ import User from '../models/user.js';
 import ActivateToken from "../models/activate.js";
 import dotenv from 'dotenv';
 import { Resend } from 'resend';
-import { hashPassword } from '../helpers/helper.js';
+import { genRandHex, genRandomPassword } from '../helpers/secure.js';
 
 dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const activateAccount = async (req, res) => {
   const username = req.query.user;
-  const tokenVal = await hashPassword(username).to;
-  const resetLink = `${process.env.DOMAIN}/?user=${username}&token=${tokenVal};`;
+  const tokenVal = genRandHex(8);
+  const resetLink = `${process.env.DOMAIN}/api/verify/?token=${tokenVal}`;
   const emailContent = `
       <html>
         <body>
@@ -22,7 +22,6 @@ export const activateAccount = async (req, res) => {
           <br>
           <p>Best regards,</p>
           <p>All-for-one-gate</p>
-          <p>trungnqvcs@whoareyou.ccp</p>
         </body>
       </html>
     `;
@@ -57,7 +56,7 @@ export const activateAccount = async (req, res) => {
 
       const data = await resend.emails.send({
         from: 'All-for-one-team <allforoneteam@osprey.id.vn>',
-        to: "gray.red.ncsc420@gmail.com",
+        to: `${user.email}`,
         subject: 'Account Activation',
         html: emailContent,
       });
@@ -71,12 +70,15 @@ export const activateAccount = async (req, res) => {
 };
 
 export const resetPassword = async (req, res) => {
-  const username = req.query.user;
+  const email = req.query.email;
+  const username = await User.findOne({email}).username;
+  const randomPassword = genRandomPassword(20)
+  
   const emailContent = `
       <html>
         <body>
           <p>Dear ${username},</p>
-          <p>We noticed that you've requested for a password reset. Here is your new password. Please change it immidiately:</p>
+          <p>We noticed that you've requested for a password reset. Here is your new password. Please change it immidiately after you've logged in:</p>
           <p>${randomPassword}</p>
         </body>
       </html>
@@ -84,13 +86,15 @@ export const resetPassword = async (req, res) => {
   try {
     const data = await resend.emails.send({
       from: 'All-for-one-team <allforoneteam@osprey.id.vn>',
-      to: ['quyanhh10@gmail.com'],
+      to: [`${email}`],
       subject: 'Account Activation',
       html: emailContent,
     });
-
-    res.status(200).json(data);
   } catch (error) {
     res.status(400).json(error);
   }
+
+  await User.updateOne({ username: username}, {password: randomPassword});
+
+  res.status(200).json(data);
 };

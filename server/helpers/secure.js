@@ -4,8 +4,8 @@ export const genRandHex = nbytes => {
   return crypto.randomBytes(nbytes).toString('hex')
 }
 
-export const genRandomPassword = () => {
-  return crypto.randomBytes(32).toString('base64').slice(0, 20)
+export const genRandomPassword = (nbytes) => {
+  return crypto.randomBytes(nbytes).toString('base64').slice(0, 20)
 }
 
 export const sleepRandomTime = async () => {

@@ -34,15 +34,21 @@ export const getAllUsers = async (req, res) => {
 }
 
 export const verifyActivation = async (req, res) => {
-    const { username, token } = JSON.parse(req.body);
-    const activateToken = await ActivateToken.findOne({ username: username });
+    const { token } = JSON.parse(req.body);
+    const activateToken = await ActivateToken.findOne({ token: token });
+    const username = activateToken.username;
     if (token === activateToken.token) {
         const current_time = Date.now();
         if (activateToken.issueat < current_time && current_time < activateToken.expire) {
-            ActivateToken.deleteOne({ username: username });
-            res.status(302).send("User verified");
+            try {
+                await User.updateOne({ username }, { verified: 'verified' });
+                await ActivateToken.deleteOne({ username });
+            } catch {
+                res.status(404).send("Something went wrong");
+            }
+            res.status(200).send("User verified");
         } else {
-            res.status(404).send("Something went wrong");
+            res.status(400).send("Token expired");
         }
     }
 }
@@ -57,7 +63,7 @@ export const changeUserInfo = async (req, res) => {
         res.status(404).send("Something went wrong");
     }
 
-} 
+}
 
 export const updatePassword = async (req, res) => {
     const { decodedToken, currentpassword, newpassword, ...rest } = JSON.parse(req.body);
@@ -68,3 +74,5 @@ export const updatePassword = async (req, res) => {
         await User.updateOne({ username }, { password: hashPassword(newpassword) });
     }
 }
+
+
