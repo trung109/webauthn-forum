@@ -57,6 +57,7 @@ const UserHorizontalCard = ({
                 width={75}
                 height={75}
                 alt="profile picture"
+                className="object-cover rounded-full"
               />
               <h3 className="sm:h3-semibold base-semibold text-dark200_light900 line-clamp-1 flex-1">
                 @{username}
