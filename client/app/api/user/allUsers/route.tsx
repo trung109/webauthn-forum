@@ -5,7 +5,8 @@ export async function GET(request: Request) {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
-        },
+        }, 
+        cache: 'no-store'
     })
     
     if (response.status === 302) {

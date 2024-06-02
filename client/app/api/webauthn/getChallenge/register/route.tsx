@@ -9,7 +9,8 @@ export async function GET(request: Request) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token })
+            body: JSON.stringify({ token }),
+            cache: 'no-store'
         }
     );
     const challenge = await response.json()
