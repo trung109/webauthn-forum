@@ -12,7 +12,7 @@ import { Textarea } from '../ui/textarea';
 import { MdEditor } from 'md-editor-rt';
 import 'md-editor-rt/lib/style.css';
 import { revalidatePath } from 'next/cache';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Form,
   FormField,
@@ -22,7 +22,7 @@ import {
   FormDescription,
   FormMessage
 } from '../ui/form';
-
+import { User } from '@/helper/models/models';
 interface Props {
   post: string;
   postId: string;
@@ -30,6 +30,7 @@ interface Props {
 }
 
 const Comment = ({ post, postId, author }: Props) => {
+  const router = useRouter();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [content, setContent] = useState('');
   const form = useForm<z.infer<typeof commentSchema>>({
@@ -40,10 +41,28 @@ const Comment = ({ post, postId, author }: Props) => {
   });
 
   async function onSubmit(values: z.infer<typeof commentSchema>) {
-    // submit comment
-    // with author id, post id and content
-    // form reset after submit
-    // revalidate the post page
+    setIsSubmitting(true);
+    try {
+      const requestBody = {
+        content: values.content,
+        author: author.username,
+        postId: postId
+      };
+      const response = await fetch('/api/comment/add', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody)
+      });
+      console.log(response);
+      form.reset();
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsSubmitting(false);
+      router.refresh();
+    }
   }
 
   return (
@@ -104,7 +123,7 @@ const Comment = ({ post, postId, author }: Props) => {
           />
           <div className="flex justify-end text-white">
             <Button
-              type="button"
+              type="submit"
               className="primary-gradient w-fit"
               disabled={isSubmitting}
             >

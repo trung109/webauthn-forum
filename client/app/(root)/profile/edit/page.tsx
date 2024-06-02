@@ -1,9 +1,9 @@
-"use client";
-import Profile from "@/helper/components/forms/Profile";
-import { User } from "@/helper/models/models";
-import { useEffect, useState } from "react";
+'use client';
+import Profile from '@/helper/components/forms/Profile';
+import { User } from '@/helper/models/models';
+import { useEffect, useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
-
+import Verfied from '@/helper/components/shared/Verfied';
 const page = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { user, setUser } = useUser();
@@ -21,6 +21,7 @@ const page = () => {
   // }, []);
   return (
     <>
+      <Verfied status={user.status} />;
       <h1 className="h1-bold text-dark100_light900">Edit Profile</h1>
       <div className="mt-9">
         <Profile userId={user?.id} user={user} />

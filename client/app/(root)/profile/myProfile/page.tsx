@@ -14,6 +14,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
+import Verfied from '@/helper/components/shared/Verfied';
 const Page = () => {
   const { user, setUser } = useUser();
 
@@ -31,6 +32,7 @@ const Page = () => {
 
   return (
     <>
+      <Verfied status={user.status} />;
       {user.username ? (
         <>
           <div className="flex w-full flex-col-reverse items-start justify-between sm:flex-row">

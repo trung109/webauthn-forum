@@ -6,17 +6,14 @@ import Metric from '@/helper/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
 import { useEffect, useState } from 'react';
 import { Post } from '@/helper/models/models';
-import MarkDown from 'markdown-to-jsx';
 import 'md-editor-rt/lib/preview.css';
 import { MdPreview } from 'md-editor-rt';
 import Comment from '@/helper/components/forms/Comment';
 import { useUser } from '@/app/context/UserContext';
-import NoResult from '@/helper/components/shared/NoResult';
 import LoggedOut from '@/helper/components/shared/LoggedOut';
-
+import Verfied from '@/helper/components/shared/Verfied';
 const Page = () => {
   const { user } = useUser();
-
   const [post, setPost] = useState<Post | null>(null);
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
@@ -34,6 +31,7 @@ const Page = () => {
   }, [postId]);
   return (
     <div>
+      <Verfied status={user.status} />
       {post?.id ? (
         <>
           <div className="flex-start w-full flex-col">
@@ -88,6 +86,7 @@ const Page = () => {
             language="en-US"
           />
           {/* TO Do: display all comments */}
+          {/* only display comments editor if user is verified */}
           {user.username ? (
             <Comment
               post={post.content}

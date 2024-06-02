@@ -14,7 +14,7 @@ import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
-
+import Verfied from '@/helper/components/shared/Verfied';
 const Page = () => {
   const { user, setUser } = useUser();
 
@@ -42,6 +42,7 @@ const Page = () => {
 
   return (
     <>
+      <Verfied status={user.status} />;
       <div className="flex w-full flex-col-reverse items-start justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           <Image
@@ -81,7 +82,6 @@ const Page = () => {
             ))}
         </div>
       </div>
-
       <Stats totalPosts={10} totalComments={10} />
       <div className="mt-10 flex gap-10">
         <Tabs defaultValue="account" className="flex-1">
