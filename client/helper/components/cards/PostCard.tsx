@@ -1,8 +1,9 @@
+'use client';
 import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
 import Link from 'next/link';
 import Metric from '../shared/Metric';
 import RenderTag from '../shared/RenderTag';
-
+import { Button } from '../ui/button';
 interface Props {
   _id: string;
   title: string;
@@ -32,6 +33,30 @@ const PostCard = ({
   createdAt,
   state
 }: Props) => {
+  const handleApproval = async () => {
+    // try {
+    //   const res = await fetch(`/api/admin/post/${_id}/approve`, {
+    //     method: 'PUT'
+    //   });
+    //   if (res.ok) {
+    //     alert('Post approved successfully');
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
+  const handleDecline = async () => {
+    // try {
+    //   const res = await fetch(`/api/admin/post/${_id}/decline`, {
+    //     method: 'PUT'
+    //   });
+    //   if (res.ok) {
+    //     alert('Post declined successfully');
+    //   }
+    // } catch (error) {
+    //   console.error(error);
+    // }
+  };
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
       <div className="flex flex-col-reverse items-start justify-between gap-5 sm:flex-row">
@@ -61,31 +86,40 @@ const PostCard = ({
             href={`/profile/${author.id}`}
             textStyles="body-medium text-dark400_light700"
           ></Metric>
-          {/* Require post to not pending to show metrics */}
-          {state !== 'pending' && (
-            <>
-              <Metric
-                imgUrl="/assets/icons/like.svg"
-                alt="Upvotes"
-                value={formatAndDivideNumber(upvotes)}
-                title=" Votes"
-                textStyles="small-medium text-dark400_light800"
-              ></Metric>
-              <Metric
-                imgUrl="/assets/icons/message.svg"
-                alt="Comments"
-                value={commentsCount}
-                title=" Comments"
-                textStyles="small-medium text-dark400_light800"
-              ></Metric>
-              <Metric
-                imgUrl="/assets/icons/eye.svg"
-                alt="Views"
-                value={formatAndDivideNumber(views)}
-                title=" Views"
-                textStyles="small-medium text-dark400_light800"
-              ></Metric>
-            </>
+
+          <Metric
+            imgUrl="/assets/icons/like.svg"
+            alt="Upvotes"
+            value={formatAndDivideNumber(upvotes)}
+            title=" Votes"
+            textStyles="small-medium text-dark400_light800"
+          ></Metric>
+          <Metric
+            imgUrl="/assets/icons/message.svg"
+            alt="Comments"
+            value={commentsCount}
+            title=" Comments"
+            textStyles="small-medium text-dark400_light800"
+          ></Metric>
+          <Metric
+            imgUrl="/assets/icons/eye.svg"
+            alt="Views"
+            value={formatAndDivideNumber(views)}
+            title=" Views"
+            textStyles="small-medium text-dark400_light800"
+          ></Metric>
+          {state === 'pending' && (
+            <div className="flex flex-row">
+              <Button
+                onClick={handleApproval}
+                className="primary-gradient w-fit !text-light-900 flex mr-2"
+              >
+                Approve
+              </Button>
+              <Button onClick={handleDecline} className="btn-secondary">
+                Decline
+              </Button>
+            </div>
           )}
         </div>
       </div>
