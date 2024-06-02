@@ -35,10 +35,24 @@ const UserSettings = ({ userId, user }: Params) => {
       confirmPassword: ''
     }
   });
-  function onSubmit(values: z.infer<typeof settingsSchema>) {
+  async function onSubmit(values: z.infer<typeof settingsSchema>) {
     setIsSubmitting(true);
     try {
       // update password
+      const requestBody = {
+        currentPassword: values.currentPassword,
+        password: values.password,
+        confirmPassword: values.confirmPassword
+      };
+
+      const response = await fetch('/api/user/updatePassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
+        cache: 'no-store'
+      });
 
       router.back();
     } catch (error) {

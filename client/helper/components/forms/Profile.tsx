@@ -1,60 +1,57 @@
-"use client";
-import { profileSchema } from "@/helper/lib/validations";
-import { User } from "@/helper/models/models";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import { Button } from "../ui/button";
+'use client';
+import { profileSchema } from '@/helper/lib/validations';
+import { User } from '@/helper/models/models';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { Button } from '../ui/button';
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
-} from "../ui/form";
-import { Input } from "../ui/input";
-import { Textarea } from "../ui/textarea";
+  FormMessage
+} from '../ui/form';
+import { Input } from '../ui/input';
+import { Textarea } from '../ui/textarea';
 
 interface Params {
   userId: string | undefined;
   user: User | null;
 }
 const Profile = ({ userId, user }: Params) => {
-  const [isSubmitting, setIsSubmitting] = useState(false);
   const router = useRouter();
   const form = useForm<z.infer<typeof profileSchema>>({
     resolver: zodResolver(profileSchema),
     defaultValues: {
       username: user?.username || undefined,
-      bio: "",
-    },
+      bio: ''
+    }
   });
 
   useEffect(() => {
     if (user) {
       form.reset({
-        username: user.username || "",
-        bio: "",
+        username: user.username || '',
+        bio: ''
       });
     }
   }, [form, user]);
 
-
   async function onSubmit(values: z.infer<typeof profileSchema>) {
-    setIsSubmitting(true);
     const requestBody = {
       username: values.username,
-      bio: values.bio,
+      bio: values.bio
     };
     try {
       // update user
       const response = await fetch('/api/updateBio', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'application/json'
         },
         body: JSON.stringify(requestBody)
       });
@@ -86,7 +83,7 @@ const Profile = ({ userId, user }: Params) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='text-red-500' />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
@@ -105,17 +102,13 @@ const Profile = ({ userId, user }: Params) => {
                   {...field}
                 />
               </FormControl>
-              <FormMessage className='text-red-500' />
+              <FormMessage className="text-red-500" />
             </FormItem>
           )}
         />
-        <div className="mt-7 flex justify-end">
-          <Button
-            type="submit"
-            className="primary-gradient w-fit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? "Saving..." : "Save"}
+        <div className="mt-7 flex justify-end text-white">
+          <Button type="submit" className="primary-gradient w-fit">
+            Save
           </Button>
         </div>
       </form>
