@@ -63,6 +63,8 @@ const Comment = ({ post, postId, author }: Props) => {
     } finally {
       setIsSubmitting(false);
       router.push(`/post?postId=${postId}`);
+      // refresh the page
+      window.location.reload();
     }
   }
 

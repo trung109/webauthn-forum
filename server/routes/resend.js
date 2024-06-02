@@ -13,7 +13,7 @@ const limiter = rateLimit({
   message: "Too many request, try again later",
 });
 
-router.use(limiter);
+// router.use(limiter);
 
 router.post("/user/get-activate-link", requireSignIn, activateAccount);
 // router.get('/reset-password', resetPassword)

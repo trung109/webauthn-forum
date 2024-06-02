@@ -10,7 +10,7 @@ const authLimiter = rateLimit({
   statusCode: 404,
   message: "Too many request, try again later",
 });
-router.use(authLimiter);
+// router.use(authLimiter);
 
 router.post("/auth/register", register);
 router.post("/auth/login", login);

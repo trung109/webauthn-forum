@@ -14,7 +14,7 @@ const authLimiter = rateLimit({
 
 const router = express.Router();
 
-router.use(authLimiter);
+// router.use(authLimiter);
 router.post("/comment/add", requireSignIn, addComment);
 router.post("/comment/edit", requireSignIn, editComment);
 
