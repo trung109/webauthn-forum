@@ -61,6 +61,7 @@ export const getDeclinedPosts = async (req, res) => {
 
 export const declinePost = async (req, res) => {
     const { id, ...rest } = JSON.parse(req.body);
+    console.log(JSON.parse(req.body));
     try {
         await Post.updateOne({ id }, { state: 'declined' });
     } catch {
@@ -69,7 +70,7 @@ export const declinePost = async (req, res) => {
 }
 
 export const approvePost = async (req, res) => {
-    const {id, ...rest } = JSON.parse(req.body);
+    const { id, ...rest } = JSON.parse(req.body);
     try {
         await Post.updateOne({ id }, { state: 'approved' });
     } catch {
@@ -77,20 +78,33 @@ export const approvePost = async (req, res) => {
     }
 }
 
-export const getPostComments = async (req ,res) => {
+export const getPostComments = async (req, res) => {
     const postId = req.query.postId || null;
-    
-    if(postId){
-        const comments = await Comment.find({postId}).limit(10);
+
+    if (postId) {
+        const comments = await Comment.find({ postId }).limit(10);
         res.json({ comments });
     } else {
         res.status(404).send('Something went wrong fetching');
     }
-    
+
 }
 
-export const seachPosts = async (req , res) => {
-    const { keywords } = JSON.stringify(req.body);
+export const searchPosts = async (req, res) => {
+    const { keywords } = req.body;
+
+    console.log(keywords)
+
+    const regexQueries = keywords.map(keyword => ({
+        myField: { $regex: keyword, $options: 'i' } // 'i' for case-insensitive
+    }));
+    Post.find({ $or: regexQueries }).limit(10)
+        .then(docs => {
+            console.log('Matching documents:', docs);
+        })
+        .catch(err => {
+            console.error('Error finding documents:', err);
+        });
 }
 
 
