@@ -12,12 +12,14 @@ import Comment from '@/helper/components/forms/Comment';
 import { useUser } from '@/app/context/UserContext';
 import LoggedOut from '@/helper/components/shared/LoggedOut';
 import Verfied from '@/helper/components/shared/Verfied';
+import AllComments from '@/helper/components/shared/AllComments';
 const Page = () => {
   const { user } = useUser();
   const [post, setPost] = useState<Post | null>(null);
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
   const [id] = useState('preview-only');
+
   useEffect(() => {
     const fetchPost = async () => {
       console.log(123);
@@ -86,6 +88,11 @@ const Page = () => {
             language="en-US"
           />
           {/* TO Do: display all comments */}
+          <AllComments
+            postId={post.id}
+            author={user}
+            totalComments={post.commentsCount}
+          />
           {/* only display comments editor if user is verified */}
           {user.username ? (
             <Comment
