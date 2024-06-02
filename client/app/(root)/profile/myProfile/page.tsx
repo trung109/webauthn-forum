@@ -34,7 +34,14 @@ const Page = () => {
   // }, []);
 
   const onWebAuthnRegister = async () => {
-    const res = await register(user.username, "56535b13-5d93-4194-a282-f234c1c24500", user.id)
+    const getChallenge = await fetch('/api/webauthn/getChallenge');
+
+    //TODO: HANDLE LATER, WHEN RETURN OBJECT FROM SERVER IS KNOWN
+    const { challenge_id, challenge } = await getChallenge.json();
+
+    console.log(challenge_id, challenge);
+
+    const res = await register(user.username, challenge, user.id);
     console.log(res)
   }
 
