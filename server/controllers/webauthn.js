@@ -4,6 +4,7 @@ import { server } from '@passwordless-id/webauthn'
 import Credentials from "../models/credentials.js";
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
+import crypto from 'crypto'
 
 export const getRegisterChallenge = async (req, res) => {
     if (req.body === "{}") {
@@ -131,7 +132,7 @@ export const loginWebAuthn = async (req, res) => {
 
         //ANTI _CSRF
         const message = s.genUUID() + "!" + s.genRandomBase64(32);
-        const hmac = crypto.createHmac(algorithm, key).update(message).digest('hex');
+        const hmac = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
         const csrf = `${hmac}.${message}`;
 
         res.status(200).json({
@@ -143,9 +144,10 @@ export const loginWebAuthn = async (req, res) => {
                 photoUrl: user.photoUrl,
                 role: user.role,
                 status: ""
-            }
-        }, csrf)
+            }, csrf
+        })
     }   catch (err) {
+
         res.status(404).send('Login failed')
     }
     

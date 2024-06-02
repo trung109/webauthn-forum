@@ -4,6 +4,7 @@ import User from '../models/user.js'
 import jwt from 'jsonwebtoken'
 import { Resend } from 'resend';
 import dotenv from 'dotenv';
+import crypto from 'crypto';
 
 dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -80,7 +81,7 @@ export const login = async (req, res) => {
         
         // ANTI - CSRF
         const message = s.genUUID() + "!" + s.genRandomBase64(32);
-        const hmac = crypto.createHmac(algorithm, key).update(message).digest('hex');
+        const hmac = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
         const csrf = `${hmac}.${message}`;
 
         res.json({
@@ -92,12 +93,12 @@ export const login = async (req, res) => {
                 photoUrl: user.photoUrl,
                 role: user.role,
                 status: ""
-            }
-        }, csrf)
+            },csrf
+        } )
 
     } catch (err) {
-        console.log('Error login user')
-        // res.status(404).send("Something went wrong");
+        console.log(err)
+        res.status(404).send("Something went wrong");
     }
 }
 
