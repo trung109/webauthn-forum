@@ -61,7 +61,6 @@ const Post = () => {
     } catch (error) {
     } finally {
       setIsSubmitting(false);
-      revalidatePath('/home');
       router.push('/home');
     }
   }

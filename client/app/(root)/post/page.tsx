@@ -23,7 +23,9 @@ const Page = () => {
   useEffect(() => {
     const fetchPost = async () => {
       console.log(123);
-      const response = await fetch(`/api/post/getPost?postId=${postId}`, {});
+      const response = await fetch(`/api/post/getPost?postId=${postId}`, {
+        cache: 'no-store'
+      });
       if (response.ok) {
         const data = await response.json();
         setPost(data);
@@ -43,7 +45,7 @@ const Page = () => {
                 className="flex items-center justify-start gap-1"
               >
                 <Image
-                  src={post.author.photoUrl}
+                  src={'/assets/images/default-avatar.jpg'}
                   className="rounded-full"
                   width={22}
                   height={22}
