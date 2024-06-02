@@ -15,7 +15,6 @@ import { rateLimit } from "express-rate-limit";
 
 const router = express.Router();
 
-<<<<<<< HEAD
 // const authLimiter = rateLimit({
 // 	windowMs: 1 * 60 * 1000, // 15 minutes
 // 	limit: 200, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
@@ -24,9 +23,6 @@ const router = express.Router();
 // 	message: 'Too many request, try again later'
 // })
 // router.use(authLimiter)
-=======
-router.use(authLimiter);
->>>>>>> 99003ce8f7251e58a232c992d54862d23859f133
 
 router.post("/user", requireSignIn, getSelfProfile);
 router.post("/user/activate", verifyActivation);
