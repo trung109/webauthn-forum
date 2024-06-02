@@ -17,7 +17,6 @@ import { useUser } from '@/app/context/UserContext';
 import Verified from '@/helper/components/shared/Verified';
 import { register } from '@/helper/webauthn/register';
 
-
 const Page = () => {
   const { user, setUser } = useUser();
 
@@ -92,7 +91,7 @@ const Page = () => {
                 <div className="mt-5 flex flex-wrap items-center justify-start gap-5">
                   <ProfileLink
                     imgUrl="/assets/icons/calendar.svg"
-                    title="Joined at: May 2024"
+                    title={`Joined at: May 2024`}
                   ></ProfileLink>
                 </div>
               </div>

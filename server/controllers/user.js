@@ -66,12 +66,23 @@ export const changeUserInfo = async (req, res) => {
 }
 
 export const updatePassword = async (req, res) => {
-    const { decodedToken, currentpassword, newpassword, ...rest } = JSON.parse(req.body);
+    const { decodedToken, currentPassword, password, ...rest } = JSON.parse(req.body);
 
     const user = await User.findOne({ username: decodedToken.username });
 
     if (hashPassword(currentpassword) === user.password) {
-        await User.updateOne({ username }, { password: hashPassword(newpassword) });
+        await User.updateOne({ username }, { password: hashPassword(password) });
+    }
+}
+
+export const updateRole = async (req, res) => {
+    const { role, username, ...rest } = JSON.parse(req.body);
+    console.log(`Role ${role} username: ${username}`)
+    try {
+        await User.updateOne({username},{role});
+        res.send('User status updated');
+    } catch {
+        res.status(404).send('Something went wrong');
     }
 }
 

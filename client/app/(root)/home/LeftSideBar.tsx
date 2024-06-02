@@ -34,7 +34,6 @@ const sidebarLinks = [
 ];
 const LeftSideBar = () => {
   const { user } = useUser();
-  console.log(user.role);
   const pathname = usePathname();
 
   return (

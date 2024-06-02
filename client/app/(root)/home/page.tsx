@@ -19,7 +19,9 @@ export default function Home() {
           cache: 'no-store'
         });
         const { posts } = await res.json();
-        console.log(posts);
+
+        // Temporary hack to fix await problem when parsing json
+        console.log();
         setPosts(posts);
       } catch (err) {}
     };

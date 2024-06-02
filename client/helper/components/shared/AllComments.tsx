@@ -9,56 +9,45 @@ interface Props {
   author: User;
   totalComments: number;
 }
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MdPreview } from 'md-editor-rt';
 
 const AllComments = ({ postId, author, totalComments }: Props) => {
   const [id] = useState('preview-only');
+  const [comments, setComments] = useState<any[]>([]);
 
-  // TODO: get all comments
-  const sample_comments = [
-    {
-      id: '1',
-      content: 'This is a comment',
-      author: {
-        id: '1',
-        username: 'user1',
-        email: 'user1@example.com',
-        photoUrl: '/assets/images/default-avatar.jpg'
-      },
-      createdAt: new Date()
-    },
-    {
-      id: '2',
-      content: '# This is another comment',
-      author: {
-        id: '2',
-        username: 'user2',
-        email: 'user2@example.com',
-        photoUrl: '/assets/images/default-avatar.jpg'
-      },
-      createdAt: new Date()
-    }
-  ];
+  useEffect(() => {
+    const fetchComments = async () => {
+      const response = await fetch(
+        `/api/post/getPostComments?postId=${postId}`,
+        { cache: 'no-store' }
+      );
+      if (response.ok) {
+        const { comments } = await response.json();
+        setComments(comments);
+        console.log(comments);
+      }
+    };
+    fetchComments();
+  }, [postId]);
+
   return (
     <div className="mt-11">
       <div className="flex items-center justify-between">
-        <h3 className="primary-text-gradient">
-          {sample_comments.length} Comments
-        </h3>
+        <h3 className="primary-text-gradient">{comments.length} Comments</h3>
       </div>
 
       <div>
-        {sample_comments.map((comment) => (
+        {comments.map((comment) => (
           <article key={comment.id} className="light-border border-b py-10">
             <div className="flex items-center justify-between">
               <div className="mb-8 flex flex-col-reverse justify-between gap-5 sm:flex-row sm:items-center sm:gap-2">
                 <Link
-                  href={`/profile/user?userId=${comment.author.id}`}
+                  href={`/profile/user?userId=${comment.author}`}
                   className="flex flex-1 items-center gap-1 sm:items-center"
                 >
                   <Image
-                    src={comment.author.photoUrl}
+                    src={`/assets/images/default-avatar.jpg`}
                     width={18}
                     height={18}
                     alt="profile picture"
@@ -66,11 +55,11 @@ const AllComments = ({ postId, author, totalComments }: Props) => {
                   />
                   <div className="flex flex-col sm:flex-row sm:items-center">
                     <p className="body-semibold text-dark300_light700">
-                      {comment.author.username}
+                      @{comment.author}
                     </p>
                     <p className="small-regular text-light400_light500 mt-0.5 line-clamp-1 ml-0.5">
                       {' '}
-                      commented {getTimestamp(comment.createdAt)}
+                      commented {getTimestamp(new Date(comment.createdAt))}
                     </p>
                   </div>
                 </Link>

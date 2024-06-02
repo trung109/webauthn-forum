@@ -15,6 +15,7 @@ export interface User {
   role: string;
   status: string;
   bio: string;
+  joinedAt: Date;
 }
 
 export interface Post {

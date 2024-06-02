@@ -5,12 +5,15 @@ export const addComment = async (req, res) => {
     if (req.body === "{}") {
         res.status(400).send("Bad request");
     }
-    const { decodedToken: { username }, content, postId } = JSON.parse(req.body);
+    const { decodedToken: { username }, requestBody } = JSON.parse(req.body);
+    console.log({
+        username, content: requestBody.content, id: requestBody.postId
+    })
     const comment = new Comment({
         id: genRandHex(8),
         author: username,
-        content: content,
-        postId: postId,
+        content: requestBody.content,
+        postId: requestBody.postId,
         createdAt: Date.now()
     });
 
