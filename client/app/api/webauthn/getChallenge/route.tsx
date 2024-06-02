@@ -15,7 +15,7 @@ export async function GET(request: Request) {
 
     const challenge = await response.json()
 
-    console.log(challenge)
+    // console.log(challenge)
 
     if (response.ok){
         return new NextResponse(JSON.stringify(challenge), {status: 200});

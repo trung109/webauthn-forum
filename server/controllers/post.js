@@ -45,6 +45,13 @@ export const getPosts = async (req, res) => {
     res.json({posts})
 }
 
+export const getPendingPosts = async (req, res) => {
+    const start = parseInt(req.params.start) || 0
+    const posts = await Post.find({state: 'pending'}).sort({id: -1}).skip(start).limit(10)
+    // console.log(posts)
+    res.json({posts})
+}
+
 
 
 
