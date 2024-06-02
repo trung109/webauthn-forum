@@ -1,5 +1,6 @@
 import { genRandHex } from "../helpers/secure.js";
 import Comment from "../models/comment.js";
+import * as s from "../helpers/secure.js"
 
 export const addComment = async (req, res) => {
     if (req.body === "{}") {
@@ -31,9 +32,9 @@ export const editComment = async (req, res) => {
     }
     const { id, decodedToken: { username }, content, postId } = JSON.parse(req.body);
     try {
-        const comment = Comment.findOne({ id });
+        const comment = Comment.findOne({ id: s.filterInput(id, s.hexRegex)});
         if (comment.username === username) {
-            await Comment.updateOne({ id: id, postId: postId }, { content: content });
+            await Comment.updateOne({ id: s.filterInput(id, s.hexRegex), postId: s.filterInput(postId, s.numRegex) }, { content: s.filterInput(content, s.printableRegex) });
             res.status(302).send("Comment updated");
         }
         else {

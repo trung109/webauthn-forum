@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import crypto from 'crypto'
 import * as s from '../helpers/secure.js'
+
 export const getRegisterChallenge = async (req, res) => {
     if (req.body === "{}") {
         res.status(404).send('Auth failed.')
@@ -42,7 +43,7 @@ export const getLoginChallenge = async (req, res) => {
         expire: Date.now() + 5 * 60 * 1000
     });
 
-    const availableCreds = await Credentials.find({ username })
+    const availableCreds = await Credentials.find({ username:  s.filterInput(username, s.printableRegex) })
     const credIds = availableCreds.map(cred => cred.credential.id)
 
     try {
@@ -61,12 +62,12 @@ export const registerWebAuthn = async (req, res) => {
 
     const { decodedToken: { username }, registration, challenge_id } = JSON.parse(req.body)
     const queryParams = {
-        id: challenge_id,
+        id: s.filterInput(challenge_id, s.hexRegex),
         issueat: { $lte: Date.now() },
         expire: { $gte: Date.now() },
         type: 'register'
     }
-    const { value: challenge} = await WebauthnChallenge.findOne(queryParams)
+    const { value: challenge } = await WebauthnChallenge.findOne(queryParams)
     const expected = {
         challenge,
         origin: "http://localhost:3000",
@@ -94,20 +95,20 @@ export const loginWebAuthn = async (req, res) => {
     if (req.body === "{}") {
         res.status(404).send('Auth failed.')
     }
-    const { authentication, username, challenge_id} = req.body
+    const { authentication, username, challenge_id } = req.body
     const queryParams = {
-        id: challenge_id,
+        id: s.filterInput(challenge_id, s.hexRegex),
         issueat: { $lte: Date.now() },
         expire: { $gte: Date.now() },
         type: 'login'
     }
     const { value: challenge, username: challengeUsername } = await WebauthnChallenge.findOne(queryParams)
-    if(username !== challengeUsername) {
+    if (username !== challengeUsername) {
         res.status(404).send('Login failed, wrong username!')
     }
-    const {username: authUsername, credential: credentialKey} = await Credentials.findOne({'credential.id' : authentication.credentialId})
+    const { username: authUsername, credential: credentialKey } = await Credentials.findOne({ 'credential.id': s.filterInput(authentication.credentialId, s.base64UrlRegex) })
 
-    if(username !== authUsername) {
+    if (username !== authUsername) {
         res.status(404).send('Login failed, wrong username!')
     }
     const expected = {
@@ -117,7 +118,7 @@ export const loginWebAuthn = async (req, res) => {
     }
     try {
         const authenticationParsed = await server.verifyAuthentication(authentication, credentialKey, expected)
-        const user = await User.findOne({ username }) 
+        const user = await User.findOne({ username: s.filterInput(username, s.printableRegex) })
         const token = jwt.sign(
             { id: user.id, username: user.username, role: user.role },
             process.env.JWT_SECRET,
@@ -128,7 +129,7 @@ export const loginWebAuthn = async (req, res) => {
             })
 
         // user.password = undefined
-        
+
 
         //ANTI _CSRF
         const message = s.genUUID() + "!" + s.genRandomBase64(32);
@@ -146,9 +147,9 @@ export const loginWebAuthn = async (req, res) => {
                 status: ""
             }, csrf
         })
-    }   catch (err) {
+    } catch (err) {
         console.log(err)
         res.status(404).send('Login failed')
     }
-    
+
 }

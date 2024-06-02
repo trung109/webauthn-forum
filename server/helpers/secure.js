@@ -46,7 +46,6 @@ export const sleepRandomTime = async () => {
 }
 
 
-
 export const hexRegex = /^[a-f0-9]+$/;
 export const numRegex = /^[0-9]+$/;
 export const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -55,6 +54,7 @@ export const printableRegex = /^[\x20-\x7E]*$/;
 export const stringRegex = /^[A-Za-z]+$/
 export const base64UrlRegex = /^[A-Za-z0-9-_]+$/
 export const filterInput = (str, regex) => {
+
   const notNoSQLRegex = /[{}.$]/
   if (notNoSQLRegex.test(str)) {
     return ""
