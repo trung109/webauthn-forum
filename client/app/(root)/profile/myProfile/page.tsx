@@ -14,7 +14,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import { useUser } from '@/app/context/UserContext';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
+import { register } from '@/helper/webauthn/register';
+
+
 const Page = () => {
   const { user, setUser } = useUser();
 
@@ -30,9 +33,15 @@ const Page = () => {
   //   fetchUserDetails();
   // }, []);
 
+  const onWebAuthnRegister = async () => {
+    const res = await register(user.username, "56535b13-5d93-4194-a282-f234c1c24500", user.id)
+    console.log(res)
+  }
+
+
   return (
     <>
-      <Verfied status={user.status} />;
+      <Verified status={user.status} />
       {user.username ? (
         <>
           <div className="flex w-full flex-col-reverse items-start justify-between sm:flex-row">
@@ -72,6 +81,11 @@ const Page = () => {
                   Change my password
                 </Button>
               </Link>
+              <div onClick={onWebAuthnRegister}>
+                <Button className="paragraph-medium btn-secondary text-dark300_light900 min-h-[46px] px-4 py-3">
+                  Register WebAuthn
+                </Button>
+              </div>
             </div>
           </div>
           <Stats totalPosts={10} totalComments={10} />

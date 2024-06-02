@@ -33,7 +33,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "helper/context/context.js"
-  ],
+, "helper/webauthn/register.js"  ],
   "exclude": [
     "node_modules"
   ]
