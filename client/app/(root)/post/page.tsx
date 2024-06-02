@@ -13,6 +13,7 @@ import { useUser } from '@/app/context/UserContext';
 import LoggedOut from '@/helper/components/shared/LoggedOut';
 import Verified from '@/helper/components/shared/Verified';
 import AllComments from '@/helper/components/shared/AllComments';
+import NoResult from '@/helper/components/shared/NoResult';
 const Page = () => {
   const { user } = useUser();
   const [post, setPost] = useState<Post | null>(null);
@@ -112,7 +113,12 @@ const Page = () => {
           )}
         </>
       ) : (
-        <div>Post not found</div>
+        <NoResult
+          title="The post has nothing to show"
+          description="May be the post has been deleted or the link is broken. Please go to homepage to try again."
+          link="/home"
+          linkTitle="Home"
+        />
       )}
     </div>
   );
