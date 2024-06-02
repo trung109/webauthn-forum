@@ -41,32 +41,26 @@ const PostCard = ({
   const handleApproval = async () => {
     try {
       console.log(123);
+      setApproved(true);
+      setIsClicked(true);
       const response = await fetch(`/api/post/approvePost?postId=${_id}`, {
         cache: 'no-store',
         method: 'POST'
       });
-      if (response.ok) {
-        const data = await response.json();
-        setApproved(true);
-        setIsClicked(true);
-      }
     } catch (error) {
-      console.log(error);
+      console.log('Error ' + error);
     }
   };
 
   const handleDecline = async () => {
     try {
       console.log(123);
+      setApproved(false);
+      setIsClicked(true);
       const response = await fetch(`/api/post/declinePost?postId=${_id}`, {
         cache: 'no-store',
         method: 'POST'
       });
-      if (response.ok) {
-        const data = await response.json();
-        setApproved(false);
-        setIsClicked(true);
-      }
     } catch (error) {
       console.log(error);
     }
@@ -122,23 +116,24 @@ const PostCard = ({
             title=" Views"
             textStyles="small-medium text-dark400_light800"
           ></Metric>
-          {!isClicked ? (
-            <div className="flex flex-row">
-              <Button
-                onClick={handleApproval}
-                className="primary-gradient w-fit !text-light-900 flex mr-2"
-              >
-                Approve
-              </Button>
-              <Button onClick={handleDecline} className="btn-secondary">
-                Decline
-              </Button>
-            </div>
-          ) : (
-            <Badge className={approved ? 'text-green-500' : 'text-red-500'}>
-              {approved ? 'Approved' : 'Declined'}
-            </Badge>
-          )}
+          {state === 'pending' &&
+            (!isClicked ? (
+              <div className="flex flex-row">
+                <Button
+                  onClick={handleApproval}
+                  className="primary-gradient w-fit !text-light-900 flex mr-2"
+                >
+                  Approve
+                </Button>
+                <Button onClick={handleDecline} className="btn-secondary">
+                  Decline
+                </Button>
+              </div>
+            ) : (
+              <Badge className={approved ? 'text-green-500' : 'text-red-500'}>
+                {approved ? 'Approved' : 'Declined'}
+              </Badge>
+            ))}
         </div>
       </div>
     </div>

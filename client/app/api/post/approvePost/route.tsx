@@ -1,26 +1,27 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 
 export async function POST(request: Request) {
-    const { searchParams } = new URL(request.url)
-    const postId = searchParams.get('postId')
+  const { searchParams } = new URL(request.url);
+  const postId = searchParams.get('postId');
 
-    const token = cookies().get('token')?.value
-    if (!token) {
-        return new NextResponse("Not logged in", { status: 400 })
-    }
+  const token = cookies().get('token')?.value;
+  if (!token) {
+    return new NextResponse('Not logged in', { status: 400 });
+  }
 
-    const response = await fetch(`http://localhost:8080/post/approvePost`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({token, id: postId})
-    });
+  const response = await fetch(`http://localhost:8080/post/approvePost`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ token, id: postId }),
+    cache: 'no-store'
+  });
 
-    if (response.ok) {
-        return new NextResponse('Post status updated', { status: 200 });
-    } else {
-        return new NextResponse('Action failed', { status: 404 });
-    }
+  if (response.ok) {
+    return new NextResponse('Post status updated', { status: 200 });
+  } else {
+    return new NextResponse('Action failed', { status: 404 });
+  }
 }

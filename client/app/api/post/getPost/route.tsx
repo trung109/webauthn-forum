@@ -4,7 +4,9 @@ import { NextResponse } from 'next/server';
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const postId = searchParams.get('postId');
-  const response = await fetch(`http://localhost:8080/post?postId=${postId}`);
+  const response = await fetch(`http://localhost:8080/post?postId=${postId}`, {
+    cache: 'no-store'
+  });
 
   if (response.ok) {
     const { post } = await response.json();
