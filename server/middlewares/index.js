@@ -29,8 +29,7 @@ export const requireAdmin = async (req, res, next) => {
             issuer: 'All-for-one-gate',
             maxAge: '3h'
         })
-        const { role } = decodedToken.user
-        if (role === 'admin') {
+        if (decodedToken.role === 'admin') {
             req.body = JSON.stringify(decodedToken)
         } else {
             req.body = JSON.stringify({})
