@@ -5,9 +5,11 @@ export async function POST(request: Request) {
   const requestBody = await request.json();
   const token = cookies().get('token')?.value;
   const csrf = cookies().get('csrf')?.value;
+  console.log(`csrf: ${csrf}, token: ${token}`)
   if (!token) {
     return new NextResponse('Not logged in', { status: 404 });
   } else {
+    console.log(`csrf: ${csrf}, token: ${token}`)
     const response = await fetch('http://localhost:8080/user/changeInfo', {
       method: 'POST',
       headers: {
@@ -25,7 +27,6 @@ export async function POST(request: Request) {
       const data = await response.text();
       return new NextResponse(data, { status: 200 });
     } else {
-      console.log();
       return new NextResponse(JSON.stringify({ username: '' }), {
         status: 404
       });

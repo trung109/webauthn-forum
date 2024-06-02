@@ -20,7 +20,7 @@ const page = () => {
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await fetch('http://localhost:8080/post/pending', {
+        const res = await fetch('/api/post/getPendingPosts', {
           method: 'POST',
           cache: 'no-store'
         });
