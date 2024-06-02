@@ -11,6 +11,7 @@ import { useEffect, useState } from 'react';
 export default function Home() {
   const { user } = useUser()
   const [posts, setPosts] = useState([])
+  
   useEffect(() => {
     const getPost = async () => {
       try {

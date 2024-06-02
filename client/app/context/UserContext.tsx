@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, ReactNode, useEffect } from 'react';
 import { User } from '@/helper/models/models';
 
 
@@ -22,6 +22,17 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 export const UserProvider = ({ children }: { children: ReactNode }) => {
     const [user, setUser] = useState<User>(SAMPLE_USER);
+
+    useEffect(() => {
+        const fetchUserDetails = async () => {
+            const response = await fetch("/api/user/me");
+            if (response.ok) {
+                const data = await response.json();
+                setUser(data);
+            }
+        };
+        fetchUserDetails();
+    }, []);
 
     return (
         <UserContext.Provider value={{ user, setUser }}>
