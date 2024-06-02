@@ -15,7 +15,7 @@ const Verified = ({ status }: Props) => {
       (<div>
         <p className="bg-orange-200 p-4 rounded-md mb-[30px]">
           Your account is unverified, please verify your account to continue.{' '}
-          <Link href="/auth/verify" className="underline">
+          <Link href="/api/auth/getActivationToken" className="underline">
             Click here
           </Link>
           <span> to send a new verification email.</span>

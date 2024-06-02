@@ -36,7 +36,7 @@ export const isValidUsername = (username) => {
 
 export const getActivationLink = async (username) => {
     const tokenVal = genRandHex(8);
-    const resetLink = `${process.env.DOMAIN}/api/verify/?token=${tokenVal}`;
+    const resetLink = `${process.env.DOMAIN}/api/auth/activate?token=${tokenVal}`;
     const emailContent = `
       <html>
         <body>

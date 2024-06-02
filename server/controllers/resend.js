@@ -8,9 +8,11 @@ dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const activateAccount = async (req, res) => {
-  const username = req.query.user;
+  const {decodedToken} = JSON.parse(req.body);
+  const username = decodedToken.username;
+
   const tokenVal = genRandHex(8);
-  const resetLink = `${process.env.DOMAIN}/api/verify/?token=${tokenVal}`;
+  const resetLink = `${process.env.DOMAIN}/api/auth/activate/?token=${tokenVal}`;
   const emailContent = `
       <html>
         <body>
@@ -33,14 +35,16 @@ export const activateAccount = async (req, res) => {
     expire: Date.now() + 10 * 60 * 1000 // set expire time of token to 10 min
   });
 
-
+  // console.log(username);
   // If a token is already existed -> update new tokenVal and expiry time
   try {
     const oldToken = await ActivateToken.findOne({username});
     if(!oldToken){
+      // console.log("We add new token here-")
       await token.save()
     } else {
-      ActivateToken.updateOne({username}, token);
+      // console.log("We update new token here-")
+      await ActivateToken.updateOne({username}, {token: tokenVal, issueat: token.issueat, expire: token.expire});
     }
   }
   catch {

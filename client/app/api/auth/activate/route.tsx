@@ -1,10 +1,11 @@
+import { redirect } from "next/navigation";
 import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
-    const urlParams = new URLSearchParams(window.location.search);
+    const { searchParams } = new URL(request.url);
 
     const requestBody = {
-        token: urlParams.get('token')
+        token: searchParams.get('token')
     };
 
     const response = await fetch('http://localhost:8080/user/activate',{
@@ -17,10 +18,7 @@ export async function GET(request: Request) {
     });
 
     if(response.ok){
-        return new NextResponse(
-            'User verified',
-            { status: 200 }
-          );
+        redirect('/home')
     } else {
         return new NextResponse(
             'Something went wrong, please try again',

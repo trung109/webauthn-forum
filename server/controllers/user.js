@@ -38,25 +38,31 @@ export const getAllUsers = async (req, res) => {
 };
 
 export const verifyActivation = async (req, res) => {
-  const { token } = JSON.parse(req.body);
-  const activateToken = await ActivateToken.findOne({ token: token });
-  const username = activateToken.username;
-  if (token === activateToken.token) {
-    const current_time = Date.now();
-    if (
-      activateToken.issueat < current_time &&
-      current_time < activateToken.expire
-    ) {
-      try {
-        await User.updateOne({ username }, { verified: "verified" });
+  console.log(req.body)
+  const { token } = req.body;
+  console.log(token)
+  try {
+    const activateToken = await ActivateToken.findOne({ token: token });
+    const username = activateToken.username;
+    console.log(username)
+
+    if (token === activateToken.token) {
+      const current_time = Date.now();
+      if (
+        activateToken.issueat < current_time &&
+        current_time < activateToken.expire
+      ) {
+
+        await User.updateOne({ username }, { status: "verified" });
         await ActivateToken.deleteOne({ username });
-      } catch {
-        res.status(404).send("Something went wrong");
+
+        res.status(200).send("User verified");
+      } else {
+        res.status(400).send("Token expired");
       }
-      res.status(200).send("User verified");
-    } else {
-      res.status(400).send("Token expired");
     }
+  } catch {
+    res.status(404).send("Something went wrong");
   }
 };
 

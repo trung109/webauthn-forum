@@ -98,15 +98,19 @@ export const searchPosts = async (req, res) => {
     console.log(keywords)
 
     const regexQueries = keywords.map(keyword => ({
-        myField: { $regex: keyword, $options: 'i' } // 'i' for case-insensitive
+        content: { $regex: keyword, $options: 'i' } // 'i' for case-insensitive
     }));
-    Post.find({ $or: regexQueries }).limit(10)
-        .then(docs => {
-            console.log('Matching documents:', docs);
-        })
-        .catch(err => {
-            console.error('Error finding documents:', err);
-        });
+
+    console.log(regexQueries)
+    try{
+        const posts = await Post.find({ $or: regexQueries }).limit(10);
+        res.json({posts});
+
+    } catch {
+        res.status(404).send('Something went wrong');
+    }
+    
+    
 }
 
 
