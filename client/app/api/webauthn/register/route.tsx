@@ -3,6 +3,7 @@ import { cookies } from "next/headers";
 
 export async function POST(request: Request) {
     const token = cookies().get('token')?.value
+    const csrf = cookies().get('csrf')?.value;
     const data = await request.json()
     
 
@@ -12,7 +13,7 @@ export async function POST(request: Request) {
             headers: {
                 'Content-Type' : 'application/json'
             },
-            body: JSON.stringify({token, ...data}),
+            body: JSON.stringify({token, csrf, ...data}),
             cache: 'no-store'
         }
     );

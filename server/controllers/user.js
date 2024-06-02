@@ -12,7 +12,7 @@ export const getSelfProfile = async (req, res) => {
     });
     res.status(302).json({ username, id, email, photoUrl, role, status, bio });
   } catch (err) {
-    res.status(404).send("Something went wrong.");
+    // res.status(404).send("Something went wrong.");
   }
 };
 

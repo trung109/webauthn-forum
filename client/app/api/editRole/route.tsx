@@ -5,6 +5,8 @@ export async function POST(request: Request) {
   const {username, role } = await request.json();
 
   const token = cookies().get('token')?.value;
+  const csrf = cookies().get('csrf')?.value;
+
   if (!token) {
     return new NextResponse('Not logged in', { status: 400 });
   }
@@ -14,7 +16,7 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ token, username, role }),
+    body: JSON.stringify({ token, csrf,  username, role }),
     cache: 'no-store'
   });
 

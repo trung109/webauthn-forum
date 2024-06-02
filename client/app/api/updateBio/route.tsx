@@ -4,6 +4,7 @@ import { cookies } from 'next/headers';
 export async function POST(request: Request) {
   const requestBody = await request.json();
   const token = cookies().get('token')?.value;
+  const csrf = cookies().get('csrf')?.value;
   if (!token) {
     return new NextResponse('Not logged in', { status: 404 });
   } else {
@@ -14,6 +15,7 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         token,
+        csrf,
         username: requestBody.username,
         bio: requestBody.bio
       }),

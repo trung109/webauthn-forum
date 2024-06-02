@@ -23,12 +23,17 @@ export const genUUID = () => {
 }
 
 export const checkCSRF = (csrf) => {
-  const [hmac, message] = csrf.split('.')
-  const check = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
-  if (hmac === check) {
-    return true;
+  try {
+    const [hmac, message] = csrf.split('.')
+    const check = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
+    if (hmac === check) {
+      return true;
+    }
+    return false;
+  } catch {
+    return false
   }
-  return false;
+
 }
 
 export const sleepRandomTime = async () => {
@@ -50,11 +55,11 @@ export const printableRegex = /^[\x20-\x7E]*$/;
 export const stringRegex = /^[A-Za-z]+$/
 export const base64UrlRegex = /^[A-Za-z0-9-_]+$/
 export const filterInput = (str, regex) => {
-    const notNoSQLRegex = /[{}.$]/
-    if(notNoSQLRegex.test(str)) {
-      return ""
-    }
-    return regex.test(str) ? str.toString() : ""
+  const notNoSQLRegex = /[{}.$]/
+  if (notNoSQLRegex.test(str)) {
+    return ""
+  }
+  return regex.test(str) ? str.toString() : ""
 }
 
 
