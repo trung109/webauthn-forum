@@ -5,7 +5,7 @@ import Credentials from "../models/credentials.js";
 import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import crypto from 'crypto'
-
+import * as s from '../helpers/secure.js'
 export const getRegisterChallenge = async (req, res) => {
     if (req.body === "{}") {
         res.status(404).send('Auth failed.')
@@ -147,7 +147,7 @@ export const loginWebAuthn = async (req, res) => {
             }, csrf
         })
     }   catch (err) {
-
+        console.log(err)
         res.status(404).send('Login failed')
     }
     
