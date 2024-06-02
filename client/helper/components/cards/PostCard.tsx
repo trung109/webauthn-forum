@@ -4,6 +4,9 @@ import Link from 'next/link';
 import Metric from '../shared/Metric';
 import RenderTag from '../shared/RenderTag';
 import { Button } from '../ui/button';
+import { useState } from 'react';
+import { Badge } from '../ui/badge';
+import { set } from 'zod';
 interface Props {
   _id: string;
   title: string;
@@ -33,29 +36,40 @@ const PostCard = ({
   createdAt,
   state
 }: Props) => {
+  const [isClicked, setIsClicked] = useState(false);
+  const [approved, setApproved] = useState(false);
   const handleApproval = async () => {
-    // try {
-    //   const res = await fetch(`/api/admin/post/${_id}/approve`, {
-    //     method: 'PUT'
-    //   });
-    //   if (res.ok) {
-    //     alert('Post approved successfully');
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      console.log(123);
+      const response = await fetch(`/api/post/approvePost?postId=${_id}`, {
+        cache: 'no-store',
+        method: 'POST'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setApproved(true);
+        setIsClicked(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
+
   const handleDecline = async () => {
-    // try {
-    //   const res = await fetch(`/api/admin/post/${_id}/decline`, {
-    //     method: 'PUT'
-    //   });
-    //   if (res.ok) {
-    //     alert('Post declined successfully');
-    //   }
-    // } catch (error) {
-    //   console.error(error);
-    // }
+    try {
+      console.log(123);
+      const response = await fetch(`/api/post/declinePost?postId=${_id}`, {
+        cache: 'no-store',
+        method: 'POST'
+      });
+      if (response.ok) {
+        const data = await response.json();
+        setApproved(false);
+        setIsClicked(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
@@ -108,7 +122,7 @@ const PostCard = ({
             title=" Views"
             textStyles="small-medium text-dark400_light800"
           ></Metric>
-          {state === 'pending' && (
+          {!isClicked ? (
             <div className="flex flex-row">
               <Button
                 onClick={handleApproval}
@@ -120,6 +134,10 @@ const PostCard = ({
                 Decline
               </Button>
             </div>
+          ) : (
+            <Badge className={approved ? 'text-green-500' : 'text-red-500'}>
+              {approved ? 'Approved' : 'Declined'}
+            </Badge>
           )}
         </div>
       </div>
