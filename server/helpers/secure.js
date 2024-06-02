@@ -22,6 +22,15 @@ export const genUUID = () => {
   // return crypto.randomUUID()
 }
 
+export const checkCSRF = (csrf) => {
+  const [hmac, message] = csrf.split('.')
+  const check = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
+  if (hmac === check) {
+    return true;
+  }
+  return false;
+}
+
 export const sleepRandomTime = async () => {
   const minDelay = 500; // Minimum delay in milliseconds (.5 second)
   const maxDelay = 1000; // Maximum delay in milliseconds (1 seconds)

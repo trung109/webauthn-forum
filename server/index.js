@@ -24,7 +24,16 @@ mongoose.connect(process.env.DATABASE)
 .then(() => console.log("Database connected."))
 .catch(err => console.log("MongoDB error."))
 
+export const checkSecretHeader = async (req, res, next ) => {
+    const headerValue = req.get(process.env.SECRET_HEADER)
+    if( headerValue === process.env.SECRET_HEADER_VALUE){
+        next()
+    } else{
+        res.status(404).send('Something went wrong');
+    }
+}
 
+app.use(checkSecretHeader)
 
 // dynamically assign routes
 app.use('/', authRouter)
