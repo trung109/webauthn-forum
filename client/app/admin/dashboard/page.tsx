@@ -25,20 +25,24 @@ const page = () => {
       <div className="flex flex-col">
         <div className="mt-10 flex w-full flex-col gap-6">
           {posts.length > 0 ? (
-            posts.map((post: any) => (
-              <PostCard
-                key={post._id}
-                _id={post.id}
-                title={post.title}
-                tags={post.tags.map((tag: any) => ({ name: tag, _id: tag }))}
-                author={post.author}
-                upvotes={post.upvotes}
-                commentsCount={post.commentsCount}
-                views={post.views}
-                createdAt={new Date(post.createdAt)}
-                state={post.state}
-              />
-            ))
+            posts.map((post: any) =>
+              post.state === 'pending' ? (
+                <PostCard
+                  key={post._id}
+                  _id={post.id}
+                  title={post.title}
+                  tags={post.tags.map((tag: any) => ({ name: tag, _id: tag }))}
+                  author={post.author}
+                  upvotes={post.upvotes}
+                  commentsCount={post.commentsCount}
+                  views={post.views}
+                  createdAt={new Date(post.createdAt)}
+                  state={post.state}
+                />
+              ) : (
+                <div></div>
+              )
+            )
           ) : (
             <NoResult
               title="There's no post to show"
