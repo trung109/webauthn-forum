@@ -16,7 +16,7 @@ const webAuthnLimiter = rateLimit({
   message: "Too many request, try again later",
 });
 const router = express.Router();
-// router.use(webAuthnLimiter);
+router.use(webAuthnLimiter);
 
 router.post(
   "/webauthn/getChallenge/register",

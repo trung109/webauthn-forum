@@ -23,7 +23,7 @@ const authLimiter = rateLimit({
 
 const router = express.Router();
 
-// router.use(authLimiter);
+router.use(authLimiter);
 
 router.post("/post", requireSignIn, createPost);
 
