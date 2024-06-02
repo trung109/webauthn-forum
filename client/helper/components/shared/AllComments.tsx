@@ -30,7 +30,7 @@ const AllComments = ({ postId, author, totalComments }: Props) => {
     },
     {
       id: '2',
-      content: 'This is another comment',
+      content: '# This is another comment',
       author: {
         id: '2',
         username: 'user2',

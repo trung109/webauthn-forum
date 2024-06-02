@@ -7,7 +7,7 @@ export const postSchema = z.object({
 });
 
 export const commentSchema = z.object({
-  content: z.string().min(20)
+  content: z.string().min(20, "Comment must be at least 20 characters")
 })
 
 export const signUpFormSchema = z
