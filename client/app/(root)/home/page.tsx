@@ -41,26 +41,30 @@ export default function Home() {
 
       <div className="mt-10 flex w-full flex-col gap-6">
         {posts.length > 0 ? (
-          posts.map((post: any) => (
-            <PostCard
-              key={post._id}
-              _id={post.id}
-              title={post.title}
-              tags={post.tags.map((tag: any) => ({ name: tag, _id: tag }))}
-              author={post.author}
-              upvotes={post.upvotes}
-              commentsCount={post.commentsCount}
-              views={post.views}
-              createdAt={new Date(post.createdAt)}
-              state={post.state}
-            />
-          ))
+          posts.map((post: any) =>
+            post.state === 'approved' ? (
+              <PostCard
+                key={post._id}
+                _id={post.id}
+                title={post.title}
+                tags={post.tags.map((tag: any) => ({ name: tag, _id: tag }))}
+                author={post.author}
+                upvotes={post.upvotes}
+                commentsCount={post.commentsCount}
+                views={post.views}
+                createdAt={new Date(post.createdAt)}
+                state={post.state}
+              />
+            ) : (
+              <></>
+            )
+          )
         ) : (
           <NoResult
             title="There's no post to show"
             description="Be the first to break the silence! Create a Post and kickstart the
-          discussion. Our query could be the next big thing others learn from. Get
-          involved!"
+        discussion. Our query could be the next big thing others learn from. Get
+        involved!"
             link="/create-post"
             linkTitle="Create a post"
           />
