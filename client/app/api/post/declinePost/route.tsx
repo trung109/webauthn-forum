@@ -6,6 +6,8 @@ export async function POST(request: Request) {
   const postId = searchParams.get('postId');
 
   const token = cookies().get('token')?.value;
+  const csrf = cookies().get('csrf')?.value;
+
   if (!token) {
     return new NextResponse('Not logged in', { status: 400 });
   }
@@ -15,7 +17,7 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ token, id: postId }),
+    body: JSON.stringify({ token, csrf, id: postId }),
     cache: 'no-store'
   });
 

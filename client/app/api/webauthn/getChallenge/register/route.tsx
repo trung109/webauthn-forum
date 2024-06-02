@@ -3,13 +3,15 @@ import { cookies } from "next/headers";
 
 export async function GET(request: Request) {
     const token = cookies().get('token')?.value
+    const csrf = cookies().get('csrf')?.value;
+
     const response = await fetch('http://localhost:8080/webauthn/getChallenge/register',
         {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ token }),
+            body: JSON.stringify({ token , csrf}),
             cache: 'no-store'
         }
     );

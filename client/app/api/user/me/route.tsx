@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
     const token = cookies().get('token')?.value
+    const csrf = cookies().get('csrf')?.value
     if (!token) {
         return new NextResponse(JSON.stringify({ username: "" }), { status: 404 })
     } else {
@@ -11,7 +12,7 @@ export async function GET(request: Request) {
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ token }),
+            body: JSON.stringify({ token, csrf }),
             cache: 'no-store'
         })
 

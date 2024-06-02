@@ -3,6 +3,8 @@ import { NextResponse } from 'next/server';
 
 export async function POST(request: Request) {
   const token = cookies().get('token')?.value;
+  const csrf = cookies().get('csrf')?.value;
+
   if (!token) {
     return new NextResponse('Not logged in', { status: 404 });
   }
@@ -13,7 +15,7 @@ export async function POST(request: Request) {
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ ...requestBody, token }),
+    body: JSON.stringify({ ...requestBody, token, csrf }),
     cache: 'no-store'
   });
 
