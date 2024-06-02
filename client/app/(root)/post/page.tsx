@@ -6,18 +6,20 @@ import Metric from '@/helper/components/shared/Metric';
 import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
 import { useEffect, useState } from 'react';
 import { Post } from '@/helper/models/models';
-import MarkDown from 'markdown-to-jsx';
 import 'md-editor-rt/lib/preview.css';
 import { MdPreview } from 'md-editor-rt';
-import RenderTag from '@/app/shared/RenderTag';
 import Comment from '@/helper/components/forms/Comment';
-
+import { useUser } from '@/app/context/UserContext';
+import LoggedOut from '@/helper/components/shared/LoggedOut';
+import Verfied from '@/helper/components/shared/Verfied';
+import AllComments from '@/helper/components/shared/AllComments';
 const Page = () => {
-  const Div = ({ children }: any) => <div>{children}</div>;
+  const { user } = useUser();
   const [post, setPost] = useState<Post | null>(null);
   const searchParams = useSearchParams();
   const postId = searchParams.get('postId');
   const [id] = useState('preview-only');
+
   useEffect(() => {
     const fetchPost = async () => {
       console.log(123);
@@ -31,6 +33,7 @@ const Page = () => {
   }, [postId]);
   return (
     <div>
+      <Verfied status={user.status} />
       {post?.id ? (
         <>
           <div className="flex-start w-full flex-col">
@@ -82,13 +85,29 @@ const Page = () => {
             editorId={id}
             modelValue={post.content}
             className="bg-inherit"
+            language="en-US"
           />
           {/* TO Do: display all comments */}
-          <Comment
-            post={post.content}
+          <AllComments
             postId={post.id}
-            authorId={post.author.id}
-          ></Comment>
+            author={user}
+            totalComments={post.commentsCount}
+          />
+          {/* only display comments editor if user is verified */}
+          {user.username ? (
+            <Comment
+              post={post.content}
+              postId={post.id}
+              author={user}
+            ></Comment>
+          ) : (
+            <LoggedOut
+              title="You are not signed in"
+              description="Please sign in to comment"
+              link="/auth/login"
+              linkTitle="Sign in"
+            />
+          )}
         </>
       ) : (
         <div>Post not found</div>

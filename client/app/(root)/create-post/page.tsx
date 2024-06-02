@@ -1,16 +1,30 @@
-import Post from "@/helper/components/forms/Post";
+'use client';
+import { useUser } from '@/app/context/UserContext';
+import Post from '@/helper/components/forms/Post';
+import LoggedOut from '@/helper/components/shared/LoggedOut';
+import Verfied from '@/helper/components/shared/Verfied';
 
 const CreatePost = () => {
-  
-
-
+  const { user } = useUser();
   return (
-    <div>
-      <h1 className="h1-bold text-dark100_light900">Create a post</h1>
-      <div className="mt-9">
-        <Post></Post>
-      </div>
-    </div>
+    <>
+      <Verfied status={user.status} />;
+      {user.username ? (
+        <div>
+          <h1 className="h1-bold text-dark100_light900">Create a post</h1>
+          <div className="mt-9">
+            <Post></Post>
+          </div>
+        </div>
+      ) : (
+        <LoggedOut
+          title="You are not signed in"
+          description="Please sign in to create a post."
+          link="/auth/login"
+          linkTitle="Sign in"
+        />
+      )}
+    </>
   );
 };
 

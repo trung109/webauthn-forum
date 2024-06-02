@@ -4,31 +4,32 @@ import NoResult from '@/helper/components/shared/NoResult';
 import { Button } from '@/helper/components/ui/button';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
-
+import Verfied from '@/helper/components/shared/Verfied';
 import { useUser } from '@/app/context/UserContext';
 import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const { user } = useUser()
-  const [posts, setPosts] = useState([])
-  
+  const { user } = useUser();
+  const [posts, setPosts] = useState([]);
+
   useEffect(() => {
     const getPost = async () => {
       try {
-        const res = await fetch("http://localhost:8080/post/0", { cache: "no-store" });
+        const res = await fetch('http://localhost:8080/post/0', {
+          cache: 'no-store'
+        });
         const { posts } = await res.json();
-        setPosts(posts)
-      } catch (err) {
-
-      }
+        setPosts(posts);
+      } catch (err) {}
     };
-    getPost()
-  }, [])
+    getPost();
+  }, []);
 
-  const canCreatePost = user.username ? '/create-post' : '/auth/login'
+  const canCreatePost = user.username ? '/create-post' : '/auth/login';
 
   return (
     <>
+      <Verfied status={user.status} />
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Posts</h1>
         <Link href={canCreatePost} className="flex justify-end max-sm:w-full">
