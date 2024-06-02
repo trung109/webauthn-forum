@@ -14,6 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger
 } from '@/helper/components/ui/dropdown-menu';
+import { useUser } from '@/app/context/UserContext';
 
 interface Props {
   username: string;
@@ -36,11 +37,33 @@ const UserHorizontalCard = ({
   bio,
   joinedAt
 }: Props) => {
+  const { user } = useUser();
   const [roleSet, setRoleSet] = useState<string>(role);
 
-  const handleChangeRole = (newRole: string) => {
+  const handleChangeRole = async (newRole: string) => {
     setRoleSet(newRole);
     // TODO: update role on backend
+    try {
+      const requestBody = {
+        username: username,
+        role: newRole
+      };
+
+      const response = await fetch('/api/editRole', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestBody),
+        cache: 'no-store'
+      });
+    } catch (error) {
+      console.log(error);
+    } finally {
+      if (username === user.username) {
+        window.location.reload();
+      }
+    }
   };
 
   return (

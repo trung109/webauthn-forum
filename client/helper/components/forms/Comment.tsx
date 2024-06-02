@@ -53,16 +53,16 @@ const Comment = ({ post, postId, author }: Props) => {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify(requestBody)
+        body: JSON.stringify(requestBody),
+        cache: 'no-store'
       });
-      console.log(response);
       form.reset();
       setContent('');
     } catch (error) {
       console.log(error);
     } finally {
       setIsSubmitting(false);
-      router.refresh();
+      router.push(`/post?postId=${postId}`);
     }
   }
 
