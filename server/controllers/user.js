@@ -7,10 +7,10 @@ export const getSelfProfile = async (req, res) => {
   try {
     const { decodedToken, ...rest } = JSON.parse(req.body);
     const username = decodedToken.username;
-    const { id, email, photoUrl, role, status } = await User.findOne({
+    const { id, email, photoUrl, role, status, bio } = await User.findOne({
       username,
     });
-    res.status(302).json({ username, id, email, photoUrl, role, status });
+    res.status(302).json({ username, id, email, photoUrl, role, status, bio });
   } catch (err) {
     res.status(404).send("Something went wrong.");
   }
@@ -61,7 +61,7 @@ export const verifyActivation = async (req, res) => {
 };
 
 export const changeUserInfo = async (req, res) => {
-  const { decodedToken, username, bio } = JSON(req.body);
+  const { decodedToken, username, bio } = JSON.parse(req.body);
   try {
     await User.updateOne(
       { username: decodedToken.username },
