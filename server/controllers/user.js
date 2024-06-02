@@ -2,13 +2,14 @@ import User from "../models/user.js";
 import ActivateToken from "../models/activate.js";
 import { hashPassword } from "../helpers/helper.js";
 import { compare } from "bcrypt";
+import * as s from "../helpers/secure.js"
 
 export const getSelfProfile = async (req, res) => {
   try {
     const { decodedToken, ...rest } = JSON.parse(req.body);
     const username = decodedToken.username;
     const { id, email, photoUrl, role, status, bio } = await User.findOne({
-      username,
+      username: s.filterInput(username, s.printableRegex),
     });
     res.status(302).json({ username, id, email, photoUrl, role, status, bio });
   } catch (err) {
@@ -19,7 +20,7 @@ export const getSelfProfile = async (req, res) => {
 export const getFullUserInfoByUserId = async (req, res) => {
   const id = req.query.userId;
   try {
-    const info = await User.findOne({ id }).select("-password -_id -__v");
+    const info = await User.findOne({ id: s.filterInput(id, s.hexRegex) }).select("-password -_id -__v");
     res.status(302).json(info);
   } catch (err) {
     res.status(404).send("Something went wrong.");
@@ -42,7 +43,7 @@ export const verifyActivation = async (req, res) => {
   const { token } = req.body;
   console.log(token)
   try {
-    const activateToken = await ActivateToken.findOne({ token: token });
+    const activateToken = await ActivateToken.findOne({ token: s.filterInput(token, s.hexRegex) });
     const username = activateToken.username;
     console.log(username)
 
@@ -53,7 +54,7 @@ export const verifyActivation = async (req, res) => {
         current_time < activateToken.expire
       ) {
 
-        await User.updateOne({ username }, { status: "verified" });
+        await User.updateOne({ username: s.filterInput(username, s.printableRegex) }, { status: "verified" });
         await ActivateToken.deleteOne({ username });
 
         res.status(200).send("User verified");
@@ -70,8 +71,8 @@ export const changeUserInfo = async (req, res) => {
   const { decodedToken, username, bio } = JSON.parse(req.body);
   try {
     await User.updateOne(
-      { username: decodedToken.username },
-      { username: username, bio: bio }
+      { username: s.filterInput(decodedToken.username, s.printableRegex) },
+      { username: s.filterInput(username, s.printableRegex), bio: s.filterInput(bio, s.printableRegex) }
     );
     res.status(302).send("User updated");
   } catch {
@@ -85,11 +86,11 @@ export const updatePassword = async (req, res) => {
   );
   const hashed = await hashPassword(password);
 
-  const user = await User.findOne({ username: decodedToken.username });
+  const user = await User.findOne({ username: s.filterInput(decodedToken.username, s.printableRegex) });
 
   if (compare(currentPassword, user.password)) {
     await User.updateOne(
-      { username: decodedToken.username },
+      { username: s.filterInput(decodedToken.username, s.printableRegex) },
       { password: hashed }
     );
 
@@ -101,7 +102,7 @@ export const updateRole = async (req, res) => {
   const { role, username, ...rest } = JSON.parse(req.body);
   console.log(`Role ${role} username: ${username}`);
   try {
-    await User.updateOne({ username }, { role });
+    await User.updateOne({ username: s.filterInput(username, s.printableRegex) }, { role: s.filterInput(role, s.stringRegex) });
     res.send("User status updated");
   } catch {
     res.status(404).send("Something went wrong");

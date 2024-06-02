@@ -1,6 +1,7 @@
 import Post from '../models/post.js'
 import User from '../models/user.js'
 import Comment from '../models/comment.js'
+import * as s from "../helpers/secure.js"
 
 export const createPost = async (req, res) => {
     if (req.body === "{}") {
@@ -9,7 +10,7 @@ export const createPost = async (req, res) => {
     // const {cookies} = req.headers
     const { decodedToken: { username }, title, content, tags } = JSON.parse(req.body)
     // console.log(username, title, content, tags)
-    let author = await User.findOne({ username })
+    let author = await User.findOne({ username: s.filterInput(username, s.printableRegex) })
     author = (({ id, username, photoUrl }) => ({ id, username, photoUrl }))(author)
     const post = new Post({
         author,
@@ -33,7 +34,7 @@ export const getPostById = async (req, res) => {
     const id = parseInt(req.query.postId) || null
     let post = {}
     if (id) {
-        post = await Post.findOne({ id }).select('-password -_id -__v')
+        post = await Post.findOne({ id: s.filterInput(id, s.numRegex) }).select('-password -_id -__v')
     }
     res.json({ post })
 }
@@ -63,7 +64,7 @@ export const declinePost = async (req, res) => {
     const { id, ...rest } = JSON.parse(req.body);
     console.log(JSON.parse(req.body));
     try {
-        await Post.updateOne({ id }, { state: 'declined' });
+        await Post.updateOne({ id: s.filterInput(id, s.numRegex) }, { state: 'declined' });
         res.send('Declined')
     } catch {
         res.status(404).send('Something went wrong');
@@ -73,7 +74,7 @@ export const declinePost = async (req, res) => {
 export const approvePost = async (req, res) => {
     const { id, ...rest } = JSON.parse(req.body);
     try {
-        await Post.updateOne({ id }, { state: 'approved' });
+        await Post.updateOne({ id: s.filterInput(id, s.numRegex) }, { state: 'approved' });
         res.send('Approved')
     } catch {
         res.status(404).send('Something went wrong');
@@ -84,7 +85,7 @@ export const getPostComments = async (req, res) => {
     const postId = req.query.postId || null;
 
     if (postId) {
-        const comments = await Comment.find({ postId }).limit(10);
+        const comments = await Comment.find({ postId: s.filterInput(postId, s.numRegex) }).limit(10);
         res.json({ comments });
     } else {
         res.status(404).send('Something went wrong fetching');

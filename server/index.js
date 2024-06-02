@@ -8,17 +8,20 @@ import email from './routes/resend.js'
 import userRouter from './routes/user.js'
 import commentRouter from './routes/comment.js'
 import webauthnRouter from './routes/webauthn.js';
+
+
 dotenv.config()
 
 const app = express()
 
-app.use(express.json({limit: "5mb"}))
-app.use(express.urlencoded({extended: true}))
+app.use(express.json({ limit: "5mb" }))
+app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
+
 mongoose.connect(process.env.DATABASE)
-.then(() => console.log("Database connected."))
-.catch(err => console.log("MongoDB error."))
+    .then(() => console.log("Database connected."))
+    .catch(err => console.log("MongoDB error."))
 
 
 

@@ -2,6 +2,8 @@ import bcrypt from 'bcrypt'
 import { genRandHex } from './secure.js';
 import ActivateToken from '../models/activate.js';
 import User from '../models/user.js';
+import * as s from "../helpers/secure.js"
+
 
 export const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
@@ -27,11 +29,12 @@ export const isValidPassword = (password) => {
     return (password.length >= 8
         && /\d/.test(password)
         && /[a-zA-Z]/.test(password)
-        && /[!@#$%^&*(),.?":{}|<>]/.test(password))
+        && /[!@#%^&*(),?":|<>]/.test(password)
+        && !/[${}.]/.test(password))
 }
 
 export const isValidUsername = (username) => {
-    return !username.includes('@') && username.length >= 2
+    return !username.includes('@') && username.length >= 2 && !/[${}.]/.test(username)
 }
 
 export const getActivationLink = async (username) => {
@@ -63,11 +66,11 @@ export const getActivationLink = async (username) => {
 
     // If a token is already existed -> update new tokenVal and expiry time
     try {
-        const oldToken = await ActivateToken.findOne({ username });
+        const oldToken = await ActivateToken.findOne({ username: s.filterInput(username, s.printableRegex) });
         if (!oldToken) {
             await token.save()
         } else {
-            await ActivateToken.updateOne({ username }, {token: tokenVal, issueat: token.issueat, expire: token.expire});
+            await ActivateToken.updateOne({ username: s.filterInput(username, s.printableRegex) }, { token: tokenVal, issueat: token.issueat, expire: token.expire });
         }
     }
     catch {
@@ -75,7 +78,7 @@ export const getActivationLink = async (username) => {
     }
 
 
-    const user = await User.findOne({ username: username });
+    const user = await User.findOne({ username: s.filterInput(username, s.printableRegex) });
 
     try {
 

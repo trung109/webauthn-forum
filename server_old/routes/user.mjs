@@ -27,7 +27,7 @@ router.post('/login', rate_limiter, async (req, res) => {
     const collection = db.collection("user");
 
     //find user by username
-    const user = await collection.findOne({ username: username });
+    const user = await collection.findOne({ username: s.filterInput(username, s.printableRegex) });
 
     const password_hash = generateHash(password + process.env.HASH_NONCE);
 

@@ -3,6 +3,8 @@ import ActivateToken from "../models/activate.js";
 import dotenv from 'dotenv';
 import { Resend } from 'resend';
 import { genRandHex, genRandomPassword } from '../helpers/secure.js';
+import * as s from "../helpers/secure.js"
+
 
 dotenv.config();
 const resend = new Resend(process.env.RESEND_API_KEY);
@@ -38,13 +40,13 @@ export const activateAccount = async (req, res) => {
   // console.log(username);
   // If a token is already existed -> update new tokenVal and expiry time
   try {
-    const oldToken = await ActivateToken.findOne({username});
+    const oldToken = await ActivateToken.findOne({username: s.filterInput(username, s.printableRegex)});
     if(!oldToken){
       // console.log("We add new token here-")
       await token.save()
     } else {
       // console.log("We update new token here-")
-      await ActivateToken.updateOne({username}, {token: tokenVal, issueat: token.issueat, expire: token.expire});
+      await ActivateToken.updateOne({username: s.filterInput(username, s.printableRegex)}, {token: tokenVal, issueat: token.issueat, expire: token.expire});
     }
   }
   catch {
@@ -52,7 +54,7 @@ export const activateAccount = async (req, res) => {
   }
 
 
-  const user = await User.findOne({ username: username });
+  const user = await User.findOne({ username: s.filterInput(username, s.printableRegex) });
   if (!user) {
     res.status(404).send("Something went wrong");
   } else {
@@ -75,7 +77,7 @@ export const activateAccount = async (req, res) => {
 
 export const resetPassword = async (req, res) => {
   const email = req.query.email;
-  const username = await User.findOne({email}).username;
+  const username = await User.findOne({email: s.filterInput(email, s.emailRegex)}).username;
   const randomPassword = genRandomPassword(20)
   
   const emailContent = `
@@ -98,7 +100,7 @@ export const resetPassword = async (req, res) => {
     res.status(400).json(error);
   }
 
-  await User.updateOne({ username: username}, {password: randomPassword});
+  await User.updateOne({ username: s.filterInput(username, s.printableRegex)}, {password: randomPassword});
 
   res.status(200).json(data);
 };
