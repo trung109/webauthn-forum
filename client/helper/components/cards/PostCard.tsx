@@ -1,7 +1,7 @@
-import { formatAndDivideNumber, getTimestamp } from "@/helper/lib/utils";
-import Link from "next/link";
-import Metric from "../shared/Metric";
-import RenderTag from "../shared/RenderTag";
+import { formatAndDivideNumber, getTimestamp } from '@/helper/lib/utils';
+import Link from 'next/link';
+import Metric from '../shared/Metric';
+import RenderTag from '../shared/RenderTag';
 
 interface Props {
   _id: string;
@@ -19,8 +19,9 @@ interface Props {
   views: number;
   commentsCount: number;
   createdAt: Date;
+  state?: string;
 }
-const QuestionCard = ({
+const PostCard = ({
   _id,
   title,
   tags,
@@ -29,6 +30,7 @@ const QuestionCard = ({
   views,
   commentsCount,
   createdAt,
+  state
 }: Props) => {
   return (
     <div className="card-wrapper rounded-[10px] p-9 sm:px-11">
@@ -59,31 +61,36 @@ const QuestionCard = ({
             href={`/profile/${author.id}`}
             textStyles="body-medium text-dark400_light700"
           ></Metric>
-          <Metric
-            imgUrl="/assets/icons/like.svg"
-            alt="Upvotes"
-            value={formatAndDivideNumber(upvotes)}
-            title=" Votes"
-            textStyles="small-medium text-dark400_light800"
-          ></Metric>
-          <Metric
-            imgUrl="/assets/icons/message.svg"
-            alt="Comments"
-            value={commentsCount}
-            title=" Comments"
-            textStyles="small-medium text-dark400_light800"
-          ></Metric>
-          <Metric
-            imgUrl="/assets/icons/eye.svg"
-            alt="Views"
-            value={formatAndDivideNumber(views)}
-            title=" Views"
-            textStyles="small-medium text-dark400_light800"
-          ></Metric>
+          {/* Require post to not pending to show metrics */}
+          {state !== 'pending' && (
+            <>
+              <Metric
+                imgUrl="/assets/icons/like.svg"
+                alt="Upvotes"
+                value={formatAndDivideNumber(upvotes)}
+                title=" Votes"
+                textStyles="small-medium text-dark400_light800"
+              ></Metric>
+              <Metric
+                imgUrl="/assets/icons/message.svg"
+                alt="Comments"
+                value={commentsCount}
+                title=" Comments"
+                textStyles="small-medium text-dark400_light800"
+              ></Metric>
+              <Metric
+                imgUrl="/assets/icons/eye.svg"
+                alt="Views"
+                value={formatAndDivideNumber(views)}
+                title=" Views"
+                textStyles="small-medium text-dark400_light800"
+              ></Metric>
+            </>
+          )}
         </div>
       </div>
     </div>
   );
 };
 
-export default QuestionCard;
+export default PostCard;
