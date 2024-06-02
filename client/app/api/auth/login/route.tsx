@@ -18,7 +18,7 @@ export async function POST(request: Request) {
     // TODO - got JWT, now need to set it as a cookie
     const data = await response.json();
 
-    const { token, user } = data;
+    const { token, user , csrf } = data;
 
     // cookies().set("name", "lee", {
     //   httpOnly: true,
@@ -27,15 +27,14 @@ export async function POST(request: Request) {
     // });
 
     // set user-info as a cookie to read -> display
-    cookies().set("bi", user , {
-      secure: true,
-      sameSite: "lax",
-    });
+    cookies().set('csrf', csrf, {
+        secure: true
+    })
 
     cookies().set("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite: "lax",
+      sameSite: "strict",
     });
 
     return new NextResponse(
