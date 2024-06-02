@@ -108,7 +108,7 @@ export const resetPassword = async (req, res) => {
     
     const user = await User.findOne({ email });
     const randomPassword = s.genRandomPassword(20)
-    console.log('username', user.username)
+    // console.log('username', user.username)
     const emailContent = `
       <html>
         <body>
@@ -126,11 +126,11 @@ export const resetPassword = async (req, res) => {
             subject: 'Password Reset',
             html: emailContent,
         });
-        console.log(hashed)
+        // console.log(hashed)
         await User.updateOne({ email }, { password: hashed });
-        res.status(200).json(data);
+        res.status(200).send('Reset success');
     } catch (error) {
-        res.status(400).json(error);
+        res.status(404).send('Something went wrong');
     }
 
 }

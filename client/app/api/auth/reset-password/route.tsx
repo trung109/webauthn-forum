@@ -1,13 +1,11 @@
 import { NextResponse } from "next/server";
 
-export async function GET(request: Request) {
-    const urlParams = new URLSearchParams(window.location.search);
+export async function POST(request: Request) {
+    const requestBody = await request.json();
 
-    const requestBody = {
-        token: urlParams.get('email')
-    };
+    // console.log(requestBody);
 
-    const response = await fetch('localhost:8080/auth/reset-password', {
+    const response = await fetch('http://localhost:8080/auth/reset-password', {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -17,8 +15,8 @@ export async function GET(request: Request) {
     });
 
     if(response.ok) {
-        return new NextResponse('Password reset',{status: 200});
+        return new NextResponse('Password reseted, check email',{status: 200});
     } else{
-        return new NextResponse('Password reset',{status: 404});
+        return new NextResponse('Request failed',{status: 404});
     }
 }
