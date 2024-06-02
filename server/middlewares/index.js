@@ -32,7 +32,7 @@ export const requireAdmin = async (req, res, next) => {
         if (decodedToken.role === 'admin') {
             
             req.body = JSON.stringify({decodedToken, ...rest})
-            console.log(req.body)
+            // console.log(req.body)
             
         } else {
             req.body = JSON.stringify({})

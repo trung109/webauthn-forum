@@ -75,4 +75,15 @@ export const updatePassword = async (req, res) => {
     }
 }
 
+export const updateRole = async (req, res) => {
+    const { role, username, ...rest } = JSON.parse(req.body);
+    console.log(`Role ${role} username: ${username}`)
+    try {
+        await User.updateOne({username},{role});
+        res.send('User status updated');
+    } catch {
+        res.status(404).send('Something went wrong');
+    }
+}
+
 

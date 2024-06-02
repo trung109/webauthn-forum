@@ -64,6 +64,7 @@ export const declinePost = async (req, res) => {
     console.log(JSON.parse(req.body));
     try {
         await Post.updateOne({ id }, { state: 'declined' });
+        res.send('Declined')
     } catch {
         res.status(404).send('Something went wrong');
     }
@@ -73,6 +74,7 @@ export const approvePost = async (req, res) => {
     const { id, ...rest } = JSON.parse(req.body);
     try {
         await Post.updateOne({ id }, { state: 'approved' });
+        res.send('Approved')
     } catch {
         res.status(404).send('Something went wrong');
     }
