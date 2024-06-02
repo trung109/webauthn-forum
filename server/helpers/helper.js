@@ -1,4 +1,5 @@
 import bcrypt from 'bcrypt'
+import { genRandHex } from './secure.js';
 
 export const hashPassword = (password) => {
     return new Promise((resolve, reject) => {
