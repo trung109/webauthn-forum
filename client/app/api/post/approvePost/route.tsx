@@ -21,6 +21,6 @@ export async function POST(request: Request) {
     if (response.ok) {
         return new NextResponse('Post status updated', { status: 200 });
     } else {
-        return new NextResponse(await response.text(), { status: 404 });
+        return new NextResponse('Action failed', { status: 404 });
     }
 }
