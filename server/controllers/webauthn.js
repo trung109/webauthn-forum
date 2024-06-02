@@ -94,7 +94,6 @@ export const loginWebAuthn = async (req, res) => {
         res.status(404).send('Auth failed.')
     }
     const { authentication, username, challenge_id} = req.body
-    console.log(JSON.stringify(authentication), username, challenge_id)
     const queryParams = {
         id: challenge_id,
         issueat: { $lte: Date.now() },
