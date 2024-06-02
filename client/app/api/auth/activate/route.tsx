@@ -7,7 +7,7 @@ export async function GET(request: Request) {
         token: urlParams.get('token')
     };
 
-    const response = await fetch('localhost:8080/user/activate',{
+    const response = await fetch('http://localhost:8080/user/activate',{
         method: "POST",
         headers: {
             'Content-Type': 'application/json'

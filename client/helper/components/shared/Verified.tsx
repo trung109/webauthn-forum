@@ -5,11 +5,14 @@ import Link from 'next/link';
 interface Props {
   status: string;
 }
+
+
 const Verified = ({ status }: Props) => {
+
+  const {user, setUser} = useUser()
   return (
-    <>
-      {/* {user.status === 'unverified' ? ( */}
-      <div>
+    !(user.username === "" || status === "verified") &&
+      (<div>
         <p className="bg-orange-200 p-4 rounded-md mb-[30px]">
           Your account is unverified, please verify your account to continue.{' '}
           <Link href="/auth/verify" className="underline">
@@ -17,8 +20,7 @@ const Verified = ({ status }: Props) => {
           </Link>
           <span> to send a new verification email.</span>
         </p>
-      </div>
-    </>
+      </div>)
   );
 };
 

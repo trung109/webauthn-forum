@@ -8,6 +8,10 @@ export const genRandomPassword = (nbytes) => {
   return crypto.randomBytes(nbytes).toString('base64').slice(0, 20)
 }
 
+export const genRandomBase64 = (nbytes) => {
+  return crypto.randomBytes(nbytes).toString('base64url')
+}
+
 export const sleepRandomTime = async () => {
   const minDelay = 500; // Minimum delay in milliseconds (.5 second)
   const maxDelay = 1000; // Maximum delay in milliseconds (1 seconds)

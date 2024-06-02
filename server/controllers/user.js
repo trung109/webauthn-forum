@@ -25,7 +25,7 @@ export const getFullUserInfoByUserId = async (req, res) => {
 
 export const getAllUsers = async (req, res) => {
     try {
-        const users = await User.find().select('-password -_id -__v').limit(20)
+        const users = await User.find({status: { $eq: 'verified' }}).select('-password -_id -__v').limit(20)
         res.status(302).json({ users })
     } catch (err) {
         res.status(404).send('Something went wrong.')
