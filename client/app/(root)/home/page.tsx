@@ -20,8 +20,8 @@ export default function Home() {
         });
         const { posts } = await res.json();
 
-        //Temporary hack to fix await problem when parsing json
-        // console.log();
+        // Temporary hack to fix await problem when parsing json
+        console.log();
         setPosts(posts);
       } catch (err) {}
     };

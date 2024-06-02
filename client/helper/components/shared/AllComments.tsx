@@ -20,11 +20,12 @@ const AllComments = ({ postId, author, totalComments }: Props) => {
     const fetchComments = async () => {
       const response = await fetch(
         `/api/post/getPostComments?postId=${postId}`,
-        {}
+        { cache: 'no-store' }
       );
       if (response.ok) {
         const { comments } = await response.json();
         setComments(comments);
+        console.log(comments);
       }
     };
     fetchComments();
