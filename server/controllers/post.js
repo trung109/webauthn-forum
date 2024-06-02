@@ -79,10 +79,20 @@ export const approvePost = async (req, res) => {
 
 export const getPostComments = async (req ,res) => {
     const postId = req.query.postId || null;
-    console.log(postId)
-    const comments = await Comment.find({postId}).limit(10)
-    res.json({ comments })
+    
+    if(postId){
+        const comments = await Comment.find({postId}).limit(10);
+        res.json({ comments });
+    } else {
+        res.status(404).send('Something went wrong fetching');
+    }
+    
 }
+
+export const seachPosts = async (req , res) => {
+    const { keywords } = JSON.stringify(req.body);
+}
+
 
 
 
