@@ -1,27 +1,22 @@
 import jwt, { decode } from 'jsonwebtoken'
 
 
-// export const requireSignIn = expressjwt({ 
-//     secret: process.env.JWT_SECRET,
-//     algorithms: ["HS256"],
-// });
-
 export const requireSignIn = async (req, res, next) => {
-    const { token, ...rest} = req.body
+    const { token, ...rest } = req.body
     try {
         const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
             algorithms: 'HS256',
             issuer: 'All-for-one-gate',
             maxAge: '3h'
         })
-        req.body = JSON.stringify({...rest, decodedToken})
+        req.body = JSON.stringify({ ...rest, decodedToken })
         // console.log(req.body)
         next()
     } catch {
         req.body = JSON.stringify({})
         res.status(404).send('Auth failed')
     }
-    
+
 
 };
 

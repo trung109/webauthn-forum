@@ -41,7 +41,7 @@ export const getPostById = async (req, res) => {
 export const getPosts = async (req, res) => {
     const start = parseInt(req.params.start) || 0
     const posts = await Post.find().sort({id: -1}).skip(start).limit(10)
-    console.log(posts)
+    // console.log(posts)
     res.json({posts})
 }
 
