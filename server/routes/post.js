@@ -14,5 +14,4 @@ router.get('/post/:start', getPosts)
 router.post('/post/pending', requireAdmin, getPendingPosts)
 router.post('/post/approvePost', requireAdmin, approvePost)
 router.post('/post/declinePost', requireAdmin, declinePost)
-
 export default router
