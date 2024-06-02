@@ -4,7 +4,7 @@ import NoResult from '@/helper/components/shared/NoResult';
 import { Button } from '@/helper/components/ui/button';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
 import { useUser } from '@/app/context/UserContext';
 import { useEffect, useState } from 'react';
 
@@ -29,7 +29,7 @@ export default function Home() {
 
   return (
     <>
-      <Verfied status={user.status} />
+      <Verified status={user.status} />
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Posts</h1>
         <Link href={canCreatePost} className="flex justify-end max-sm:w-full">
