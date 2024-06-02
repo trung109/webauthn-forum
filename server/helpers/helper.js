@@ -69,7 +69,7 @@ export const getActivationLink = async (username) => {
         }
     }
     catch {
-        res.status(404).send("Something went wrong");
+        // res.status(404).send("Something went wrong");
     }
 
 
@@ -84,42 +84,9 @@ export const getActivationLink = async (username) => {
             html: emailContent,
         });
 
-        res.status(200).json(data);
+        // res.status(200).json(data);
     } catch (error) {
-        res.status(400).json(error);
+        // res.status(400).json(error);
     }
 
-}
-
-export const sendResetPasswordEmail = async (email) => {
-    const username = await User.findOne({ email }).username;
-    const randomPassword = genRandomPassword(20)
-
-    const emailContent = `
-      <html>
-        <body>
-          <p>Dear ${username},</p>
-          <p>We noticed that you've requested for a password reset. Here is your new password. Please change it immidiately after you've logged in:</p>
-          <p>${randomPassword}</p>
-          <p>Thank you for choosing All-for-one-gate as your login service provider! We look forward to having you with us.</p>
-          <br>
-          <p>Best regards,</p>
-          <p>All-for-one-gate</p>
-        </body>
-      </html>
-    `;
-    try {
-        const data = await resend.emails.send({
-            from: 'All-for-one-team <allforoneteam@osprey.id.vn>',
-            to: [`${email}`],
-            subject: 'Account Activation',
-            html: emailContent,
-        });
-    } catch (error) {
-        res.status(400).json(error);
-    }
-
-    await User.updateOne({ username: username }, { password: randomPassword });
-
-    res.status(200).json(data);
 }
