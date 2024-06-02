@@ -19,6 +19,10 @@ const webauthnChallengeSchema = new Schema({
         default: '',
         unique: true
     },
+    type: {
+        type: String,
+        default: 'login'
+    },
     issueat: {
         type: Number,
         default: 0,

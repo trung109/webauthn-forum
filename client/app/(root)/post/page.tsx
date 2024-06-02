@@ -22,7 +22,6 @@ const Page = () => {
 
   useEffect(() => {
     const fetchPost = async () => {
-      console.log(123);
       const response = await fetch(`/api/post/getPost?postId=${postId}`, {});
       if (response.ok) {
         const data = await response.json();

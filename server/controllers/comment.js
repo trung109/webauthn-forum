@@ -1,7 +1,7 @@
 import { genRandHex } from "../helpers/secure.js";
 import Comment from "../models/comment.js";
 
-export const addCommment = async (req, res) => {
+export const addComment = async (req, res) => {
     if (req.body === "{}") {
         res.status(400).send("Bad request");
     }

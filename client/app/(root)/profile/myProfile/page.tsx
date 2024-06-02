@@ -34,15 +34,35 @@ const Page = () => {
   // }, []);
 
   const onWebAuthnRegister = async () => {
-    const getChallenge = await fetch('/api/webauthn/getChallenge');
+    const getChallenge = await fetch('/api/webauthn/getChallenge/register', {cache: "no-store"});
 
-    //TODO: HANDLE LATER, WHEN RETURN OBJECT FROM SERVER IS KNOWN
     const { challenge_id, challenge } = await getChallenge.json();
 
     console.log(challenge_id, challenge);
 
-    const res = await register(user.username, challenge, user.id);
-    console.log(res)
+    const registration = await register(user.username, challenge, user.id, {
+          authenticatorType: "auto",
+          userVerification: "required",
+          timeout: 60000,
+          attestation: true,
+          userHandle: "id",
+          debug: true
+        });
+    const requestBody = {registration, challenge_id}
+
+    const response = await fetch('/api/webauthn/register', {
+      method: "POST",
+      headers: {
+        'Content-Type': "application/json"
+      },
+      body: JSON.stringify(requestBody)
+    });
+    if(response.ok) {
+      alert("Register successfully!")
+    } else {
+      alert("Register error, try again!")
+    }
+
   }
 
 
