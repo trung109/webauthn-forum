@@ -13,21 +13,21 @@ import { User } from '@/helper/models/models';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
-
+import { useUser } from '@/app/context/UserContext';
 const Page = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const { user, setUser } = useUser();
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response = await fetch('/api/user/me');
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
-        setUser(data);
-      }
-    };
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUserDetails = async () => {
+  //     const response = await fetch('/api/user/me');
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log(data);
+  //       setUser(data);
+  //     }
+  //   };
+  //   fetchUserDetails();
+  // }, []);
 
   return (
     <>

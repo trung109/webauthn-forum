@@ -13,9 +13,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { useUser } from '@/app/context/UserContext';
 
 const Page = () => {
-  const [user, setUser] = useState(UserModel);
+  const { user, setUser } = useUser();
 
   const searchParams = useSearchParams();
   const userId = searchParams.get('userId');
@@ -28,16 +29,16 @@ const Page = () => {
     status: ''
   };
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response = await fetch('/api/user/me');
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      }
-    };
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUserDetails = async () => {
+  //     const response = await fetch('/api/user/me');
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setUser(data);
+  //     }
+  //   };
+  //   fetchUserDetails();
+  // }, []);
 
   return (
     <>

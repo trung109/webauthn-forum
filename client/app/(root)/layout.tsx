@@ -9,7 +9,7 @@ import LeftSideBar from "./home/LeftSideBar";
 import Link from "next/link";
 import { Button } from "@/helper/components/ui/button";
 import RightSideBar from "./home/RightSideBar";
-
+import { UserProvider } from '../context/UserContext';
 
 const inter = Inter({
   subsets: ["latin"],
@@ -37,6 +37,7 @@ export default function HomeLayout({
 }) {
   return (
     <main className="background-light850_dark100 relative">
+      <UserProvider>
         <Navbar />
         <div className="flex">
           <LeftSideBar />
@@ -45,6 +46,7 @@ export default function HomeLayout({
           </section>
           <RightSideBar />
         </div>
+      </UserProvider>
     </main>
   );
 }

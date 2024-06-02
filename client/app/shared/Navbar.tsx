@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
+import { useUser } from "../context/UserContext";
 
 const Navbar = () => {
   const router = useRouter();
@@ -16,21 +17,19 @@ const Navbar = () => {
     role: "",
     status: "",
   };
-  const [user, setUser] = useState(SAMPLE_USER);
+  const {user, setUser} = useUser()
   const [dropdownVisible, setDropdownVisible] = useState(false);
 
-  useEffect(() => {
-    const fetchUserDetails = async () => {
-      const response = await fetch("/api/user/me");
-      if (response.ok) {
-        const data = await response.json();
-        setUser(data);
-      } else {
-        router.push('/home')
-      }
-    };
-    fetchUserDetails();
-  }, []);
+  // useEffect(() => {
+  //   const fetchUserDetails = async () => {
+  //     const response = await fetch("/api/user/me");
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       setUser(data);
+  //     }
+  //   };
+  //   fetchUserDetails();
+  // },[]);
 
   const handleProfileClick = () => {
     setDropdownVisible(!dropdownVisible);

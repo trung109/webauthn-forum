@@ -1,28 +1,36 @@
+'use client';
 import QuestionCard from '@/helper/components/cards/QuestionCard';
 import NoResult from '@/helper/components/shared/NoResult';
 import { Button } from '@/helper/components/ui/button';
 import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
 
-export default async function Home() {
-  const getPost = async () => {
-    try {
-      const res = await fetch("http://localhost:8080/post/0",{cache: "no-store"});
-      const posts = await res.json();
-      console.log(posts);
-      revalidatePath('/home');
-      return posts;
-    } catch (err) {
-      return {};
-    }
-  };
-  const { posts } = await getPost();
+import { useUser } from '@/app/context/UserContext';
+import { useEffect, useState } from 'react';
+
+export default function Home() {
+  const { user } = useUser()
+  const [posts, setPosts] = useState([])
+  useEffect(() => {
+    const getPost = async () => {
+      try {
+        const res = await fetch("http://localhost:8080/post/0", { cache: "no-store" });
+        const { posts } = await res.json();
+        setPosts(posts)
+      } catch (err) {
+
+      }
+    };
+    getPost()
+  }, [])
+
+  const canCreatePost = user.username ? '/create-post' : '/auth/login'
 
   return (
     <>
       <div className="flex w-full flex-col-reverse justify-between gap-4 sm:flex-row sm:items-center">
         <h1 className="h1-bold text-dark100_light900">All Posts</h1>
-        <Link href="/create-post" className="flex justify-end max-sm:w-full">
+        <Link href={canCreatePost} className="flex justify-end max-sm:w-full">
           <Button className="primary-gradient min-h-[46px] px-4 py-3 !text-light-900">
             Create a post
           </Button>
