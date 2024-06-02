@@ -10,14 +10,13 @@ export async function POST(request: Request) {
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(requestBody),
         }
     );
 
     if (response.ok) {
         const data = await response.json();
         const { token, user } = data;
-        console.log(data)
         cookies().set("token", token, {
             httpOnly: true,
             secure: true,
