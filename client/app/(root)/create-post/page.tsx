@@ -2,13 +2,13 @@
 import { useUser } from '@/app/context/UserContext';
 import Post from '@/helper/components/forms/Post';
 import LoggedOut from '@/helper/components/shared/LoggedOut';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
 
 const CreatePost = () => {
   const { user } = useUser();
   return (
     <>
-      <Verfied status={user.status} />;
+      <Verified status={user.status} />;
       {user.username ? (
         <div>
           <h1 className="h1-bold text-dark100_light900">Create a post</h1>

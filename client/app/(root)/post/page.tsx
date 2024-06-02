@@ -11,7 +11,7 @@ import { MdPreview } from 'md-editor-rt';
 import Comment from '@/helper/components/forms/Comment';
 import { useUser } from '@/app/context/UserContext';
 import LoggedOut from '@/helper/components/shared/LoggedOut';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
 import AllComments from '@/helper/components/shared/AllComments';
 const Page = () => {
   const { user } = useUser();
@@ -33,7 +33,7 @@ const Page = () => {
   }, [postId]);
   return (
     <div>
-      <Verfied status={user.status} />
+      <Verified status={user.status} />
       {post?.id ? (
         <>
           <div className="flex-start w-full flex-col">

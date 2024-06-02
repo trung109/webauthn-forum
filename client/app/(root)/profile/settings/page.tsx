@@ -4,7 +4,7 @@ import { User } from '@/helper/models/models';
 import { useState, useEffect } from 'react';
 import UserSettings from '@/helper/components/forms/UserSettings';
 import { useUser } from '@/app/context/UserContext';
-import Verfied from '@/helper/components/shared/Verfied';
+import Verified from '@/helper/components/shared/Verified';
 const page = () => {
   // eslint-disable-next-line react-hooks/rules-of-hooks
   const { user, setUser } = useUser();
@@ -22,7 +22,7 @@ const page = () => {
   // }, []);
   return (
     <>
-      <Verfied status={user.status} />;
+      <Verified status={user.status} />;
       <h1 className="h1-bold text-dark100_light900">Change my password</h1>
       <div className="mt-9">
         <UserSettings userId={user?.id} user={user} />
