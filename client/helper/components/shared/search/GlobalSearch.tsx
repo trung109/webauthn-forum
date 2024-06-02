@@ -1,7 +1,16 @@
-import { Input } from "@/helper/components/ui/input";
-import Image from "next/image";
+import { Input } from '@/helper/components/ui/input';
+import Image from 'next/image';
+import { Button } from '../../ui/button';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 const GlobalSearch = () => {
+  const router = useRouter();
+  const [query, setQuery] = useState('');
+
+  const handleSearch = async () => {
+    router.push(`/post/search?query=${query}`);
+  };
   return (
     <div className="relative w-full max-w-[600px] max-lg:hidden">
       <div className="background-light800_darkgradient relative flex min-h-[56px] grow items-center gap-1 rounded-xl px-4">
@@ -16,9 +25,17 @@ const GlobalSearch = () => {
         <Input
           type="text"
           placeholder="Search Globally"
-          value=""
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
           className="paragraph-regular no-focus placeholder text-dark400_light700  border-none bg-transparent shadow-none outline-none"
         />
+
+        <Button
+          className="paragraph-regular bg-transparent text-dark600_light400"
+          onClick={handleSearch}
+        >
+          Search
+        </Button>
       </div>
     </div>
   );
