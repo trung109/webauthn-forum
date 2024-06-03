@@ -36,15 +36,6 @@ export const checkCSRF = (csrf) => {
 
 }
 
-export const sleepRandomTime = async () => {
-  const minDelay = 500; // Minimum delay in milliseconds (.5 second)
-  const maxDelay = 1000; // Maximum delay in milliseconds (1 seconds)
-  const randomDelay = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
-  return new Promise(resolve => {
-    setTimeout(resolve, randomDelay);
-  });
-}
-
 
 export const hexRegex = /^[a-f0-9]+$/;
 export const numRegex = /^[0-9]+$/;

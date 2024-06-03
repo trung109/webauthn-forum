@@ -10,14 +10,15 @@ import { rateLimit } from "express-rate-limit";
 
 
 const router = express.Router()
-// const webAuthnLimiter = rateLimit({
-// 	windowMs: 15 * 60 * 1000, // 15 minutes
-// 	limit: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
-// 	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
-//     statusCode: 404,
-// 	message: 'Too many request, try again later'
-// })
-// router.use(webAuthnLimiter)
+
+const webAuthnLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 15, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    statusCode: 404,
+	message: 'Too many request, try again later'
+})
+router.use(webAuthnLimiter)
 
 router.post(
   "/webauthn/getChallenge/register",

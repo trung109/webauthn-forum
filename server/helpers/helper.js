@@ -39,13 +39,13 @@ export const isValidUsername = (username) => {
 
 export const getActivationLink = async (username) => {
     const tokenVal = genRandHex(8);
-    const resetLink = `${process.env.DOMAIN}/api/auth/activate?token=${tokenVal}`;
+    const activateLink = `${process.env.DOMAIN}/api/auth/activate?token=${tokenVal}`;
     const emailContent = `
       <html>
         <body>
           <p>Dear ${username},</p>
           <p>We noticed that you haven't activated your account yet. To complete your registration and start using your account, please activate it by clicking the link below:</p>
-          <p><a href="${resetLink}">Activate My Account</a></p>
+          <p><a href="${activateLink}">Activate My Account</a></p>
           <p><a href="https://youtu.be/dQw4w9WgXcQ?si=jCwxJoPE6JMPeQw1">Click here to find out about discounts on the platform</a></p>
           <p>If you did not sign up for this account, please disregard this email. <strong>Note that the link is expired after 10 minutes</strong> </p>
           <p>Thank you for choosing All-for-one-gate as your login service provider! We look forward to having you with us.</p>
