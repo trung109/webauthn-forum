@@ -5,6 +5,7 @@ export async function GET(request: Request) {
         method: "GET",
         headers: {
             'Content-Type': 'application/json',
+            'X-Algorithmically-Depressed': '1337420690001'
         }, 
         cache: 'no-store'
     })

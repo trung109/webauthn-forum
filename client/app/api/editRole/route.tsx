@@ -14,7 +14,8 @@ export async function POST(request: Request) {
   const response = await fetch(`http://localhost:8080/user/updateRole`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'X-Algorithmically-Depressed' : '1337420690001'
     },
     body: JSON.stringify({ token, csrf,  username, role }),
     cache: 'no-store'

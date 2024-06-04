@@ -7,7 +7,11 @@ export async function GET(request: Request) {
 
   const response = await fetch(
     `http://localhost:8080/post/comments?postId=${postId}`,
-    { cache: 'no-store' }
+    {
+      headers: {
+        'X-Algorithmically-Depressed': '1337420690001'
+      }, cache: 'no-store'
+    }
   );
   const { comments } = await response.json();
 

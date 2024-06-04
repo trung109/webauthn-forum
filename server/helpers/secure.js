@@ -17,24 +17,38 @@ export const genChallenge = () => {
   // return crypto.randomUUID()
 }
 
-export const genUUID = () => {
+export const signJWT = (payload) => {
+  jwt.sign(
+    payload,
+    process.env.JWT_SECRET,
+    {
+      algorithm: 'HS256',
+      expiresIn: '3h',
+      issuer: 'All-for-one-gate'
+    });
+}
+
+export const genCSRF = () => {
   return crypto.randomUUID().toString('base64url')
-  // return crypto.randomUUID()
 }
 
-export const checkCSRF = (csrf) => {
+export const checkCSRF = (csrf, token) => {
   try {
-    const [hmac, message] = csrf.split('.')
-    const check = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
-    if (hmac === check) {
-      return true;
+    const decodedToken = jwt.verify(token, process.env.JWT_SECRET, {
+      algorithms: 'HS256',
+      issuer: 'All-for-one-gate',
+      maxAge: '3h'
+    })
+    if(csrf === decodedToken.csrf){
+        return true;
+    } else{
+      return false;
     }
+  } catch{
     return false;
-  } catch {
-    return false
   }
-
 }
+
 
 
 export const hexRegex = /^[a-f0-9]+$/;

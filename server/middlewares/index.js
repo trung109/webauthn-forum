@@ -1,11 +1,11 @@
 import jwt, { decode } from 'jsonwebtoken'
-import { checkCSRF } from '../helpers/secure.js';
+import { checkCSRF, jwtSign } from '../helpers/secure.js';
 
 
 export const requireSignIn = async (req, res, next) => {
     const { token, csrf, ...rest } = req.body
 
-    if (!checkCSRF(csrf)) {
+    if (!checkCSRF(csrf, token)) {
         res.status(404).send('Bad csrf')
     } else {
 
@@ -15,7 +15,8 @@ export const requireSignIn = async (req, res, next) => {
                 issuer: 'All-for-one-gate',
                 maxAge: '3h'
             })
-            req.body = JSON.stringify({ ...rest, decodedToken })
+            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: genCSRF()})
+            req.body = JSON.stringify({ ...rest, decodedToken, newToken })
             // console.log(req.body)
             next()
         } catch {
@@ -28,8 +29,8 @@ export const requireSignIn = async (req, res, next) => {
 
 export const requireAdmin = async (req, res, next) => {
     const { token, csrf, ...rest } = req.body
-    if (!checkCSRF(csrf)) {
-        res.status(404).send('Bad csrf')
+    if (!checkCSRF(csrf, token)) {
+        return res.status(400).send('Bad csrf')
     } else {
     try {
 
@@ -39,8 +40,8 @@ export const requireAdmin = async (req, res, next) => {
             maxAge: '3h'
         })
         if (decodedToken.role === 'admin') {
-
-            req.body = JSON.stringify({ decodedToken, ...rest })
+            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: genCSRF()})
+            req.body = JSON.stringify({ newToken, decodedToken, ...rest })
             // console.log(req.body)
 
         } else {

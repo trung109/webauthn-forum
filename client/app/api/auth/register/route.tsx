@@ -10,6 +10,7 @@ export const POST = async (request: Request) => {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                'X-Algorithmically-Depressed' : '1337420690001'
             },
             body: JSON.stringify(requestBody),
             cache: 'no-store'

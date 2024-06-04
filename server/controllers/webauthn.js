@@ -119,22 +119,14 @@ export const loginWebAuthn = async (req, res) => {
     try {
         const authenticationParsed = await server.verifyAuthentication(authentication, credentialKey, expected)
         const user = await User.findOne({ username: s.filterInput(username, s.printableRegex) })
-        const token = jwt.sign(
-            { id: user.id, username: user.username, role: user.role },
-            process.env.JWT_SECRET,
-            {
-                algorithm: 'HS256',
-                expiresIn: '3h',
-                issuer: 'All-for-one-gate'
-            })
 
         // user.password = undefined
 
 
         //ANTI _CSRF
-        const message = s.genUUID() + "!" + s.genRandomBase64(32);
-        const hmac = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
-        const csrf = `${hmac}.${message}`;
+        const csrf = s.genCSRF();
+        const token = s.signJWT({ id: user.id, username: user.username, role: user.role, csrf:csrf });
+        
 
         res.status(200).json({
             token,

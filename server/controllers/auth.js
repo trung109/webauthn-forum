@@ -59,30 +59,16 @@ export const login = async (req, res) => {
         if (!user) {
             return res.status(404).send('Something went wrong')
         }
-        // TODO - IMPLEMENT RANDOM DELAY TO PREVENT TIME BASED BRUTE-FORCE ATTEMPT
-        // console.log('password: ', h.hashPassword)
-        // console.log('db password:', user.password)
+        
         const isPasswordMatch = await h.comparePassword(password, user.password)
 
         if (!isPasswordMatch) res.status(404).send('Something went wrong')
 
         // if (user.status === 'unverified') res.status(400).send('Unverified');
-
-        const token = jwt.sign(
-            { id: user.id, username: user.username, role: user.role },
-            process.env.JWT_SECRET,
-            {
-                algorithm: 'HS256',
-                expiresIn: '3h',
-                issuer: 'All-for-one-gate'
-            })
-
-        // user.password = undefined
         
-        // ANTI - CSRF
-        const message = s.genUUID() + "!" + s.genRandomBase64(32);
-        const hmac = crypto.createHmac("sha256", process.env.HMAC_SECRET).update(message).digest('hex');
-        const csrf = `${hmac}.${message}`;
+        // ANTI - CSRF by binding CSRF to JWT token
+        const csrf = s.genCSRF();
+        const token = s.signJWT({ id: user.id, username: user.username, role: user.role, csrf:csrf });
 
         res.json({
             token,
