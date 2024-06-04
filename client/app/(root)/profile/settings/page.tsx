@@ -22,7 +22,7 @@ const page = () => {
   // }, []);
   return (
     <>
-      <Verified status={user.status} />;
+      <Verified status={user.status} />
       <h1 className="h1-bold text-dark100_light900">Change my password</h1>
       <div className="mt-9">
         <UserSettings userId={user?.id} user={user} />

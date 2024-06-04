@@ -38,7 +38,7 @@ const Page = () => {
   }, [userId]);
   return (
     <>
-      <Verified status={user.status} />;
+      <Verified status={user.status} />
       <div className="flex w-full flex-col-reverse items-start justify-between sm:flex-row">
         <div className="flex flex-col items-start gap-4 lg:flex-row">
           <Image

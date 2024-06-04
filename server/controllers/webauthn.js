@@ -6,6 +6,10 @@ import jwt from 'jsonwebtoken'
 import User from '../models/user.js'
 import crypto from 'crypto'
 import * as s from '../helpers/secure.js'
+import dotenv from 'dotenv'
+
+
+dotenv.config()
 
 export const getRegisterChallenge = async (req, res) => {
     if (req.body === "{}") {
@@ -70,7 +74,8 @@ export const registerWebAuthn = async (req, res) => {
     const { value: challenge } = await WebauthnChallenge.findOne(queryParams)
     const expected = {
         challenge,
-        origin: "https://labs-niagara-assembled-venice.trycloudflare.com",
+        origin: process.env.DOMAIN,
+
     }
 
 
@@ -113,7 +118,7 @@ export const loginWebAuthn = async (req, res) => {
     }
     const expected = {
         challenge,
-        origin: "https://labs-niagara-assembled-venice.trycloudflare.com",
+        origin: process.env.DOMAIN,
         userVerified: true,
     }
     try {
