@@ -1,22 +1,31 @@
 {
-  "name": "webauthn",
+  "name": "server",
   "version": "1.0.0",
-  "description": "Basic web  with webauthn",
-  "main": "app.js",
-  "type":"module",
+  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon index.js",
+    "lint": "eslint"
   },
-  "author": "Gray",
+  "author": "",
   "license": "ISC",
+  "description": "",
   "dependencies": {
-    "@simplewebauthn/server": "^10.0.0",
-    "body-parser": "^1.20.2",
+    "@passwordless-id/webauthn": "^1.6.1",
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "eslint": "^9.3.0",
+    "esm": "^3.2.25",
     "express": "^4.19.2",
-    "pug": "^3.0.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1"
-  },
-  "type": "module"
+    "express-jwt": "^8.4.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.3.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.4.0",
+    "nodemon": "^3.1.1",
+    "resend": "^3.2.0"
+  }
 }

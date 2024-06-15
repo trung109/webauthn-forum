@@ -1,99 +1,31 @@
 import express from "express";
-import bodyParser from "body-parser";
+import {
+  getLoginChallenge,
+  getRegisterChallenge,
+  registerWebAuthn,
+  loginWebAuthn,
+} from "../controllers/webauthn.js";
+import { requireSignIn } from "../middlewares/index.js";
+import { rateLimit } from "express-rate-limit";
 
-const router = express.Router();
 
-router.post('/register/start', (req, res) => {
-    let username = req.body.username;
-    let challenge = getNewChallenge();
-    challenges[username] = convertChallenge(challenge);
-    const pubKey = {
-        challenge: challenge,
-        rp: { id: rpId, name: 'webauthn-app' },
-        user: { id: username, name: username, displayName: username },
-        pubKeyCredParams: [
-            { type: 'public-key', alg: -7 },
-            { type: 'public-key', alg: -257 },
-        ],
-        authenticatorSelection: {
-            authenticatorAttachment: 'platform',
-            userVerification: 'required',
-            residentKey: 'preferred',
-            requireResidentKey: false,
-        }
-    };
-    res.json(pubKey);
-});
+const router = express.Router()
 
-router.post('/register/finish', async (req, res) => {
-    const username = req.body.username;
-    // Verify the attestation response
-    let verification;
-    try {
-        verification = await SimpleWebAuthnServer.verifyRegistrationResponse({
-            response: req.body.data,
-            expectedChallenge: challenges[username],
-            expectedOrigin
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).send({ error: error.message });
-    }
-    const { verified, registrationInfo } = verification;
-    if (verified) {
-        users[username] = getRegistrationInfo(registrationInfo);
-        return res.status(200).send(true);
-    }
-    res.status(500).send(false);
-});
+const webAuthnLimiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	limit: 15, // Limit each IP to 100 requests per `window` (here, per 15 minutes).
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+    statusCode: 404,
+	message: 'Too many request, try again later'
+})
+router.use(webAuthnLimiter)
 
-router.post('/login/start', (req, res) => {
-    let username = req.body.username;
-    if (!users[username]) {
-        res.status(404).send(false);
-    }
-    let challenge = getNewChallenge();
-    challenges[username] = convertChallenge(challenge);
-    res.json({
-        challenge,
-        rpId,
-        allowCredentials: [{
-            type: 'public-key',
-            id: users[username].credentialID,
-            transports: ['internal'],
-        }],
-        userVerification: 'discouraged',
-    });
-});
-
-router.post('/login/finish', async (req, res) => {
-    let username = req.body.username;
-    if (!users[username]) {
-        res.status(404).send(false);
-    }
-    let verification;
-    try {
-        const user = users[username];
-        verification = await SimpleWebAuthnServer.verifyAuthenticationResponse({
-            expectedChallenge: challenges[username],
-            response: req.body.data,
-            authenticator: getSavedAuthenticatorData(user),
-            expectedRPID: rpId,
-            expectedOrigin
-        });
-    } catch (error) {
-        console.error(error);
-        return res.status(400).send({ error: error.message });
-    }
-
-    const { verified } = verification;
-    if (verified) {
-        return res.status(200).send(true);
-    }
-    return res.status(400).send(false);
-});
-
-const rpId = 'localhost';
-const expectedOrigin = 'http://localhost:3000';
-
+router.post(
+  "/webauthn/getChallenge/register",
+  requireSignIn,
+  getRegisterChallenge
+);
+router.post("/webauthn/getChallenge/login", getLoginChallenge);
+router.post("/webauthn/register", requireSignIn, registerWebAuthn);
+router.post("/webauthn/login", loginWebAuthn);
 export default router;

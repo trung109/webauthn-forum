@@ -1,21 +1,28 @@
-import express from 'express';
+import express from "express";
+import {
+  getSelfProfile,
+  getFullUserInfoByUserId,
+  changeUserInfo,
+  verifyActivation,
+  updatePassword,
+  getAllUsers,
+  updateRole,
+} from "../controllers/user.js";
+import { requireAdmin, requireSignIn } from "../middlewares/index.js";
+
+import { rateLimit } from "express-rate-limit";
+
+
 const router = express.Router();
 
-router.get('/', (req, res, next) => {
-    res.send('Sample user');
-});
 
-router.get('/profile', (req,res, next) =>{
-    res.send('Sample profile');
-});
+router.post("/user", requireSignIn, getSelfProfile);
+router.post("/user/activate", verifyActivation);
+router.get("/user", getFullUserInfoByUserId);
+router.post("/user/changeInfo", requireSignIn, changeUserInfo);
+router.get("/user/allUsers", getAllUsers);
+router.post("/user/updatePassword", requireSignIn, updatePassword);
 
-router.post('/user/comment', (req,res) =>{
-    res.send('Sample comment');
-    res.redirect(`/post?id=${id}`);
-});
-
-// router.post('user/login', jwt_validate, authenticate, (req,res) => {
-
-// });
+router.post("/user/updateRole", requireAdmin, updateRole);
 
 export default router;
