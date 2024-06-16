@@ -15,8 +15,9 @@ export const requireSignIn = async (req, res, next) => {
                 issuer: 'All-for-one-gate',
                 maxAge: '3h'
             })
-            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: genCSRF()})
-            req.body = JSON.stringify({ ...rest, decodedToken, newToken })
+            const newCSRFval = genCSRF()
+            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: newCSRFval})
+            req.body = JSON.stringify({ ...rest, decodedToken, newToken, csrf: newCSRFval })
             // console.log(req.body)
             next()
         } catch {
@@ -40,8 +41,9 @@ export const requireAdmin = async (req, res, next) => {
             maxAge: '3h'
         })
         if (decodedToken.role === 'admin') {
-            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: genCSRF()})
-            req.body = JSON.stringify({ newToken, decodedToken, ...rest })
+            const newCSRFval = genCSRF()
+            const newToken = signJWT({id: decodedToken.id, username: decodedToken.username, role: decodedToken.role, csrf: newCSRFval})
+            req.body = JSON.stringify({ ...rest, decodedToken, newToken, csrf: newCSRFval })
             // console.log(req.body)
 
         } else {
